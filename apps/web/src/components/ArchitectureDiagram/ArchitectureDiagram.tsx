@@ -10,7 +10,7 @@ import { ArrowClockwiseRegular } from "@fluentui/react-icons";
 import {
   buildDiagramLayout,
   type ArchitectureResponse,
-} from "@microbootcan/shared";
+} from "@microstar/shared";
 import { useTranslation } from "react-i18next";
 import { ConnectionEdge } from "./ConnectionEdge";
 import { ResourceNode } from "./ResourceNode";

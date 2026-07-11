@@ -1,4 +1,4 @@
-# MicroBootCan Azure Basic Setup Script
+# MicroStarPlatform Azure Basic Setup Script
 # Requires: Azure CLI 2.x, logged in via `az login`
 
 $ErrorActionPreference = "Stop"
@@ -8,7 +8,7 @@ $ResourceGroup = "rg-microbootcan-prod"
 $BudgetName = "MicroBootCan-Monthly"
 $BudgetAmount = 2900
 
-Write-Host "=== MicroBootCan Azure Setup ===" -ForegroundColor Cyan
+Write-Host "=== MicroStarPlatform Azure Setup ===" -ForegroundColor Cyan
 
 # Verify login
 $account = az account show 2>$null | ConvertFrom-Json

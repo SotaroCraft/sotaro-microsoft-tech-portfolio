@@ -9,8 +9,8 @@ import {
   Title3,
   makeStyles,
 } from "@fluentui/react-components";
-import type { Episode } from "@microbootcan/shared";
-import { STAR_FIELDS } from "@microbootcan/shared";
+import type { Episode } from "@microstar/shared";
+import { STAR_FIELDS } from "@microstar/shared";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ContentPanel } from "../components/shell/ContentPanel";

@@ -4,7 +4,7 @@ import {
   HttpResponseInit,
   InvocationContext,
 } from "@azure/functions";
-import { healthResponseSchema } from "@microbootcan/shared";
+import { healthResponseSchema } from "@microstar/shared";
 
 app.http("health", {
   methods: ["GET"],
@@ -16,7 +16,7 @@ app.http("health", {
   ): Promise<HttpResponseInit> => {
     const body = healthResponseSchema.parse({
       status: "ok",
-      app: "microbootcan-api",
+      app: "microstar-api",
       env: process.env.APP_ENV ?? "local",
       timestamp: new Date().toISOString(),
     });

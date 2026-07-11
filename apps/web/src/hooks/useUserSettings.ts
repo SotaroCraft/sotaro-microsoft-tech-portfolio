@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { UserSettings } from "@microbootcan/shared";
-import { MILESTONE_TARGET_ISO } from "@microbootcan/shared";
+import type { UserSettings } from "@microstar/shared";
+import { MILESTONE_TARGET_ISO } from "@microstar/shared";
 import { apiFetch } from "../lib/api";
 
 export function useUserSettings() {

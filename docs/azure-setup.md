@@ -1,4 +1,4 @@
-# MicroBootCan — Azure Setup Guide
+# MicroStarPlatform — Azure Setup Guide
 
 Azure-native personal productivity PWA (Static Web Apps + Functions + Cosmos DB + OpenAI).
 
@@ -144,7 +144,7 @@ SWA リソース作成後、GitHub リポジトリに以下の **Repository secr
 
 ```powershell
 az staticwebapp create `
-  --name microbootcan-swa `
+  --name MicroStarPlatform-swa `
   --resource-group rg-microbootcan-prod `
   --location japaneast `
   --source https://github.com/SotaroCraft/sotaro-microsoft-tech-portfolio `

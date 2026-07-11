@@ -1,6 +1,7 @@
-# MicroBootCan Monorepo — 全体像
+# MicroStarPlatform Monorepo — 全体像
 
 1つの monorepo にフロント・API・共通型をまとめ、Azure Static Web Apps (SWA) へ一体デプロイする構成です。
+正式名は **MicroStarPlatform**（旧称 MicroBootCan）。パッケージスコープは `@microstar/*`。
 
 ## ざっくり図
 

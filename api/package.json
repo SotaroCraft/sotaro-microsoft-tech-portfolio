@@ -1,8 +1,8 @@
 {
-  "name": "@microbootcan/api",
+  "name": "@microstar/api",
   "version": "0.1.0",
   "private": true,
-  "description": "Azure Functions API for MicroBootCan",
+  "description": "Azure Functions API for MicroStarPlatform",
   "main": "dist/src/index.js",
   "scripts": {
     "build": "tsc",
@@ -14,7 +14,7 @@
   "dependencies": {
     "@azure/cosmos": "^4.4.1",
     "@azure/functions": "^4.7.0",
-    "@microbootcan/shared": "workspace:*"
+    "@microstar/shared": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.15.3",

@@ -3,8 +3,8 @@ import type {
   CreateEpisodeInput,
   Episode,
   UpdateEpisodeInput,
-} from "@microbootcan/shared";
-import { episodeSchema } from "@microbootcan/shared";
+} from "@microstar/shared";
+import { episodeSchema } from "@microstar/shared";
 import { getCosmosContainer } from "../client";
 import { COSMOS_CONTAINERS } from "../containers";
 

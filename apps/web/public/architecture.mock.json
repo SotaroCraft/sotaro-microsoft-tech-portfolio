@@ -1,7 +1,7 @@
 {
   "resourceGroup": "rg-microbootcan-prod",
   "region": "japaneast",
-  "fetchedAt": "2026-07-11T06:35:37.602Z",
+  "fetchedAt": "2026-07-11T08:19:50.976Z",
   "resources": [
     {
       "id": "swa",

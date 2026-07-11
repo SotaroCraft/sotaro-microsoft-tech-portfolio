@@ -1,16 +1,15 @@
 #!/usr/bin/env node
 /**
- * Emit a stock SWA managed-Functions API (Node v4 layout from MS docs).
- * No ncc / monorepo deps — Oryx only needs `npm install` for @azure/functions.
+ * Emit a stock SWA managed-Functions API (Node v4 layout).
  *
- * Current ship surface: health + architecture only (stable CI).
+ * Strategy (Phase 0 B1 + match parity):
+ * - esbuild-bundle `api/src/index.swa.ts` → single CJS entry
+ * - Externalize `@azure/functions` + `@azure/cosmos` for Oryx `npm install`
+ * - Inline `@microstar/shared` / zod / mock AI (no workspace:* on Linux)
+ * - Do NOT ship node_modules or ncc full-azure bundles (prior CI failures)
  *
- * Phase 0 Step B1 (deferred — do not half-land here):
- * - Add Cosmos CRUD for episodes / companies / applications / summary / settings
- * - Exclude match + AI providers (deps, TPM, cost approval)
- * - Likely needs @azure/cosmos + auth helpers; validate in a side folder
- *   (swa-api-*) before replacing this slim emitter
- * - Step B2: prefer copying a `pnpm build` api artifact + minimal deps
+ * Surface: health, architecture, episodes, companies, applications,
+ * summary, settings, match (AI_PROVIDER from app settings; prod = mock).
  */
 import {
   cpSync,
@@ -22,19 +21,57 @@ import {
   statSync,
   writeFileSync,
 } from "node:fs";
+import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const swaApi = join(root, "swa-api");
 const apiRoot = join(root, "api");
-const mockPath = join(root, "apps/web/public/architecture.mock.json");
+const sharedDist = join(root, "packages/shared/dist/index.js");
+const entry = join(apiRoot, "src/index.swa.ts");
+
+function fail(message) {
+  console.error(message);
+  process.exit(1);
+}
+
+if (!existsSync(entry)) {
+  fail(`Missing SWA entry: ${entry}`);
+}
+
+if (!existsSync(sharedDist)) {
+  console.log("Building @microstar/shared (required for SWA bundle)…");
+  const built = spawnSync(
+    "pnpm",
+    ["--filter", "@microstar/shared", "build"],
+    { cwd: root, stdio: "inherit", shell: true },
+  );
+  if (built.status !== 0) {
+    fail("Failed to build @microstar/shared");
+  }
+}
+
+const require = createRequire(import.meta.url);
+let esbuild;
+try {
+  esbuild = require("esbuild");
+} catch {
+  fail(
+    "esbuild is required. Run `pnpm install` at the repo root (devDependency).",
+  );
+}
 
 if (existsSync(swaApi)) rmSync(swaApi, { recursive: true, force: true });
-mkdirSync(join(swaApi, "src/functions"), { recursive: true });
+mkdirSync(join(swaApi, "src"), { recursive: true });
 
 const apiPkg = JSON.parse(readFileSync(join(apiRoot, "package.json"), "utf8"));
-const architectureMock = JSON.parse(readFileSync(mockPath, "utf8"));
+const cosmosVersion = apiPkg.dependencies["@azure/cosmos"];
+const functionsVersion = apiPkg.dependencies["@azure/functions"];
+if (!cosmosVersion || !functionsVersion) {
+  fail("api/package.json must declare @azure/cosmos and @azure/functions");
+}
 
 cpSync(join(apiRoot, "host.json"), join(swaApi, "host.json"));
 
@@ -42,12 +79,13 @@ writeFileSync(
   join(swaApi, "package.json"),
   `${JSON.stringify(
     {
-      name: "microbootcan-swa-api",
+      name: "microstar-swa-api",
       version: "0.1.0",
       private: true,
       main: "src/index.js",
       dependencies: {
-        "@azure/functions": apiPkg.dependencies["@azure/functions"],
+        "@azure/cosmos": cosmosVersion,
+        "@azure/functions": functionsVersion,
       },
       engines: { node: "20" },
     },
@@ -56,70 +94,48 @@ writeFileSync(
   )}\n`,
 );
 
-writeFileSync(
-  join(swaApi, "src/index.js"),
-  `require("./functions/health");
-require("./functions/architecture");
-`,
-);
-
-writeFileSync(
-  join(swaApi, "src/functions/health.js"),
-  `const { app } = require("@azure/functions");
-
-app.http("health", {
-  methods: ["GET"],
-  authLevel: "anonymous",
-  route: "health",
-  handler: async () => ({
-    status: 200,
-    jsonBody: {
-      status: "ok",
-      app: "microbootcan-api",
-      env: process.env.APP_ENV ?? "prod",
-      timestamp: new Date().toISOString(),
-    },
-  }),
+const result = esbuild.buildSync({
+  entryPoints: [entry],
+  outfile: join(swaApi, "src/index.js"),
+  bundle: true,
+  platform: "node",
+  format: "cjs",
+  target: "node20",
+  sourcemap: false,
+  legalComments: "none",
+  // Keep Azure SDKs out of the bundle — Oryx installs them on Linux.
+  external: ["@azure/functions", "@azure/cosmos"],
+  // Prefer mock when unset (prod SWA already sets AI_PROVIDER=mock).
+  banner: {
+    js: 'if (!process.env.AI_PROVIDER) process.env.AI_PROVIDER = "mock";',
+  },
+  logLevel: "warning",
 });
-`,
-);
 
-writeFileSync(
-  join(swaApi, "src/functions/architecture.js"),
-  `const { app } = require("@azure/functions");
-
-const MOCK = ${JSON.stringify(architectureMock, null, 2)};
-
-app.http("architecture", {
-  methods: ["GET"],
-  authLevel: "anonymous",
-  route: "architecture",
-  handler: async () => ({
-    status: 200,
-    jsonBody: {
-      ...MOCK,
-      fetchedAt: new Date().toISOString(),
-    },
-  }),
-});
-`,
-);
+if (result.errors?.length) {
+  fail(`esbuild failed: ${JSON.stringify(result.errors)}`);
+}
 
 writeFileSync(
   join(swaApi, ".funcignore"),
-  ["*.ts", "*.map", "local.settings.json"].join("\n"),
+  ["*.ts", "*.map", "local.settings.json", ".esbuild"].join("\n"),
 );
 
 function countFiles(dir) {
   let count = 0;
-  for (const entry of readdirSync(dir)) {
-    const path = join(dir, entry);
+  for (const entryName of readdirSync(dir)) {
+    const path = join(dir, entryName);
     if (statSync(path).isDirectory()) count += countFiles(path);
     else count += 1;
   }
   return count;
 }
 
+const indexJs = join(swaApi, "src/index.js");
+const indexBytes = statSync(indexJs).size;
 console.log(
-  `swa-api ready (${countFiles(swaApi)} files, MS Node v4 layout, Oryx npm install)`,
+  `swa-api ready (${countFiles(swaApi)} files, index ${(indexBytes / 1024).toFixed(1)} KiB, Oryx npm: @azure/functions + @azure/cosmos)`,
+);
+console.log(
+  "routes: health, architecture, episodes, companies, applications, summary, settings, match",
 );

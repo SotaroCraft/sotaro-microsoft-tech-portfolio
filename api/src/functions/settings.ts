@@ -4,7 +4,7 @@ import {
   HttpResponseInit,
   InvocationContext,
 } from "@azure/functions";
-import { milestoneUpdateSchema } from "@microbootcan/shared";
+import { milestoneUpdateSchema } from "@microstar/shared";
 import { requireAuth } from "../lib/auth";
 import { errorResponse, jsonResponse, readJsonBody } from "../lib/http";
 import {

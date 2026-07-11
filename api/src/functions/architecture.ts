@@ -4,7 +4,7 @@ import {
   HttpResponseInit,
   InvocationContext,
 } from "@azure/functions";
-import { buildMockArchitectureResponse } from "@microbootcan/shared";
+import { buildMockArchitectureResponse } from "@microstar/shared";
 
 app.http("architecture", {
   methods: ["GET"],

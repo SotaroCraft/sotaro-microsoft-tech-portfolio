@@ -1,4 +1,4 @@
-import type { MatchRequest, MatchResponse } from "@microbootcan/shared";
+import type { MatchRequest, MatchResponse } from "@microstar/shared";
 import { getAiProvider } from "./index";
 import { listEpisodes } from "../cosmos/repositories/episodes";
 

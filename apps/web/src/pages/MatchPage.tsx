@@ -9,7 +9,7 @@ import {
   Title3,
   makeStyles,
 } from "@fluentui/react-components";
-import type { MatchResponse } from "@microbootcan/shared";
+import type { MatchResponse } from "@microstar/shared";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";

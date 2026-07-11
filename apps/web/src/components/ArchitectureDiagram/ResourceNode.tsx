@@ -1,6 +1,6 @@
 import { Badge, Body1, makeStyles, tokens } from "@fluentui/react-components";
-import { iconPublicPath } from "@microbootcan/shared";
-import type { DiagramNode } from "@microbootcan/shared";
+import { iconPublicPath } from "@microstar/shared";
+import type { DiagramNode } from "@microstar/shared";
 
 const NODE_WIDTH = 120;
 const ICON_SIZE = 48;

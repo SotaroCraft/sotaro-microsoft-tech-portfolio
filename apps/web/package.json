@@ -1,5 +1,5 @@
 {
-  "name": "@microbootcan/web",
+  "name": "@microstar/web",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -13,7 +13,7 @@
   "dependencies": {
     "@fluentui/react-components": "^9.64.0",
     "@fluentui/react-icons": "^2.0.297",
-    "@microbootcan/shared": "workspace:*",
+    "@microstar/shared": "workspace:*",
     "i18next": "^26.3.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

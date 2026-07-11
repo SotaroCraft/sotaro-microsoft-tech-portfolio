@@ -1,5 +1,6 @@
-# Phase B — Entra ID App Registration for MicroBootCan SWA
+# Phase B — Entra ID App Registration for MicroStarPlatform SWA
 # Run after SWA is deployed. Requires: az login, Microsoft Graph permissions.
+# Existing Azure display name may still be "MicroBootCan SWA".
 
 param(
   [string]$SwaHostname = "ambitious-desert-0763df000.7.azurestaticapps.net",

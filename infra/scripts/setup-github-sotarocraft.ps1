@@ -1,4 +1,4 @@
-# MicroBootCan — GitHub push as SotaroCraft (this repo only)
+# MicroStarPlatform — GitHub push as SotaroCraft (this repo only)
 #
 # Uses SSH host alias `github-sotarocraft` so other projects keep using your default GitHub account.
 # Run once from repo root:
@@ -13,14 +13,14 @@ $ConfigPath = Join-Path $SshDir "config"
 $HostAlias = "github-sotarocraft"
 $Remote = "git@${HostAlias}:SotaroCraft/sotaro-microsoft-tech-portfolio.git"
 
-Write-Host "=== MicroBootCan: SotaroCraft GitHub setup ===" -ForegroundColor Cyan
+Write-Host "=== MicroStarPlatform: SotaroCraft GitHub setup ===" -ForegroundColor Cyan
 
 # 1. SSH key (SotaroCraft only)
 New-Item -ItemType Directory -Force -Path $SshDir | Out-Null
 
 if (-not (Test-Path $KeyPath)) {
   Write-Host "Creating SSH key: $KeyPath" -ForegroundColor Yellow
-  ssh-keygen -t ed25519 -f $KeyPath -C "microbootcan@sotarocraft" -N '""'
+  ssh-keygen -t ed25519 -f $KeyPath -C "MicroStarPlatform@sotarocraft" -N '""'
 } else {
   Write-Host "SSH key already exists: $KeyPath" -ForegroundColor DarkGray
 }

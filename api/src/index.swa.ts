@@ -1,10 +1,16 @@
-/** SWA deploy entry — public endpoints only (keeps bundle small for linked API).
+/**
+ * SWA linked-API entry — Track A parity with local `index.ts`.
  *
- * Phase 0 Step B1 (not yet shipped): add Cosmos-backed workspace CRUD
- * (episodes / companies / applications / summary / settings) without match/AI.
- * Blockers: linked Functions size + Oryx must stay free of monorepo/ncc failures.
- * Approach: keep this slim public surface until prepare-swa-api can emit a
- * separately validated Cosmos CRUD bundle (see scripts/prepare-swa-api.mjs).
+ * Deploy path: `scripts/prepare-swa-api.mjs` esbuild-bundles this file into
+ * `swa-api/` (stock Node v4 layout). Oryx only npm-installs `@azure/functions`
+ * + `@azure/cosmos`. Shared/zod/mock AI are inlined.
+ *
+ * Match uses whatever `AI_PROVIDER` is set on SWA (production is `mock`).
  */
 import "./functions/health";
 import "./functions/architecture";
+import "./functions/episodes";
+import "./functions/pipeline";
+import "./functions/summary";
+import "./functions/settings";
+import "./functions/match";

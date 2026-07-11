@@ -1,10 +1,12 @@
-# MicroBootCan
+# MicroStarPlatform
 
-Azure-native personal productivity PWA — milestone tracking, achievement journal, and pipeline management. Built as a full-stack portfolio sample on Static Web Apps, Functions, Cosmos DB, and OpenAI.
+Azure-native personal productivity PWA for collecting **daily micro-achievements** (DMTA → STAR). Built as a full-stack portfolio sample on Static Web Apps, Functions, Cosmos DB, and OpenAI.
+
+Formerly known as *MicroBootCan* (Azure resource IDs retain the `microbootcan-*` prefix).
 
 ## Live Demo
 
-Coming soon — `https://<app-name>.azurestaticapps.net`
+https://ambitious-desert-0763df000.7.azurestaticapps.net
 
 ## Features (MVP)
 
@@ -12,6 +14,10 @@ Coming soon — `https://<app-name>.azurestaticapps.net`
 - Structured achievement journal with Azure OpenAI context matching
 - Metrics & bilingual summary dashboard
 - Opportunity pipeline tracker (kanban)
+
+## Product idea
+
+Run short **Design → Make → Test → Analyze** loops, then keep the ones that matter as **STAR** (Situation / Task / Action / Result) records — *stars you collect*.
 
 ## Architecture
 
@@ -23,6 +29,15 @@ Coming soon — `https://<app-name>.azurestaticapps.net`
 - **IaC**: Bicep
 - **CI/CD**: GitHub Actions
 
+## Packages
+
+| Package | Name |
+|---------|------|
+| Root | `microstarplatform` |
+| Web | `@microstar/web` |
+| API | `@microstar/api` |
+| Shared | `@microstar/shared` |
+
 ## Azure Setup
 
 See [docs/azure-setup.md](docs/azure-setup.md).
@@ -31,7 +46,7 @@ See [docs/azure-setup.md](docs/azure-setup.md).
 
 See [docs/local-dev.md](docs/local-dev.md).
 
-## Architecture
+## Monorepo
 
 See [docs/monorepo-overview.md](docs/monorepo-overview.md).
 
@@ -41,7 +56,7 @@ This repo uses a dedicated SSH host alias. See [docs/github-push.md](docs/github
 
 ## Project Charter
 
-See [CHARTER.md](CHARTER.md) for privacy rules, public copy guidelines, and engineering principles.
+See [CHARTER.md](CHARTER.md) for privacy rules, public copy guidelines, MicroStar doctrine, and engineering principles.
 
 ## Cost Budget
 

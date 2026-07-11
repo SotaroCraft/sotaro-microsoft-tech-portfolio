@@ -1,8 +1,8 @@
 import type {
   CareerSummary,
   UpdateCareerSummaryInput,
-} from "@microbootcan/shared";
-import { careerSummarySchema } from "@microbootcan/shared";
+} from "@microstar/shared";
+import { careerSummarySchema } from "@microstar/shared";
 import { getCosmosContainer } from "../client";
 import { COSMOS_CONTAINERS } from "../containers";
 

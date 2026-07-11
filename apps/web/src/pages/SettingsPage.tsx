@@ -5,7 +5,7 @@ import {
   Input,
   makeStyles,
 } from "@fluentui/react-components";
-import { MILESTONE_TARGET_ISO } from "@microbootcan/shared";
+import { MILESTONE_TARGET_ISO } from "@microstar/shared";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ContentPanel } from "../components/shell/ContentPanel";

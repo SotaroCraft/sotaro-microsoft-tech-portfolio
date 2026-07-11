@@ -1,4 +1,4 @@
-import type { DiagramEdge, DiagramNode } from "@microbootcan/shared";
+import type { DiagramEdge, DiagramNode } from "@microstar/shared";
 
 const NODE_ANCHOR_Y = 56;
 

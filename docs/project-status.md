@@ -1,9 +1,9 @@
-# MicroBootCan — Project Status
+# MicroStarPlatform — Project Status
 
 Living document: Q&A 合意・Azure リソース・進捗・次フェーズ。  
 詳細計画は Cursor Plan（Q&A Plan）を参照。本ファイルは **実装と運用の現在地** を追記する。
 
-最終更新: 2026-07-11（Track A Capture→Match→Decide 完了・Graph 設計固定・SWA B1 延期）
+最終更新: 2026-07-11（Track A 完了・SWA B1 出荷・Graph 設計固定）
 
 ---
 
@@ -11,7 +11,8 @@ Living document: Q&A 合意・Azure リソース・進捗・次フェーズ。
 
 | テーマ | 合意内容 |
 |--------|----------|
-| **公開コピー** | 転職・選考・面接等の語は公開面に使わない。中立表現（milestone, achievement journal, pipeline tracker 等）— [CHARTER.md](../CHARTER.md) |
+| **正式名** | **MicroStarPlatform**（旧称 MicroBootCan）。Azure リソース ID は `microbootcan-*` を維持 |
+| **公開コピー** | 転職・選考・面接等の語は公開面に使わない。中立表現（MicroStar, DMTA, milestone, achievement journal 等）— [CHARTER.md](../CHARTER.md) |
 | **月次予算** | ¥2,900 上限。Azure 操作は事前承認 + 事後「想定費用」報告 |
 | **ローカル開発** | Cosmos Emulator + OpenAI モック。`APP_ENV=local` — [local-dev.md](local-dev.md) |
 | **AI 戦略（暫定）** | Phase D: Gemini API（開発・低コスト）。Phase F: Azure OpenAI へ移行（ポートフォリオ完成時） |
@@ -60,7 +61,7 @@ Endpoint: `https://microbootcan-openai-z6mnn.openai.azure.com/`
 | GitHub Actions（SWA CI/CD） | ✅ | push 済 — **`AZURE_STATIC_WEB_APPS_API_TOKEN` を GitHub Secret に登録要** |
 | ランディング UI + 構成図 | ✅ | `ArchitectureDiagram` + 公式 SVG（11 ファイル同期済） |
 | API（ローカルフル） | ✅ | health, architecture, episodes, pipeline, summary, settings, match |
-| SWA linked API | 🟡 | **health + architecture のみ**（安定 CI）。Cosmos CRUD = Phase 0 Step B1 **延期** |
+| SWA linked API | ✅ | Phase 0 B1: Cosmos CRUD + match（`AI_PROVIDER=mock`）。`prepare-swa-api` esbuild → Oryx は `@azure/functions` + `@azure/cosmos` |
 | 認証（SWA Entra） | ✅ | `/app/*` + API 保護、`useAuth` UI、`setup-entra-app.ps1` |
 | 日英 i18n | ✅ | `react-i18next` + 言語切替 |
 | Track A — Capture→Match→Decide | ✅ | STAR Journal・`/app/match`・Decide API/UI・Overview ライブ化（ローカル） |
@@ -82,13 +83,15 @@ Endpoint: `https://microbootcan-openai-z6mnn.openai.azure.com/`
 | Decide（applications/companies PATCH + nextAction / primary target UI） | ✅ |
 | Overview ライブデータ（デモ依存撤去） | ✅ |
 
-### SWA Phase 0 Step B1（延期）
+### SWA Phase 0 Step B1（出荷・2026-07-11）
 
-本番ワークスペース CRUD を SWA バンドルへ載せる作業は **意図的に未出荷**。
+本番ワークスペース API をローカル Track A と同等に拡張。
 
-- 現状の `prepare-swa-api.mjs` / `index.swa.ts` は public 2 本のみ（ncc・Oryx 失敗履歴を踏まえスリム構成を維持）
-- B1 は Cosmos CRUD のみ（match / AI 除外）を別途検証してから出荷する
+- `api/src/index.swa.ts` — health / architecture / episodes / companies / applications / summary / settings / match
+- `scripts/prepare-swa-api.mjs` — esbuild で shared/zod/mock をインライン。外部は `@azure/functions` + `@azure/cosmos` のみ（Oryx install）
+- 本番 app settings: `COSMOS_*` 注入済、`AI_PROVIDER=mock`（有料 AI は未承認のため切替しない）
 - 実験ディレクトリ `swa-api-min/` / `swa-api-ncc-test/` / `swa-api-test/` は gitignore（コミットしない）
+- 残ブロッカー: GitHub Secret `AZURE_STATIC_WEB_APPS_API_TOKEN`、Entra Portal プロバイダリンク
 
 ---
 
@@ -140,7 +143,7 @@ flowchart LR
 | Phase | 内容 | コード | Azure デプロイ |
 |-------|------|--------|----------------|
 | **A** | SWA + GitHub Actions + Cosmos 本番接続 | ✅ Bicep + workflow | ✅ SWA デプロイ済（2026-07-11） |
-| **B** | Entra 認証 + `/app` 保護 + API デプロイ | ✅ コード + Entra 登録 | 🟡 フロント反映済・API デプロイ未完了 |
+| **B** | Entra 認証 + `/app` 保護 + API デプロイ | ✅ コード + Entra 登録 | 🟡 B1 コード出荷・CI トークン / Portal リンク待ち |
 | **C** | Must 4 機能一括 | ✅ Cosmos repos + `/app` UI | Cosmos 既存・接続は Phase A |
 | **D** | AI 抽象化 + Gemini コンテキストマッチ | ✅ `gemini-provider` + `/api/match` | ⬜ Gemini Key 設定は承認後 |
 | **E** | 構成図 + 公式 SVG + Landing | ✅ mock API + UI | Resource Graph Reader は承認後 |
@@ -165,8 +168,8 @@ flowchart LR
 5. ✅ `useAuth` + トップバー Sign in/out + 日英 i18n
 6. ✅ CI #22 成功 — フロント + 認証ルート本番反映（`/app` → Entra ログインリダイレクト）
 7. ⬜ Portal: Authentication → Microsoft プロバイダをリンク（client ID / secret）
-8. ✅ Functions API — stock Node v4 レイアウトで health + architecture を安定出荷
-9. ⬜ Phase 0 Step B1 — Cosmos ワークスペース CRUD を SWA へ（延期・別検証後）
+8. ✅ Functions API — stock Node v4 + esbuild B1（Cosmos CRUD + mock match）
+9. ✅ Phase 0 Step B1 — ワークスペース API を SWA バンドルへ出荷（デプロイは CI トークン後）
 
 ### Phase E — Resource Graph（承認後）
 

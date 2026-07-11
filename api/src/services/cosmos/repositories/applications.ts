@@ -3,8 +3,8 @@ import type {
   Application,
   CreateApplicationInput,
   UpdateApplicationInput,
-} from "@microbootcan/shared";
-import { applicationSchema } from "@microbootcan/shared";
+} from "@microstar/shared";
+import { applicationSchema } from "@microstar/shared";
 import { getCosmosContainer } from "../client";
 import { COSMOS_CONTAINERS } from "../containers";
 

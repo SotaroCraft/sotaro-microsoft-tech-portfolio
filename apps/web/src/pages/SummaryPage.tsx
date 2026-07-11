@@ -6,7 +6,7 @@ import {
   Textarea,
   makeStyles,
 } from "@fluentui/react-components";
-import type { CareerSummary } from "@microbootcan/shared";
+import type { CareerSummary } from "@microstar/shared";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ContentPanel } from "../components/shell/ContentPanel";

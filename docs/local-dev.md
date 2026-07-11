@@ -1,4 +1,4 @@
-# MicroBootCan — Local Development Guide
+# MicroStarPlatform — Local Development Guide
 
 [CHARTER.md](../CHARTER.md) のエンジニアリング原則に基づくローカル開発手順。
 

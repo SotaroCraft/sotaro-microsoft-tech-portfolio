@@ -1,5 +1,5 @@
-import { MILESTONE_TARGET_ISO, type UserSettings } from "@microbootcan/shared";
-import { userSettingsSchema } from "@microbootcan/shared";
+import { MILESTONE_TARGET_ISO, type UserSettings } from "@microstar/shared";
+import { userSettingsSchema } from "@microstar/shared";
 import { getCosmosContainer } from "../client";
 import { COSMOS_CONTAINERS } from "../containers";
 

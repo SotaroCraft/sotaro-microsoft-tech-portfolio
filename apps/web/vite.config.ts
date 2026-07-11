@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@microbootcan/shared": path.resolve(
+      "@microstar/shared": path.resolve(
         __dirname,
         "../../packages/shared/src/index.ts",
       ),

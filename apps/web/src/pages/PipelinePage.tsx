@@ -11,8 +11,8 @@ import {
   Title3,
   makeStyles,
 } from "@fluentui/react-components";
-import type { Application, Company } from "@microbootcan/shared";
-import { PIPELINE_STAGES } from "@microbootcan/shared";
+import type { Application, Company } from "@microstar/shared";
+import { PIPELINE_STAGES } from "@microstar/shared";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ContentPanel } from "../components/shell/ContentPanel";

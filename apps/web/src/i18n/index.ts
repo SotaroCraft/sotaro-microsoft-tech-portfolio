@@ -3,7 +3,7 @@ import { initReactI18next } from "react-i18next";
 import en from "./locales/en.json";
 import ja from "./locales/ja.json";
 
-export const LOCALE_STORAGE_KEY = "microbootcan-locale";
+export const LOCALE_STORAGE_KEY = "microstar-locale";
 export type AppLocale = "en" | "ja";
 
 function detectLanguage(): AppLocale {

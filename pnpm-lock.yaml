@@ -6,7 +6,11 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      esbuild:
+        specifier: ^0.25.5
+        version: 0.25.12
 
   api:
     dependencies:
@@ -16,7 +20,7 @@ importers:
       '@azure/functions':
         specifier: ^4.7.0
         version: 4.16.2
-      '@microbootcan/shared':
+      '@microstar/shared':
         specifier: workspace:*
         version: link:../packages/shared
     devDependencies:
@@ -35,7 +39,7 @@ importers:
       '@fluentui/react-icons':
         specifier: ^2.0.297
         version: 2.0.333(react@19.2.7)
-      '@microbootcan/shared':
+      '@microstar/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       i18next:

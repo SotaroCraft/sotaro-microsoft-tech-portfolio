@@ -1,4 +1,4 @@
-# MicroBootCan — Entra ID Authentication
+# MicroStarPlatform — Entra ID Authentication
 
 Azure Static Web Apps built-in authentication protects `/app/*` and authenticated API routes.
 
@@ -41,7 +41,7 @@ After the script, link the provider in **Azure Portal → Static Web App → Aut
 ### Manual (Azure portal)
 
 1. **App registrations** → New registration
-   - Name: `MicroBootCan SWA`
+   - Name: `MicroBootCan SWA` (Azure display name; product brand is MicroStarPlatform)
    - Supported account types: **Single tenant**
    - Redirect URI (SPA): `https://<your-swa-hostname>/.auth/login/aad/callback`
 2. Note **Application (client) ID** and **Directory (tenant) ID**

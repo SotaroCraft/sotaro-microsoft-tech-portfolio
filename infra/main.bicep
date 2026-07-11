@@ -11,7 +11,7 @@ param baseName string = 'microbootcan'
 
 @description('Tags applied to all resources')
 param tags object = {
-  project: 'MicroBootCan'
+  project: 'MicroStarPlatform'
   env: 'prod'
   managedBy: 'bicep'
 }

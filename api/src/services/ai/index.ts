@@ -31,11 +31,8 @@ function resolveProviderId(): AiProviderId {
     return explicit;
   }
 
-  if (process.env.APP_ENV === "local" || !process.env.APP_ENV) {
-    return "mock";
-  }
-
-  return "azure";
+  // Default mock unless explicitly set — avoids accidental paid AI spend in prod.
+  return "mock";
 }
 
 let cachedProvider: AiProvider | undefined;

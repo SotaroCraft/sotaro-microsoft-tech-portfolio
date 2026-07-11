@@ -4,7 +4,7 @@ import {
   HttpResponseInit,
   InvocationContext,
 } from "@azure/functions";
-import { matchRequestSchema, matchResponseSchema } from "@microbootcan/shared";
+import { matchRequestSchema, matchResponseSchema } from "@microstar/shared";
 import { requireAuth } from "../lib/auth";
 import { errorResponse, jsonResponse, readJsonBody } from "../lib/http";
 import { runContextMatch } from "../services/ai/match";

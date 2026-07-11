@@ -3,8 +3,8 @@ import type {
   Company,
   CreateCompanyInput,
   UpdateCompanyInput,
-} from "@microbootcan/shared";
-import { companySchema } from "@microbootcan/shared";
+} from "@microstar/shared";
+import { companySchema } from "@microstar/shared";
 import { getCosmosContainer } from "../client";
 import { COSMOS_CONTAINERS } from "../containers";
 

@@ -7,8 +7,8 @@ import {
   makeStyles,
   tokens,
 } from "@fluentui/react-components";
-import type { Application, Episode } from "@microbootcan/shared";
-import { AI_BUDGET, PIPELINE_STAGES } from "@microbootcan/shared";
+import type { Application, Episode } from "@microstar/shared";
+import { AI_BUDGET, PIPELINE_STAGES } from "@microstar/shared";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";

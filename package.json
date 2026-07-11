@@ -1,18 +1,22 @@
 {
-  "name": "microbootcan",
+  "name": "microstarplatform",
   "private": true,
   "version": "0.1.0",
-  "description": "Azure-native personal productivity PWA — SWA + Functions + Cosmos DB",
+  "description": "MicroStarPlatform — Azure-native PWA for daily micro-achievements (DMTA → STAR)",
   "packageManager": "pnpm@9.15.4",
   "engines": {
     "node": ">=20"
   },
   "scripts": {
-    "dev": "pnpm --filter @microbootcan/shared build && pnpm --filter web dev",
+    "dev": "pnpm --filter @microstar/shared build && pnpm --filter web dev",
     "dev:swa": "echo \"SWA CLI: install @azure/static-web-apps-cli globally, then run swa start\"",
-    "build": "pnpm --filter @microbootcan/shared build && node scripts/write-architecture-mock.mjs && pnpm -r --filter !@microbootcan/shared build",
+    "build": "pnpm --filter @microstar/shared build && node scripts/write-architecture-mock.mjs && pnpm -r --filter !@microstar/shared build",
+    "prepare:swa-api": "node scripts/prepare-swa-api.mjs",
     "sync:icons": "node scripts/sync-architecture-icons.mjs",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.5"
   }
 }

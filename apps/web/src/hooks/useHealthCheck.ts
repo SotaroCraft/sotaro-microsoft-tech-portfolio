@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { HealthResponse } from "@microbootcan/shared";
+import type { HealthResponse } from "@microstar/shared";
 
 export function useHealthCheck() {
   const [data, setData] = useState<HealthResponse | null>(null);

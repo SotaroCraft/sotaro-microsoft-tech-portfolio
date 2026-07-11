@@ -17,7 +17,7 @@ export type DiagramEdge = {
 
 const CANVAS = { width: 720, height: 420 };
 
-/** Fixed layout zones for MicroBootCan stack (local + prod) */
+/** Fixed layout zones for MicroStarPlatform stack (local + prod) */
 export function buildDiagramLayout(
   resources: ArchitectureResource[],
   logicalNodes: ArchitectureLogicalNode[] = [],

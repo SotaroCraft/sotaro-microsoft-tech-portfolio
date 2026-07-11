@@ -17,7 +17,7 @@ import {
   GLOSSARY_TERMS,
   PRODUCT_LAYERS,
   STAR_FIELDS,
-} from "@microbootcan/shared";
+} from "@microstar/shared";
 import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { ContentPanel } from "../components/shell/ContentPanel";

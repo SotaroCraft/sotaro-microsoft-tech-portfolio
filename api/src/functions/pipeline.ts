@@ -9,7 +9,7 @@ import {
   createCompanyInputSchema,
   updateApplicationInputSchema,
   updateCompanyInputSchema,
-} from "@microbootcan/shared";
+} from "@microstar/shared";
 import { requireAuth } from "../lib/auth";
 import { errorResponse, jsonResponse, readJsonBody } from "../lib/http";
 import {

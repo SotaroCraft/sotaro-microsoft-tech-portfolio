@@ -10,7 +10,7 @@
     "settings": "設定"
   },
   "shell": {
-    "brand": "MicroBootCan",
+    "brand": "MicroStarPlatform",
     "publicPreview": "公開プレビュー",
     "workspaceContext": "ワークスペース · rg-microbootcan-prod",
     "workspace": "ワークスペース",
@@ -36,8 +36,8 @@
   },
   "pages": {
     "home": {
-      "title": "MicroBootCan",
-      "subtitle": "Azure ネイティブの個人向け生産性 PWA"
+      "title": "MicroStarPlatform",
+      "subtitle": "小さな実績を集める — DMTA から STAR へ"
     },
     "glossary": {
       "title": "用語定義",

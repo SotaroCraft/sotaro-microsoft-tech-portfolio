@@ -30,6 +30,15 @@ export type StarField = {
 export const PRODUCT_LAYERS: ProductLayer[] = [
   {
     order: 1,
+    labelEn: "MicroStar loop",
+    labelJa: "MicroStar ループ",
+    descriptionEn:
+      "Run a short Design → Make → Test → Analyze cycle each day. Keep only what matters as a STAR record.",
+    descriptionJa:
+      "毎日 Design → Make → Test → Analyze の短サイクルを回し、残すものだけを STAR として資産化する。",
+  },
+  {
+    order: 2,
     labelEn: "Framework",
     labelJa: "フレームワーク",
     descriptionEn:
@@ -38,7 +47,7 @@ export const PRODUCT_LAYERS: ProductLayer[] = [
       "STAR でバラバラなメモを同じ粒度にそろえ、日記の一行ではなく再利用できるデータにする。",
   },
   {
-    order: 2,
+    order: 3,
     labelEn: "Web app",
     labelJa: "Web アプリ",
     descriptionEn:
@@ -47,7 +56,7 @@ export const PRODUCT_LAYERS: ProductLayer[] = [
       "Azure 上のワークスペースに蓄積・検索し、機能同士をつなぐ最初のステップ。",
   },
   {
-    order: 3,
+    order: 4,
     labelEn: "Modules",
     labelJa: "モジュール",
     descriptionEn:
@@ -89,6 +98,28 @@ export const STAR_FIELDS: StarField[] = [
 ];
 
 export const GLOSSARY_TERMS: GlossaryTerm[] = [
+  {
+    id: "microstar",
+    labelEn: "MicroStar",
+    labelJa: "MicroStar",
+    summaryEn:
+      "A short daily project unit. Run DMTA, then optionally keep the outcome as a STAR achievement.",
+    summaryJa:
+      "1日単位の短プロジェクト。DMTA で回し、残すものだけを STAR 実績にする。",
+    moduleEn: "Product doctrine · Platform",
+    moduleJa: "プロダクト思想 · プラットフォーム",
+  },
+  {
+    id: "dmta",
+    labelEn: "DMTA loop",
+    labelJa: "DMTA ループ",
+    summaryEn:
+      "Design → Make → Test → Analyze—the operating loop for each MicroStar.",
+    summaryJa:
+      "Design → Make → Test → Analyze。各 MicroStar の運転形式。",
+    moduleEn: "Product doctrine · daily loop",
+    moduleJa: "プロダクト思想 · 日次ループ",
+  },
   {
     id: "milestone-countdown",
     labelEn: "Milestone countdown",
