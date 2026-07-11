@@ -143,7 +143,7 @@ flowchart LR
 5. ✅ `useAuth` + トップバー Sign in/out + 日英 i18n
 6. ✅ CI #22 成功 — フロント + 認証ルート本番反映（`/app` → Entra ログインリダイレクト）
 7. ⬜ Portal: Authentication → Microsoft プロバイダをリンク（client ID / secret）
-8. ⬜ Functions API デプロイ（`swa-api` バンドル — CI #21–23 で要調査）
+8. 🟡 Functions API — `ncc` 単一バンドル（~122 ファイル）で CI デプロイ再試行
 
 ### Phase E — Resource Graph（承認後）
 

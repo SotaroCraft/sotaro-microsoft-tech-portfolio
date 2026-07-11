@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Minimal Azure Functions bundle for SWA linked API (skip Oryx rebuild).
+ * Slim Azure Functions bundle for SWA linked API.
+ * Bundles app + shared + @azure/cosmos via ncc; keeps @azure/functions external.
  */
 import { execSync } from "node:child_process";
 import {
@@ -8,7 +9,9 @@ import {
   existsSync,
   mkdirSync,
   readFileSync,
+  readdirSync,
   rmSync,
+  statSync,
   writeFileSync,
 } from "node:fs";
 import { dirname, join } from "node:path";
@@ -17,7 +20,6 @@ import { fileURLToPath } from "node:url";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const swaApi = join(root, "swa-api");
 const apiRoot = join(root, "api");
-const sharedRoot = join(root, "packages/shared");
 
 if (existsSync(swaApi)) rmSync(swaApi, { recursive: true, force: true });
 mkdirSync(swaApi, { recursive: true });
@@ -30,26 +32,21 @@ execSync(`${pnpm} --filter @microbootcan/shared build && ${pnpm} --filter @micro
 });
 
 const apiPkg = JSON.parse(readFileSync(join(apiRoot, "package.json"), "utf8"));
-const sharedPkg = JSON.parse(readFileSync(join(sharedRoot, "package.json"), "utf8"));
+const entry = join(apiRoot, "dist/src/index.js");
+if (!existsSync(entry)) {
+  throw new Error(`Missing API build output: ${entry}`);
+}
+
+execSync(
+  `npx --yes @vercel/ncc build "${entry}" -o "${swaApi}" -e @azure/functions`,
+  {
+    cwd: root,
+    stdio: "inherit",
+    shell: true,
+  },
+);
 
 cpSync(join(apiRoot, "host.json"), join(swaApi, "host.json"));
-cpSync(join(apiRoot, "dist"), join(swaApi, "dist"), { recursive: true });
-
-const vendorShared = join(swaApi, "vendor/shared");
-mkdirSync(join(vendorShared, "dist"), { recursive: true });
-cpSync(join(sharedRoot, "dist"), join(vendorShared, "dist"), { recursive: true });
-writeFileSync(
-  join(vendorShared, "package.json"),
-  `${JSON.stringify(
-    {
-      name: "@microbootcan/shared",
-      version: sharedPkg.version,
-      main: "dist/index.js",
-    },
-    null,
-    2,
-  )}\n`,
-);
 
 writeFileSync(
   join(swaApi, "package.json"),
@@ -58,12 +55,10 @@ writeFileSync(
       name: "microbootcan-swa-api",
       version: "0.1.0",
       private: true,
-      main: "dist/src/index.js",
+      main: "index.js",
+      type: "commonjs",
       dependencies: {
-        "@azure/cosmos": apiPkg.dependencies["@azure/cosmos"],
         "@azure/functions": apiPkg.dependencies["@azure/functions"],
-        "@microbootcan/shared": "file:./vendor/shared",
-        zod: sharedPkg.dependencies.zod,
       },
       engines: { node: ">=20" },
     },
@@ -72,24 +67,26 @@ writeFileSync(
   )}\n`,
 );
 
-writeFileSync(
-  join(swaApi, ".funcignore"),
-  ["**/*.map", "**/*.ts", "src/", "local.settings.json", "vendor/shared/dist/**/*.d.ts"].join(
-    "\n",
-  ),
-);
+writeFileSync(join(swaApi, ".funcignore"), ["**/*.map", "**/*.ts", "src/"].join("\n"));
 
-// Validate install locally, then drop node_modules so SWA upload stays small (~100 files).
 execSync("npm install --omit=dev --no-audit --no-fund", {
   cwd: swaApi,
   stdio: "inherit",
-  shell: process.platform === "win32",
+  shell: true,
 });
 
-if (!existsSync(join(swaApi, "dist/src/index.js"))) {
-  throw new Error("swa-api bundle missing dist/src/index.js");
+if (!existsSync(join(swaApi, "index.js"))) {
+  throw new Error("swa-api bundle missing index.js");
 }
 
-rmSync(join(swaApi, "node_modules"), { recursive: true, force: true });
+function countFiles(dir) {
+  let count = 0;
+  for (const entry of readdirSync(dir)) {
+    const path = join(dir, entry);
+    if (statSync(path).isDirectory()) count += countFiles(path);
+    else count += 1;
+  }
+  return count;
+}
 
-console.log("swa-api bundle ready (dependencies installed by Oryx on deploy)");
+console.log(`swa-api bundle ready (${countFiles(swaApi)} files)`);
