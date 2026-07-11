@@ -61,6 +61,48 @@ export const applicationSchema = z.object({
 
 export type Application = z.infer<typeof applicationSchema>;
 
+export const projectStatusSchema = z.enum(["active", "closed"]);
+
+export type ProjectStatus = z.infer<typeof projectStatusSchema>;
+
+export const projectSchema = z.object({
+  id: z.string(),
+  userId: z.string(),
+  title: z.string().min(1).max(200),
+  summary: z.string().max(2000).optional(),
+  status: projectStatusSchema.default("active"),
+  lastOpenedAt: z.string().optional(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
+export type Project = z.infer<typeof projectSchema>;
+
+export const createProjectInputSchema = z.object({
+  title: z.string().min(1).max(200),
+  summary: z.string().max(2000).optional(),
+});
+
+export type CreateProjectInput = z.infer<typeof createProjectInputSchema>;
+
+export const updateProjectInputSchema = z
+  .object({
+    title: z.string().min(1).max(200).optional(),
+    summary: z.string().max(2000).optional(),
+    status: projectStatusSchema.optional(),
+    lastOpenedAt: z.string().optional(),
+  })
+  .refine(
+    (data) =>
+      data.title !== undefined ||
+      data.summary !== undefined ||
+      data.status !== undefined ||
+      data.lastOpenedAt !== undefined,
+    { message: "At least one field is required" },
+  );
+
+export type UpdateProjectInput = z.infer<typeof updateProjectInputSchema>;
+
 export const healthResponseSchema = z.object({
   status: z.literal("ok"),
   app: z.string(),

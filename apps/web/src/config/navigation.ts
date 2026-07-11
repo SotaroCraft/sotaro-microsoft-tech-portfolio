@@ -97,5 +97,8 @@ export function getPublicPageKey(_pathname: string): string | undefined {
 }
 
 export function getWorkspacePageKey(pathname: string): string | undefined {
+  if (pathname.startsWith("/app/projects/")) {
+    return "pages.projectWorkspace";
+  }
   return workspacePageKeys[pathname] ?? workspacePageKeys["/app"];
 }

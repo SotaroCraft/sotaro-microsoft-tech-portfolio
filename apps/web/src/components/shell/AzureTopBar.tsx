@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { loginUrl, logoutUrl, useAuth } from "../../hooks/useAuth";
 import { GlossaryHelpDialog } from "../GlossaryHelpDialog";
+import { OpenProjectDialog } from "../OpenProjectDialog";
 import { LanguageSwitcher } from "../LanguageSwitcher";
 import { azureShellColors } from "../../theme/azureTheme";
 
@@ -122,6 +123,7 @@ export function AzureTopBar({
       </div>
       <div className={styles.right}>
         {trailing ?? <LanguageSwitcher />}
+        <OpenProjectDialog triggerClassName={styles.ghostButton} />
         <GlossaryHelpDialog triggerClassName={styles.ghostButton} />
         {!loading && isAuthenticated && email && (
           <Body1 className={styles.userLabel}>

@@ -64,7 +64,8 @@ Endpoint: `https://microbootcan-openai-z6mnn.openai.azure.com/`
 | SWA linked API | ✅ | Phase 0 B1: Cosmos CRUD + match（`AI_PROVIDER=mock`）。`prepare-swa-api` esbuild → Oryx は `@azure/functions` + `@azure/cosmos` |
 | 認証（SWA Entra） | ✅ | `/` および `/app/*` はログイン必須。未認証は AAD → `/app`。公開ランディングは非表示 |
 | 日英 i18n | ✅ | `react-i18next` + 言語切替 |
-| Track A — Capture→Match→Decide | ✅ | STAR Journal・`/app/match`・Decide API/UI・Overview ライブ化（ローカル） |
+| Track A — Capture→Match→Decide | ✅ | STAR Journal・`/app/match`・Decide API/UI・Overview ライブ化 |
+| プロジェクト（開くダイアログ） | ✅ | Cosmos `projects` + `/api/projects` + OpenProjectDialog → `/app/projects/:id` |
 | Must 4 機能 | ✅ | Journal / Pipeline / Summary / Milestone countdown（`/app` UI） |
 | AI プロバイダ | ✅ | `mock` / `gemini` / `azure` + `POST /api/match`（本番 AI 切替は承認後） |
 | Graph 取り込み | ✅ 初版 | `/app/inbox` — Calendar + Mail。Entra 委任権限 + admin consent + SPA redirect ✅（2026-07-11）。CI に `VITE_ENTRA_*` 注入 |

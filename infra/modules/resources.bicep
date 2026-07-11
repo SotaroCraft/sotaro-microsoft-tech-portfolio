@@ -156,6 +156,20 @@ resource settingsContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/c
   }
 }
 
+resource projectsContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2024-05-15' = {
+  parent: cosmosDb
+  name: 'projects'
+  properties: {
+    resource: {
+      id: 'projects'
+      partitionKey: {
+        paths: ['/userId']
+        kind: 'Hash'
+      }
+    }
+  }
+}
+
 module staticWebApp 'static-web-app.bicep' = {
   name: 'microbootcan-swa'
   params: {

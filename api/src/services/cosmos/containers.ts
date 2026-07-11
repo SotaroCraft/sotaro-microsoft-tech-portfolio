@@ -4,6 +4,7 @@ export const COSMOS_CONTAINERS = {
   applications: "applications",
   career: "career",
   settings: "settings",
+  projects: "projects",
 } as const;
 
 export type CosmosContainerName =

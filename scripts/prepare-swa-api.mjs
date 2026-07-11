@@ -9,7 +9,7 @@
  * - Do NOT ship node_modules or ncc full-azure bundles (prior CI failures)
  *
  * Surface: health, architecture, episodes, companies, applications,
- * summary, settings, match (AI_PROVIDER from app settings; prod = mock).
+ * summary, settings, match, projects (AI_PROVIDER from app settings; prod = mock).
  */
 import {
   cpSync,
@@ -137,5 +137,5 @@ console.log(
   `swa-api ready (${countFiles(swaApi)} files, index ${(indexBytes / 1024).toFixed(1)} KiB, Oryx npm: @azure/functions + @azure/cosmos)`,
 );
 console.log(
-  "routes: health, architecture, episodes, companies, applications, summary, settings, match",
+  "routes: health, architecture, episodes, companies, applications, summary, settings, match, projects",
 );

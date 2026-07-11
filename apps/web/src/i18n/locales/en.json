@@ -93,6 +93,10 @@
     "settings": {
       "title": "Settings",
       "subtitle": "Milestone target date"
+    },
+    "projectWorkspace": {
+      "title": "Project",
+      "subtitle": "The initiative you have open"
     }
   },
   "landing": {
@@ -120,7 +124,7 @@
     "openInWorkspace": "Open"
   },
   "dashboard": {
-    "intro": "Simple loop: write an achievement → import from Outlook → match text → set next actions on the progress board. Follow the numbered menu on the left.",
+    "intro": "Start by opening a project (or create one). Judgments and outcomes stay in this Platform.",
     "apiStatus": "API status",
     "apiChecking": "Checking /api/health…",
     "apiOffline": "Offline: {{error}}",
@@ -306,5 +310,25 @@
     },
     "outcomeTitle": "Outcome to lock in",
     "outcomeBody": "Not scattered notes—outcome records with situation, challenge, action, and result. Search, compare, and use them for the next decision."
+  },
+  "project": {
+    "openDialog": "Open project",
+    "openTitle": "Open project",
+    "openLead": "Pick an existing initiative or start a new one.",
+    "empty": "No active projects yet. Create one below.",
+    "lastOpened": "Last opened: {{when}}",
+    "neverOpened": "Never opened",
+    "createTitle": "New project",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Name of the initiative",
+    "summaryLabel": "Summary (optional)",
+    "summaryPlaceholder": "Purpose or scope in one line",
+    "createAndOpen": "Create and open",
+    "openSelected": "Open",
+    "openFailed": "Could not open the project",
+    "createFailed": "Could not create the project",
+    "workspaceHint": "This is the initiative workspace. Notes, planning, and commit flows come next.",
+    "switchProject": "Open another project",
+    "backHome": "Back to Today"
   }
 }

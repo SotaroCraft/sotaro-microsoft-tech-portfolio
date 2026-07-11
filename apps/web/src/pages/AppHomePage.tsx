@@ -13,6 +13,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { ContentPanel } from "../components/shell/ContentPanel";
+import { OpenProjectDialog } from "../components/OpenProjectDialog";
 import { useHealthCheck } from "../hooks/useHealthCheck";
 import { apiFetch } from "../lib/api";
 import { azureShellColors } from "../theme/azureTheme";
@@ -46,6 +47,7 @@ const useStyles = makeStyles({
 });
 
 export function AppHomePage() {
+  const [openProject, setOpenProject] = useState(false);
   const styles = useStyles();
   const { t } = useTranslation();
   const health = useHealthCheck();
@@ -89,7 +91,18 @@ export function AppHomePage() {
     <>
       <ContentPanel>
         <Body1>{t("dashboard.intro")}</Body1>
+        <div style={{ marginTop: "12px" }}>
+          <Button appearance="primary" onClick={() => setOpenProject(true)}>
+            {t("project.openDialog")}
+          </Button>
+        </div>
       </ContentPanel>
+
+      <OpenProjectDialog
+        hideTrigger
+        open={openProject}
+        onOpenChange={setOpenProject}
+      />
 
       <div className={styles.grid} style={{ marginTop: "16px" }}>
         <Card className={styles.card}>

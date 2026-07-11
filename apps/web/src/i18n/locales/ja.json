@@ -93,6 +93,10 @@
     "settings": {
       "title": "設定",
       "subtitle": "マイルストーンの目標日"
+    },
+    "projectWorkspace": {
+      "title": "プロジェクト",
+      "subtitle": "いま開いている取り組み"
     }
   },
   "landing": {
@@ -120,7 +124,7 @@
     "openInWorkspace": "開く"
   },
   "dashboard": {
-    "intro": "流れはシンプルです。実績を書く → Outlookから取り込む → 照合する → 進捗ボードで次アクション。左の番号メニューに沿って進めてください。",
+    "intro": "まずプロジェクトを開く（または新規作成）。判断と実績はこの Platform に残す。",
     "apiStatus": "API 状態",
     "apiChecking": "/api/health を確認中…",
     "apiOffline": "オフライン: {{error}}",
@@ -306,5 +310,25 @@
     },
     "outcomeTitle": "確定する成果",
     "outcomeBody": "散らばったメモではなく、状況・課題・行動・結果がそろった実績記録。検索し、見比べ、次の判断に使う。"
+  },
+  "project": {
+    "openDialog": "プロジェクトを開く",
+    "openTitle": "プロジェクトを開く",
+    "openLead": "既存の取り組みを選ぶか、新しく立ち上げる。",
+    "empty": "進行中のプロジェクトはまだありません。下で新規作成できます。",
+    "lastOpened": "最終オープン: {{when}}",
+    "neverOpened": "未オープン",
+    "createTitle": "新規プロジェクト",
+    "titleLabel": "タイトル",
+    "titlePlaceholder": "いま進める取り組みの名前",
+    "summaryLabel": "要約（任意）",
+    "summaryPlaceholder": "目的や範囲を一言で",
+    "createAndOpen": "作成して開く",
+    "openSelected": "開く",
+    "openFailed": "プロジェクトを開けませんでした",
+    "createFailed": "プロジェクトを作成できませんでした",
+    "workspaceHint": "ここが取り組みの作業面です。次の刷新でノート・計画・確定フローを載せます。",
+    "switchProject": "別のプロジェクトを開く",
+    "backHome": "今日へ戻る"
   }
 }

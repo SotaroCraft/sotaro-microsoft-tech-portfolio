@@ -14,3 +14,4 @@ import "./functions/pipeline";
 import "./functions/summary";
 import "./functions/settings";
 import "./functions/match";
+import "./functions/projects";
