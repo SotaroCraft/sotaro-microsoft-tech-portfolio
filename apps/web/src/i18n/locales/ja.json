@@ -33,8 +33,8 @@
     "account": "アカウント",
     "github": "GitHub",
     "help": "ヘルプ",
-    "helpAria": "用語の説明を開く",
-    "helpTitle": "用語の説明",
+    "helpAria": "用語集を開く",
+    "helpTitle": "用語集",
     "breadcrumbHome": "ホーム",
     "breadcrumbOverview": "概要",
     "breadcrumbPage": "ページ",
@@ -107,17 +107,17 @@
     "viewSource": "GitHub でソースを見る"
   },
   "glossary": {
-    "intro": "公開サイトと非公開ワークスペースで使う中立ラベルです。STAR はフレームワーク、Web アプリは構造化記録を永続化する最初のステップです。",
+    "intro": "よく使う語の短い定義。",
     "layersTitle": "プロダクトの層構造",
     "layersDesc": "フレームワーク → Web アプリ → モジュール",
-    "starTitle": "STAR フィールド",
+    "starTitle": "STAR",
     "starDesc": "実績ジャーナル — エントリごとに任意",
     "starColField": "項目",
     "starColEn": "英語",
     "starColJa": "日本語",
     "starColPrompt": "記入のヒント",
-    "termsTitle": "アプリ用語",
-    "openInWorkspace": "ワークスペースで開く"
+    "termsTitle": "用語",
+    "openInWorkspace": "開く"
   },
   "dashboard": {
     "intro": "流れはシンプルです。実績を書く → Outlookから取り込む → 照合する → 進捗ボードで次アクション。左の番号メニューに沿って進めてください。",

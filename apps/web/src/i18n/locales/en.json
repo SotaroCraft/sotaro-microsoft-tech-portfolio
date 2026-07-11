@@ -33,8 +33,8 @@
     "account": "Account",
     "github": "GitHub",
     "help": "Help",
-    "helpAria": "Open terminology help",
-    "helpTitle": "Terminology",
+    "helpAria": "Open glossary",
+    "helpTitle": "Glossary",
     "breadcrumbHome": "Home",
     "breadcrumbOverview": "Overview",
     "breadcrumbPage": "Page",
@@ -107,17 +107,17 @@
     "viewSource": "View source on GitHub"
   },
   "glossary": {
-    "intro": "Neutral labels used on the public site and in the private workspace. STAR is a framework; the web app is the first step to persist and reuse structured records.",
+    "intro": "Short definitions of common terms.",
     "layersTitle": "How the product layers fit",
     "layersDesc": "Framework → Web app → Modules",
-    "starTitle": "STAR fields",
+    "starTitle": "STAR",
     "starDesc": "Achievement journal — optional per entry",
     "starColField": "Field",
     "starColEn": "English",
     "starColJa": "Japanese",
     "starColPrompt": "Prompt",
-    "termsTitle": "App terms",
-    "openInWorkspace": "Open in workspace"
+    "termsTitle": "Terms",
+    "openInWorkspace": "Open"
   },
   "dashboard": {
     "intro": "Simple loop: write an achievement → import from Outlook → match text → set next actions on the progress board. Follow the numbered menu on the left.",
