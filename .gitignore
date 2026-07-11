@@ -42,5 +42,8 @@ tools/private/
 # Azure architecture icons (local master library — not in repo)
 resources/
 
-# SWA deploy bundle (generated in CI)
+# SWA deploy bundle (generated in CI) + local experiment folders
 swa-api/
+swa-api-min/
+swa-api-ncc-test/
+swa-api-test/

@@ -7,6 +7,8 @@ import {
 import {
   createApplicationInputSchema,
   createCompanyInputSchema,
+  updateApplicationInputSchema,
+  updateCompanyInputSchema,
 } from "@microbootcan/shared";
 import { requireAuth } from "../lib/auth";
 import { errorResponse, jsonResponse, readJsonBody } from "../lib/http";
@@ -14,12 +16,13 @@ import {
   createApplication,
   deleteApplication,
   listApplications,
-  updateApplicationStage,
+  updateApplication,
 } from "../services/cosmos/repositories/applications";
 import {
   createCompany,
   deleteCompany,
   listCompanies,
+  updateCompany,
 } from "../services/cosmos/repositories/companies";
 
 app.http("companies", {
@@ -48,7 +51,7 @@ app.http("companies", {
 });
 
 app.http("companyById", {
-  methods: ["DELETE"],
+  methods: ["PATCH", "DELETE"],
   authLevel: "anonymous",
   route: "companies/{id}",
   handler: async (
@@ -60,6 +63,16 @@ app.http("companyById", {
       const id = request.params.id;
       if (!id) {
         return jsonResponse(400, { error: "Missing company id" });
+      }
+
+      if (request.method === "PATCH") {
+        const body = await readJsonBody<unknown>(request);
+        const input = updateCompanyInputSchema.parse(body);
+        const updated = await updateCompany(auth.userId, id, input);
+        if (!updated) {
+          return jsonResponse(404, { error: "Company not found" });
+        }
+        return jsonResponse(200, updated);
       }
 
       const deleted = await deleteCompany(auth.userId, id);
@@ -114,15 +127,9 @@ app.http("applicationById", {
       }
 
       if (request.method === "PATCH") {
-        const body = (await readJsonBody<{ stage?: string }>(request)) ?? {};
-        if (!body.stage) {
-          return jsonResponse(400, { error: "Missing stage" });
-        }
-        const updated = await updateApplicationStage(
-          auth.userId,
-          id,
-          body.stage,
-        );
+        const body = await readJsonBody<unknown>(request);
+        const input = updateApplicationInputSchema.parse(body);
+        const updated = await updateApplication(auth.userId, id, input);
         if (!updated) {
           return jsonResponse(404, { error: "Application not found" });
         }

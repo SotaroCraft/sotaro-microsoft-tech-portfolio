@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import type {
   Application,
   CreateApplicationInput,
+  UpdateApplicationInput,
 } from "@microbootcan/shared";
 import { applicationSchema } from "@microbootcan/shared";
 import { getCosmosContainer } from "../client";
@@ -36,10 +37,10 @@ export async function createApplication(
   return application;
 }
 
-export async function updateApplicationStage(
+export async function updateApplication(
   userId: string,
   id: string,
-  stage: string,
+  input: UpdateApplicationInput,
 ): Promise<Application | null> {
   const container = await getCosmosContainer(COSMOS_CONTAINERS.applications);
   try {
@@ -48,16 +49,30 @@ export async function updateApplicationStage(
       return null;
     }
 
+    const stageChanged =
+      input.stage !== undefined && input.stage !== resource.stage;
+
     const updated = applicationSchema.parse({
       ...resource,
-      stage,
-      stageUpdatedAt: new Date().toISOString(),
+      ...input,
+      stageUpdatedAt: stageChanged
+        ? new Date().toISOString()
+        : resource.stageUpdatedAt,
     });
     await container.item(id, userId).replace(updated);
     return updated;
   } catch {
     return null;
   }
+}
+
+/** @deprecated Prefer updateApplication */
+export async function updateApplicationStage(
+  userId: string,
+  id: string,
+  stage: string,
+): Promise<Application | null> {
+  return updateApplication(userId, id, { stage });
 }
 
 export async function deleteApplication(

@@ -113,6 +113,40 @@ export const createApplicationInputSchema = applicationSchema.omit({
 
 export type CreateApplicationInput = z.infer<typeof createApplicationInputSchema>;
 
+export const updateApplicationInputSchema = z
+  .object({
+    stage: z.string().optional(),
+    roleTitle: z.string().min(1).optional(),
+    nextAction: z.string().optional(),
+    nextActionDate: z.string().optional(),
+    contactName: z.string().optional(),
+    notes: z.string().optional(),
+  })
+  .refine(
+    (data) =>
+      data.stage !== undefined ||
+      data.roleTitle !== undefined ||
+      data.nextAction !== undefined ||
+      data.nextActionDate !== undefined ||
+      data.contactName !== undefined ||
+      data.notes !== undefined,
+    { message: "At least one field is required" },
+  );
+
+export type UpdateApplicationInput = z.infer<typeof updateApplicationInputSchema>;
+
+export const updateCompanyInputSchema = createCompanyInputSchema.partial().refine(
+  (data) =>
+    data.name !== undefined ||
+    data.priority !== undefined ||
+    data.isPrimaryTarget !== undefined ||
+    data.website !== undefined ||
+    data.notes !== undefined,
+  { message: "At least one field is required" },
+);
+
+export type UpdateCompanyInput = z.infer<typeof updateCompanyInputSchema>;
+
 export const updateCareerSummaryInputSchema = careerSummarySchema.omit({
   id: true,
   userId: true,

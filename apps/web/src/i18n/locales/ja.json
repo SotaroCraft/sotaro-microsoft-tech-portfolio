@@ -4,6 +4,7 @@
     "terminology": "用語定義",
     "overview": "概要",
     "journal": "ジャーナル",
+    "match": "マッチ",
     "pipeline": "パイプライン",
     "summary": "サマリー",
     "settings": "設定"
@@ -50,6 +51,10 @@
       "title": "実績ジャーナル",
       "subtitle": "STAR フィールド任意の構造化メモ"
     },
+    "match": {
+      "title": "コンテキスト・マッチング",
+      "subtitle": "参照テキストとジャーナルを照合"
+    },
     "pipeline": {
       "title": "パイプライン管理",
       "subtitle": "ステージ別カンバンビュー"
@@ -95,16 +100,49 @@
     "pipelineStages": "パイプライン・ステージ",
     "stagesConfigured": "{{count}} ステージ設定済み",
     "openPipeline": "パイプラインを開く",
-    "sampleJournal": "ジャーナルサンプル",
+    "recentJournal": "直近のジャーナル",
+    "noRecentJournal": "ジャーナルエントリはまだありません。",
     "openJournal": "ジャーナルを開く",
+    "upcomingActions": "今後の次アクション",
+    "noUpcomingActions": "次アクションは未設定です。",
+    "contextMatch": "コンテキスト・マッチング",
+    "contextMatchHint": "参照テキストと実績ジャーナルを照合します。",
+    "openMatch": "マッチを開く",
     "budgetCap": "Azure 月次予算上限",
     "budgetPerMonth": "¥{{amount}} / 月"
   },
   "journal": {
     "titleLabel": "タイトル",
-    "bodyLabel": "本文",
+    "bodyLabel": "短いメモ",
+    "bodyHint": "任意。空の場合は STAR フィールドを連結して保存します。",
+    "situationHint": "背景・制約・文脈",
+    "taskHint": "担当したこと・求められたこと",
+    "actionHint": "取った具体的な行動",
+    "resultHint": "成果・数値・学び",
+    "tagsLabel": "タグ",
+    "tagsHint": "カンマ区切り",
     "addEntry": "エントリを追加",
+    "saveEntry": "変更を保存",
+    "cancelEdit": "キャンセル",
+    "edit": "編集",
+    "delete": "削除",
+    "confirmDelete": "このジャーナルエントリを削除しますか？",
+    "empty": "エントリはまだありません。STAR 任意でマイルストーンを記録してください。",
     "loading": "エントリを読み込み中…"
+  },
+  "match": {
+    "referenceLabel": "参照テキスト",
+    "referenceHint": "オポチュニティの文脈やメモを貼り付け、ジャーナルと照合します。",
+    "topKLabel": "上位件数",
+    "run": "マッチを実行",
+    "running": "照合中…",
+    "draftSummary": "下書きサマリー",
+    "provider": "プロバイダー: {{provider}}",
+    "score": "スコア: {{score}}",
+    "noResults": "一致するジャーナルエントリはありません。",
+    "openJournal": "ジャーナルを開く",
+    "openPipeline": "パイプラインを開く",
+    "setNextAction": "次アクションを設定"
   },
   "pipeline": {
     "newOrganization": "新規組織",
@@ -115,7 +153,17 @@
     "addOpportunity": "オポチュニティを追加",
     "items": "{{count}} 件",
     "moveStage": "ステージを移動",
-    "unknownOrg": "不明"
+    "unknownOrg": "不明",
+    "primaryTarget": "優先ターゲット",
+    "primaryBadge": "優先ターゲット",
+    "nextAction": "次アクション",
+    "nextActionDate": "次アクション日",
+    "nextActionEmpty": "次アクション未設定",
+    "nextActionValue": "次: {{action}}",
+    "nextActionDateValue": "期限: {{date}}",
+    "editNextAction": "次アクションを編集",
+    "saveNextAction": "次アクションを保存",
+    "cancelEdit": "キャンセル"
   },
   "summary": {
     "loading": "読み込み中…",

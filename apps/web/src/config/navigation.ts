@@ -4,6 +4,7 @@ import {
   BookRegular,
   DataBarVerticalRegular,
   HomeRegular,
+  SearchRegular,
   SettingsRegular,
   TableRegular,
 } from "@fluentui/react-icons";
@@ -18,6 +19,7 @@ export type NavItem = {
 export const workspaceNav: NavItem[] = [
   { to: "/app", labelKey: "nav.overview", icon: HomeRegular, end: true },
   { to: "/app/journal", labelKey: "nav.journal", icon: BookRegular },
+  { to: "/app/match", labelKey: "nav.match", icon: SearchRegular },
   { to: "/app/pipeline", labelKey: "nav.pipeline", icon: TableRegular },
   { to: "/app/summary", labelKey: "nav.summary", icon: DataBarVerticalRegular },
   { to: "/app/settings", labelKey: "nav.settings", icon: SettingsRegular },
@@ -41,6 +43,7 @@ const publicPageKeys: Record<string, string> = {
 const workspacePageKeys: Record<string, string> = {
   "/app": "pages.overview",
   "/app/journal": "pages.journal",
+  "/app/match": "pages.match",
   "/app/pipeline": "pages.pipeline",
   "/app/summary": "pages.summary",
   "/app/settings": "pages.settings",

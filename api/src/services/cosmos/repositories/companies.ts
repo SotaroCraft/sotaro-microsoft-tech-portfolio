@@ -1,5 +1,9 @@
 import { randomUUID } from "node:crypto";
-import type { Company, CreateCompanyInput } from "@microbootcan/shared";
+import type {
+  Company,
+  CreateCompanyInput,
+  UpdateCompanyInput,
+} from "@microbootcan/shared";
 import { companySchema } from "@microbootcan/shared";
 import { getCosmosContainer } from "../client";
 import { COSMOS_CONTAINERS } from "../containers";
@@ -29,6 +33,29 @@ export async function createCompany(
 
   await container.items.create(company);
   return company;
+}
+
+export async function updateCompany(
+  userId: string,
+  id: string,
+  input: UpdateCompanyInput,
+): Promise<Company | null> {
+  const container = await getCosmosContainer(COSMOS_CONTAINERS.companies);
+  try {
+    const { resource } = await container.item(id, userId).read<Company>();
+    if (!resource) {
+      return null;
+    }
+
+    const updated = companySchema.parse({
+      ...resource,
+      ...input,
+    });
+    await container.item(id, userId).replace(updated);
+    return updated;
+  } catch {
+    return null;
+  }
 }
 
 export async function deleteCompany(

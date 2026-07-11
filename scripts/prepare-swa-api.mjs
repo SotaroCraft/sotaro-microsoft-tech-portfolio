@@ -2,6 +2,15 @@
 /**
  * Emit a stock SWA managed-Functions API (Node v4 layout from MS docs).
  * No ncc / monorepo deps — Oryx only needs `npm install` for @azure/functions.
+ *
+ * Current ship surface: health + architecture only (stable CI).
+ *
+ * Phase 0 Step B1 (deferred — do not half-land here):
+ * - Add Cosmos CRUD for episodes / companies / applications / summary / settings
+ * - Exclude match + AI providers (deps, TPM, cost approval)
+ * - Likely needs @azure/cosmos + auth helpers; validate in a side folder
+ *   (swa-api-*) before replacing this slim emitter
+ * - Step B2: prefer copying a `pnpm build` api artifact + minimal deps
  */
 import {
   cpSync,

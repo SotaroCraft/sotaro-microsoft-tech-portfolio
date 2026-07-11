@@ -4,6 +4,7 @@
     "terminology": "Terminology",
     "overview": "Overview",
     "journal": "Journal",
+    "match": "Match",
     "pipeline": "Pipeline",
     "summary": "Summary",
     "settings": "Settings"
@@ -50,6 +51,10 @@
       "title": "Achievement journal",
       "subtitle": "Structured notes with optional STAR fields"
     },
+    "match": {
+      "title": "Context matching",
+      "subtitle": "Match reference text to journal entries"
+    },
     "pipeline": {
       "title": "Pipeline tracker",
       "subtitle": "Kanban view across pipeline stages"
@@ -95,16 +100,49 @@
     "pipelineStages": "Pipeline stages",
     "stagesConfigured": "{{count}} stages configured",
     "openPipeline": "Open pipeline",
-    "sampleJournal": "Sample journal entry",
+    "recentJournal": "Recent journal entries",
+    "noRecentJournal": "No journal entries yet.",
     "openJournal": "Open journal",
+    "upcomingActions": "Upcoming next actions",
+    "noUpcomingActions": "No next actions scheduled.",
+    "contextMatch": "Context matching",
+    "contextMatchHint": "Match reference text against your achievement journal.",
+    "openMatch": "Open match",
     "budgetCap": "Azure budget cap",
     "budgetPerMonth": "¥{{amount}} / month"
   },
   "journal": {
     "titleLabel": "Title",
-    "bodyLabel": "Body",
+    "bodyLabel": "Short note",
+    "bodyHint": "Optional. If empty, STAR fields are concatenated for storage.",
+    "situationHint": "Background, scope, or constraint",
+    "taskHint": "What you were responsible for",
+    "actionHint": "Concrete steps you took",
+    "resultHint": "Outcomes, metrics, or learnings",
+    "tagsLabel": "Tags",
+    "tagsHint": "Comma-separated",
     "addEntry": "Add entry",
+    "saveEntry": "Save changes",
+    "cancelEdit": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirmDelete": "Delete this journal entry?",
+    "empty": "No entries yet. Capture a milestone with optional STAR fields.",
     "loading": "Loading entries…"
+  },
+  "match": {
+    "referenceLabel": "Reference text",
+    "referenceHint": "Paste opportunity context or notes to match against your journal.",
+    "topKLabel": "Top results",
+    "run": "Run match",
+    "running": "Matching…",
+    "draftSummary": "Draft summary",
+    "provider": "Provider: {{provider}}",
+    "score": "Score: {{score}}",
+    "noResults": "No matching journal entries.",
+    "openJournal": "Open journal",
+    "openPipeline": "Open pipeline",
+    "setNextAction": "Set next action"
   },
   "pipeline": {
     "newOrganization": "New organization",
@@ -115,7 +153,17 @@
     "addOpportunity": "Add opportunity",
     "items": "{{count}} items",
     "moveStage": "Move stage",
-    "unknownOrg": "Unknown"
+    "unknownOrg": "Unknown",
+    "primaryTarget": "Primary target",
+    "primaryBadge": "Primary target",
+    "nextAction": "Next action",
+    "nextActionDate": "Next action date",
+    "nextActionEmpty": "No next action set",
+    "nextActionValue": "Next: {{action}}",
+    "nextActionDateValue": "Due: {{date}}",
+    "editNextAction": "Edit next action",
+    "saveNextAction": "Save next action",
+    "cancelEdit": "Cancel"
   },
   "summary": {
     "loading": "Loading…",

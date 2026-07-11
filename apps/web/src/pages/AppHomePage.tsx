@@ -7,11 +7,14 @@ import {
   makeStyles,
   tokens,
 } from "@fluentui/react-components";
-import { AI_BUDGET, demoEpisodes, PIPELINE_STAGES } from "@microbootcan/shared";
+import type { Application, Episode } from "@microbootcan/shared";
+import { AI_BUDGET, PIPELINE_STAGES } from "@microbootcan/shared";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { ContentPanel } from "../components/shell/ContentPanel";
 import { useHealthCheck } from "../hooks/useHealthCheck";
+import { apiFetch } from "../lib/api";
 import { azureShellColors } from "../theme/azureTheme";
 
 const useStyles = makeStyles({
@@ -32,12 +35,55 @@ const useStyles = makeStyles({
   statusErr: {
     color: tokens.colorPaletteRedForeground1,
   },
+  list: {
+    display: "grid",
+    gap: "8px",
+    marginTop: "8px",
+  },
+  muted: {
+    color: "#605e5c",
+  },
 });
 
 export function AppHomePage() {
   const styles = useStyles();
   const { t } = useTranslation();
   const health = useHealthCheck();
+  const [episodes, setEpisodes] = useState<Episode[]>([]);
+  const [applications, setApplications] = useState<Application[]>([]);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const [episodeRows, applicationRows] = await Promise.all([
+          apiFetch<Episode[]>("/episodes"),
+          apiFetch<Application[]>("/applications"),
+        ]);
+        setEpisodes(episodeRows);
+        setApplications(applicationRows);
+        setLoadError(null);
+      } catch (err) {
+        setLoadError(
+          err instanceof Error ? err.message : t("common.failedToLoad"),
+        );
+      }
+    }
+    void load();
+  }, [t]);
+
+  const recentEpisodes = useMemo(() => episodes.slice(0, 3), [episodes]);
+
+  const upcomingActions = useMemo(() => {
+    return applications
+      .filter((row) => row.nextAction)
+      .sort((a, b) => {
+        const aDate = a.nextActionDate ?? "9999-12-31";
+        const bDate = b.nextActionDate ?? "9999-12-31";
+        return aDate.localeCompare(bDate);
+      })
+      .slice(0, 5);
+  }, [applications]);
 
   return (
     <>
@@ -76,10 +122,51 @@ export function AppHomePage() {
         </Card>
 
         <Card className={styles.card}>
-          <CardHeader header={<Title2>{t("dashboard.sampleJournal")}</Title2>} />
-          <Body1>{demoEpisodes[0]?.title}</Body1>
+          <CardHeader header={<Title2>{t("dashboard.recentJournal")}</Title2>} />
+          {loadError && <Body1 className={styles.muted}>{loadError}</Body1>}
+          {!loadError && recentEpisodes.length === 0 && (
+            <Body1 className={styles.muted}>{t("dashboard.noRecentJournal")}</Body1>
+          )}
+          <div className={styles.list}>
+            {recentEpisodes.map((episode) => (
+              <Body1 key={episode.id}>{episode.title}</Body1>
+            ))}
+          </div>
           <RouterLink to="/app/journal">
             <Button appearance="primary">{t("dashboard.openJournal")}</Button>
+          </RouterLink>
+        </Card>
+
+        <Card className={styles.card}>
+          <CardHeader header={<Title2>{t("dashboard.upcomingActions")}</Title2>} />
+          {!loadError && upcomingActions.length === 0 && (
+            <Body1 className={styles.muted}>
+              {t("dashboard.noUpcomingActions")}
+            </Body1>
+          )}
+          <div className={styles.list}>
+            {upcomingActions.map((row) => (
+              <Body1 key={row.id}>
+                {row.nextActionDate
+                  ? `${row.nextActionDate.slice(0, 10)} · ${row.nextAction}`
+                  : row.nextAction}
+                {" — "}
+                {row.roleTitle}
+              </Body1>
+            ))}
+          </div>
+          <RouterLink to="/app/pipeline">
+            <Button appearance="secondary">
+              {t("dashboard.openPipeline")}
+            </Button>
+          </RouterLink>
+        </Card>
+
+        <Card className={styles.card}>
+          <CardHeader header={<Title2>{t("dashboard.contextMatch")}</Title2>} />
+          <Body1>{t("dashboard.contextMatchHint")}</Body1>
+          <RouterLink to="/app/match">
+            <Button appearance="primary">{t("dashboard.openMatch")}</Button>
           </RouterLink>
         </Card>
 

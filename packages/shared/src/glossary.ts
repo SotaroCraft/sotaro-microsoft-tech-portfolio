@@ -157,9 +157,9 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
       "Matches reference text against journal entries to surface relevant structured experience.",
     summaryJa:
       "参照テキストとジャーナルエントリを照合し、関連する構造化実績を引き出す。",
-    moduleEn: "Should · AI-assisted (Settings)",
-    moduleJa: "Should · AI 支援（設定）",
-    appRoute: "/app/settings",
+    moduleEn: "Should · AI-assisted (Match)",
+    moduleJa: "Should · AI 支援（マッチ）",
+    appRoute: "/app/match",
   },
   {
     id: "reference-text",
@@ -169,9 +169,9 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
       "Paste or import neutral reference text used as input for context matching.",
     summaryJa:
       "コンテキスト・マッチングの入力として、参照テキストを貼付または取り込む。",
-    moduleEn: "Should · Settings / match API",
-    moduleJa: "Should · 設定 / match API",
-    appRoute: "/app/settings",
+    moduleEn: "Should · Match / match API",
+    moduleJa: "Should · マッチ / match API",
+    appRoute: "/app/match",
   },
   {
     id: "workspace",

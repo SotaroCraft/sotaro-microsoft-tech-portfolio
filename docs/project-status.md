@@ -3,7 +3,7 @@
 Living document: Q&A 合意・Azure リソース・進捗・次フェーズ。  
 詳細計画は Cursor Plan（Q&A Plan）を参照。本ファイルは **実装と運用の現在地** を追記する。
 
-最終更新: 2026-07-11（Phase B 着手 — Entra + API デプロイ + i18n）
+最終更新: 2026-07-11（Track A Capture→Match→Decide 完了・Graph 設計固定・SWA B1 延期）
 
 ---
 
@@ -59,14 +59,36 @@ Endpoint: `https://microbootcan-openai-z6mnn.openai.azure.com/`
 | Bicep（Cosmos + Insights + SWA モジュール） | ✅ | [azure-setup.md](azure-setup.md) |
 | GitHub Actions（SWA CI/CD） | ✅ | push 済 — **`AZURE_STATIC_WEB_APPS_API_TOKEN` を GitHub Secret に登録要** |
 | ランディング UI + 構成図 | ✅ | `ArchitectureDiagram` + 公式 SVG（11 ファイル同期済） |
-| API | ✅ | health, architecture, episodes, pipeline, summary, settings, match |
+| API（ローカルフル） | ✅ | health, architecture, episodes, pipeline, summary, settings, match |
+| SWA linked API | 🟡 | **health + architecture のみ**（安定 CI）。Cosmos CRUD = Phase 0 Step B1 **延期** |
 | 認証（SWA Entra） | ✅ | `/app/*` + API 保護、`useAuth` UI、`setup-entra-app.ps1` |
 | 日英 i18n | ✅ | `react-i18next` + 言語切替 |
+| Track A — Capture→Match→Decide | ✅ | STAR Journal・`/app/match`・Decide API/UI・Overview ライブ化（ローカル） |
 | Must 4 機能 | ✅ | Journal / Pipeline / Summary / Milestone countdown（`/app` UI） |
-| AI プロバイダ | ✅ | `mock` / `gemini` / `azure` + `POST /api/match` |
+| AI プロバイダ | ✅ | `mock` / `gemini` / `azure` + `POST /api/match`（本番 AI 切替は承認後） |
+| Graph 取り込み | 📋 設計のみ | [graph-import-design.md](graph-import-design.md) — 実装は承認後 |
 | 構成図 + 公式アイコン | ✅ | mock Resource Graph 応答（本番 RG 読取は承認後） |
 | `resources/` gitignore + sync | ✅ | `pnpm sync:icons` → `public/architecture-icons/` |
-| `pnpm build` | ✅ | shared + api + web 成功（2026-07-11 確認） |
+| `pnpm build` / typecheck | ✅ | shared + api + web typecheck 成功（2026-07-11） |
+
+### Track A（2026-07-11）
+
+ローカル日常ループを完成。Azure 課金なし（`AI_PROVIDER=mock` 想定）。
+
+| 項目 | 状態 |
+|------|------|
+| STAR Achievement journal（作成・編集・削除・空状態） | ✅ |
+| Context Match UI（`/app/match` + Glossary 修正） | ✅ |
+| Decide（applications/companies PATCH + nextAction / primary target UI） | ✅ |
+| Overview ライブデータ（デモ依存撤去） | ✅ |
+
+### SWA Phase 0 Step B1（延期）
+
+本番ワークスペース CRUD を SWA バンドルへ載せる作業は **意図的に未出荷**。
+
+- 現状の `prepare-swa-api.mjs` / `index.swa.ts` は public 2 本のみ（ncc・Oryx 失敗履歴を踏まえスリム構成を維持）
+- B1 は Cosmos CRUD のみ（match / AI 除外）を別途検証してから出荷する
+- 実験ディレクトリ `swa-api-min/` / `swa-api-ncc-test/` / `swa-api-test/` は gitignore（コミットしない）
 
 ---
 
@@ -143,7 +165,8 @@ flowchart LR
 5. ✅ `useAuth` + トップバー Sign in/out + 日英 i18n
 6. ✅ CI #22 成功 — フロント + 認証ルート本番反映（`/app` → Entra ログインリダイレクト）
 7. ⬜ Portal: Authentication → Microsoft プロバイダをリンク（client ID / secret）
-8. 🟡 Functions API — `ncc` 単一バンドル（~122 ファイル）で CI デプロイ再試行
+8. ✅ Functions API — stock Node v4 レイアウトで health + architecture を安定出荷
+9. ⬜ Phase 0 Step B1 — Cosmos ワークスペース CRUD を SWA へ（延期・別検証後）
 
 ### Phase E — Resource Graph（承認後）
 
@@ -247,4 +270,6 @@ api/src/services/ai/
 | [CHARTER.md](../CHARTER.md) | 憲章・公開コピー・予算 |
 | [local-dev.md](local-dev.md) | ローカル開発・アイコン同期 |
 | [azure-setup.md](azure-setup.md) | Azure セットアップ・再デプロイ・SWA |
+| [graph-import-design.md](graph-import-design.md) | Graph 委任取り込み設計（実装は承認後） |
 | [monorepo-overview.md](monorepo-overview.md) | リポジトリ構成 |
+| [auth-setup.md](auth-setup.md) | Entra / SWA 認証 |

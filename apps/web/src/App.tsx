@@ -5,6 +5,7 @@ import { PublicShell } from "./components/shell/PublicShell";
 import { LandingPage } from "./pages/LandingPage";
 import { AppHomePage } from "./pages/AppHomePage";
 import { JournalPage } from "./pages/JournalPage";
+import { MatchPage } from "./pages/MatchPage";
 import { PipelinePage } from "./pages/PipelinePage";
 import { SettingsPage } from "./pages/SettingsPage";
 import { GlossaryPage } from "./pages/GlossaryPage";
@@ -35,6 +36,7 @@ export function App() {
           <Route path="/app" element={<WorkspaceShell />}>
             <Route index element={<AppHomePage />} />
             <Route path="journal" element={<JournalPage />} />
+            <Route path="match" element={<MatchPage />} />
             <Route path="pipeline" element={<PipelinePage />} />
             <Route path="summary" element={<SummaryPage />} />
             <Route path="settings" element={<SettingsPage />} />
