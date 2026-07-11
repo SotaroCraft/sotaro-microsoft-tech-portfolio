@@ -79,13 +79,17 @@ writeFileSync(
   ),
 );
 
+// Validate install locally, then drop node_modules so SWA upload stays small (~100 files).
 execSync("npm install --omit=dev --no-audit --no-fund", {
   cwd: swaApi,
   stdio: "inherit",
+  shell: process.platform === "win32",
 });
 
 if (!existsSync(join(swaApi, "dist/src/index.js"))) {
   throw new Error("swa-api bundle missing dist/src/index.js");
 }
 
-console.log("swa-api bundle ready");
+rmSync(join(swaApi, "node_modules"), { recursive: true, force: true });
+
+console.log("swa-api bundle ready (node_modules excluded — Oryx installs on deploy)");
