@@ -62,7 +62,7 @@ Endpoint: `https://microbootcan-openai-z6mnn.openai.azure.com/`
 | ランディング UI + 構成図 | ✅ | `ArchitectureDiagram` + 公式 SVG（11 ファイル同期済） |
 | API（ローカルフル） | ✅ | health, architecture, episodes, pipeline, summary, settings, match |
 | SWA linked API | ✅ | Phase 0 B1: Cosmos CRUD + match（`AI_PROVIDER=mock`）。`prepare-swa-api` esbuild → Oryx は `@azure/functions` + `@azure/cosmos` |
-| 認証（SWA Entra） | ✅ | `/app/*` + API 保護、`useAuth` UI、`setup-entra-app.ps1` |
+| 認証（SWA Entra） | ✅ | `/` および `/app/*` はログイン必須。未認証は AAD → `/app`。公開ランディングは非表示 |
 | 日英 i18n | ✅ | `react-i18next` + 言語切替 |
 | Track A — Capture→Match→Decide | ✅ | STAR Journal・`/app/match`・Decide API/UI・Overview ライブ化（ローカル） |
 | Must 4 機能 | ✅ | Journal / Pipeline / Summary / Milestone countdown（`/app` UI） |

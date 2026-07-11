@@ -20,28 +20,65 @@ export type NavItem = {
 };
 
 export const workspaceNav: NavItem[] = [
-  { to: "/app", labelKey: "nav.overview", icon: HomeRegular, end: true, sectionKey: "nav.section.today" },
-  { to: "/app/journal", labelKey: "nav.journal", icon: BookRegular, sectionKey: "nav.section.flow" },
-  { to: "/app/inbox", labelKey: "nav.inbox", icon: MailInboxRegular, sectionKey: "nav.section.flow" },
-  { to: "/app/match", labelKey: "nav.match", icon: SearchRegular, sectionKey: "nav.section.flow" },
-  { to: "/app/pipeline", labelKey: "nav.pipeline", icon: TableRegular, sectionKey: "nav.section.flow" },
-  { to: "/app/summary", labelKey: "nav.summary", icon: DataBarVerticalRegular, sectionKey: "nav.section.reflect" },
-  { to: "/app/settings", labelKey: "nav.settings", icon: SettingsRegular, sectionKey: "nav.section.more" },
+  {
+    to: "/app",
+    labelKey: "nav.overview",
+    icon: HomeRegular,
+    end: true,
+    sectionKey: "nav.section.today",
+  },
+  {
+    to: "/app/journal",
+    labelKey: "nav.journal",
+    icon: BookRegular,
+    sectionKey: "nav.section.flow",
+  },
+  {
+    to: "/app/inbox",
+    labelKey: "nav.inbox",
+    icon: MailInboxRegular,
+    sectionKey: "nav.section.flow",
+  },
+  {
+    to: "/app/match",
+    labelKey: "nav.match",
+    icon: SearchRegular,
+    sectionKey: "nav.section.flow",
+  },
+  {
+    to: "/app/pipeline",
+    labelKey: "nav.pipeline",
+    icon: TableRegular,
+    sectionKey: "nav.section.flow",
+  },
+  {
+    to: "/app/summary",
+    labelKey: "nav.summary",
+    icon: DataBarVerticalRegular,
+    sectionKey: "nav.section.reflect",
+  },
+  {
+    to: "/app/charter",
+    labelKey: "nav.charter",
+    icon: BookInformationRegular,
+    sectionKey: "nav.section.more",
+  },
+  {
+    to: "/app/settings",
+    labelKey: "nav.settings",
+    icon: SettingsRegular,
+    sectionKey: "nav.section.more",
+  },
 ];
 
+/** Kept for PublicShell compatibility; public entry is auth-gated to /app. */
 export const publicNav: NavItem[] = [
-  { to: "/", labelKey: "nav.home", icon: HomeRegular, end: true },
-  { to: "/charter", labelKey: "nav.charter", icon: BookInformationRegular },
+  { to: "/app", labelKey: "nav.overview", icon: HomeRegular, end: true },
 ];
 
 export type BreadcrumbItem = {
   label: string;
   to?: string;
-};
-
-const publicPageKeys: Record<string, string> = {
-  "/": "pages.home",
-  "/charter": "pages.charter",
 };
 
 const workspacePageKeys: Record<string, string> = {
@@ -51,11 +88,12 @@ const workspacePageKeys: Record<string, string> = {
   "/app/inbox": "pages.inbox",
   "/app/pipeline": "pages.pipeline",
   "/app/summary": "pages.summary",
+  "/app/charter": "pages.charter",
   "/app/settings": "pages.settings",
 };
 
-export function getPublicPageKey(pathname: string): string | undefined {
-  return publicPageKeys[pathname];
+export function getPublicPageKey(_pathname: string): string | undefined {
+  return undefined;
 }
 
 export function getWorkspacePageKey(pathname: string): string | undefined {

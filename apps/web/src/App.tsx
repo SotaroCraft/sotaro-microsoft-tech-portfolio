@@ -1,8 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { FluentProvider } from "@fluentui/react-components";
 import { WorkspaceShell } from "./components/shell/WorkspaceShell";
-import { PublicShell } from "./components/shell/PublicShell";
-import { LandingPage } from "./pages/LandingPage";
 import { AppHomePage } from "./pages/AppHomePage";
 import { JournalPage } from "./pages/JournalPage";
 import { MatchPage } from "./pages/MatchPage";
@@ -18,23 +16,9 @@ export function App() {
     <FluentProvider theme={azureTheme}>
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <PublicShell>
-                <LandingPage />
-              </PublicShell>
-            }
-          />
-          <Route
-            path="/charter"
-            element={
-              <PublicShell>
-                <CharterPage />
-              </PublicShell>
-            }
-          />
-          <Route path="/glossary" element={<Navigate to="/charter" replace />} />
+          <Route path="/" element={<Navigate to="/app" replace />} />
+          <Route path="/charter" element={<Navigate to="/app/charter" replace />} />
+          <Route path="/glossary" element={<Navigate to="/app/charter" replace />} />
           <Route path="/app" element={<WorkspaceShell />}>
             <Route index element={<AppHomePage />} />
             <Route path="journal" element={<JournalPage />} />
@@ -42,9 +26,10 @@ export function App() {
             <Route path="inbox" element={<InboxPage />} />
             <Route path="pipeline" element={<PipelinePage />} />
             <Route path="summary" element={<SummaryPage />} />
+            <Route path="charter" element={<CharterPage />} />
             <Route path="settings" element={<SettingsPage />} />
           </Route>
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/app" replace />} />
         </Routes>
       </BrowserRouter>
     </FluentProvider>

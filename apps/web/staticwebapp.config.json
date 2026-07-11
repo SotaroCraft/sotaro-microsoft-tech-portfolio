@@ -1,7 +1,7 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/api/*", "/*.{css,js,png,jpg,svg,ico,json}"]
+    "exclude": ["/api/*", "/.auth/*", "/*.{css,js,png,jpg,svg,ico,json,woff,woff2}"]
   },
   "platform": {
     "apiRuntime": "node:20"
@@ -20,13 +20,29 @@
       "allowedRoles": ["authenticated"]
     },
     {
+      "route": "/",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/charter",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/glossary",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/app",
+      "allowedRoles": ["authenticated"]
+    },
+    {
       "route": "/app/*",
       "allowedRoles": ["authenticated"]
     }
   ],
   "responseOverrides": {
     "401": {
-      "redirect": "/.auth/login/aad?post_login_redirect_uri=.referrer",
+      "redirect": "/.auth/login/aad?post_login_redirect_uri=/app",
       "statusCode": 302
     }
   }

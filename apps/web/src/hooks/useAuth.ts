@@ -15,8 +15,8 @@ export function loginUrl(postLogin = "/app"): string {
   return `/.auth/login/aad?post_login_redirect_uri=${encodeURIComponent(postLogin)}`;
 }
 
-export function logoutUrl(postLogout = "/"): string {
-  return `/.auth/logout?post_login_redirect_uri=${encodeURIComponent(postLogout)}`;
+export function logoutUrl(postLogout = "/app"): string {
+  return `/.auth/logout?post_logout_redirect_uri=${encodeURIComponent(postLogout)}`;
 }
 
 export function useAuth() {
