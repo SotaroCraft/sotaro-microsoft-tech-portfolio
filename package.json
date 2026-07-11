@@ -1,0 +1,17 @@
+{
+  "name": "microbootcan",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Azure-native personal productivity PWA — SWA + Functions + Cosmos DB",
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @microbootcan/shared build && pnpm --filter web dev",
+    "dev:swa": "echo \"SWA CLI: install @azure/static-web-apps-cli globally, then run swa start\"",
+    "build": "pnpm --filter @microbootcan/shared build && pnpm -r --filter !@microbootcan/shared build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck"
+  }
+}

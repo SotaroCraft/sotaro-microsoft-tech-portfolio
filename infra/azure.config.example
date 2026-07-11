@@ -1,0 +1,10 @@
+# Azure local config (non-secret). Do not commit keys or connection strings.
+
+subscriptionId=2fb349dd-a811-4608-893a-714e33b4ae3b
+tenantId=11697245-2cdb-40d5-b979-d8ee6577ee4a
+resourceGroup=rg-microbootcan-prod
+location=japaneast
+cosmosAccountName=microbootcancosmosz6mnnh4iqiisc
+cosmosEndpoint=https://microbootcancosmosz6mnnh4iqiisc.documents.azure.com:443/
+budgetName=MicroBootCan-Monthly
+budgetAmountJpy=2900

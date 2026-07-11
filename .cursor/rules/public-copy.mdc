@@ -1,0 +1,19 @@
+---
+description: Public copy guidelines — neutral language, no career-transition hints
+alwaysApply: true
+---
+
+# 公開コピー原則
+
+[CHARTER.md](../../CHARTER.md) の「公開コピー原則」に準拠する。
+
+## ルール
+
+- GitHub・README・ランディング（`/`）・meta タグ・コメントに **転職・選考・面接・補助金・求人** 等の語を使わない
+- 公開向け用語: milestone, achievement journal, pipeline tracker, context matching, opportunity
+- 個人目的の文脈は **`/app/*`（認証後）** のみ。Public リポジトリの文章も中立表現に統一
+
+## コード上の命名
+
+- 公開リポジトリ内: `PIPELINE_STAGES`, `MILESTONE_TARGET_ISO`, `summaryJa` 等の中立名を優先
+- レガシー ID は段階的に中立名へ移行（例: `initial_review`, `final_review`）

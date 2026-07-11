@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+dist/
+build/
+.azure/
+local.settings.json
+
+# Secrets
+*.env
+*.env.*
+!*.env.example
+infra/azure.config
+.azure-credentials
+api/local.settings.json
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Bicep build output
+infra/**/*.json
+!infra/**/*.bicepparam
+
+# PWA
+dev-dist/
+
+# Test
+coverage/
+
+# Private local tools (scrapers etc.)
+tools/private/

@@ -1,0 +1,28 @@
+# Cosmos DB Emulator for offline local development.
+# Requires Docker Desktop (WSL2 on Windows). RAM ~3GB recommended.
+# See docs/local-dev.md
+
+services:
+  cosmos-emulator:
+    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
+    container_name: microbootcan-cosmos-emulator
+    ports:
+      - "8081:8081"
+      - "10251-10255:10251-10255"
+    environment:
+      AZURE_COSMOS_EMULATOR_PARTITION_COUNT: 1
+      AZURE_COSMOS_EMULATOR_ENABLE_DATA_PERSISTENCE: "true"
+    mem_limit: 3g
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: microbootcan-azurite
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
+    volumes:
+      - azurite-data:/data
+
+volumes:
+  azurite-data:

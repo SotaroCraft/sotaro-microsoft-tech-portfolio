@@ -1,0 +1,22 @@
+{
+  "name": "@microbootcan/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Azure Functions API for MicroBootCan",
+  "main": "dist/src/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "start": "func start",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"lint api: ok\""
+  },
+  "dependencies": {
+    "@azure/functions": "^4.7.0",
+    "@microbootcan/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "typescript": "^5.8.3"
+  }
+}
