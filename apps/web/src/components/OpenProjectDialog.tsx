@@ -8,10 +8,8 @@ import {
   DialogSurface,
   DialogTitle,
   DialogTrigger,
-  Field,
   Input,
   Spinner,
-  Textarea,
   makeStyles,
   tokens,
 } from "@fluentui/react-components";
@@ -24,30 +22,31 @@ import { useCurrentProject } from "../hooks/useCurrentProject";
 import { apiFetch } from "../lib/api";
 import { azureShellColors } from "../theme/azureTheme";
 
+const RECENT_LIMIT = 8;
+
 const useStyles = makeStyles({
   surface: {
-    maxWidth: "520px",
-    width: "min(520px, 94vw)",
-    maxHeight: "85vh",
+    maxWidth: "400px",
+    width: "min(400px, 94vw)",
   },
   content: {
     display: "grid",
-    gap: "14px",
+    gap: "8px",
+    maxHeight: "min(50vh, 360px)",
     overflowY: "auto",
-    maxHeight: "min(62vh, 560px)",
   },
   list: {
     display: "grid",
-    gap: "6px",
+    gap: "4px",
     margin: 0,
     padding: 0,
     listStyle: "none",
   },
   item: {
     display: "grid",
-    gap: "2px",
+    gap: "1px",
     textAlign: "left",
-    padding: "10px 12px",
+    padding: "8px 10px",
     border: `1px solid ${azureShellColors.panelBorder}`,
     borderRadius: "2px",
     backgroundColor: azureShellColors.panel,
@@ -66,17 +65,11 @@ const useStyles = makeStyles({
   },
   itemTitle: {
     fontWeight: 600,
-    fontSize: "14px",
+    fontSize: "13px",
   },
   itemMeta: {
-    fontSize: "12px",
+    fontSize: "11px",
     color: tokens.colorNeutralForeground3,
-  },
-  createBox: {
-    display: "grid",
-    gap: "10px",
-    paddingTop: "4px",
-    borderTop: `1px solid ${azureShellColors.panelBorder}`,
   },
   muted: {
     color: azureShellColors.mutedText,
@@ -93,12 +86,16 @@ const useStyles = makeStyles({
       color: "#ffffff",
     },
   },
+  newRow: {
+    display: "grid",
+    gridTemplateColumns: "1fr auto",
+    gap: "8px",
+    alignItems: "center",
+  },
 });
 
 type OpenProjectDialogProps = {
   triggerClassName?: string;
-  /** Open immediately when mounted (e.g. from home CTA). */
-  defaultOpen?: boolean;
   hideTrigger?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -106,7 +103,6 @@ type OpenProjectDialogProps = {
 
 export function OpenProjectDialog({
   triggerClassName,
-  defaultOpen = false,
   hideTrigger = false,
   open: openProp,
   onOpenChange,
@@ -116,7 +112,7 @@ export function OpenProjectDialog({
   const navigate = useNavigate();
   const { rememberOpened } = useCurrentProject();
 
-  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const [internalOpen, setInternalOpen] = useState(false);
   const open = openProp ?? internalOpen;
 
   const setOpen = useCallback(
@@ -131,15 +127,19 @@ export function OpenProjectDialog({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [opening, setOpening] = useState(false);
-  const [creating, setCreating] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [showNew, setShowNew] = useState(false);
   const [newTitle, setNewTitle] = useState("");
-  const [newSummary, setNewSummary] = useState("");
 
-  const activeProjects = useMemo(
-    () => projects.filter((p) => p.status === "active"),
-    [projects],
-  );
+  const recentProjects = useMemo(() => {
+    return [...projects]
+      .sort((a, b) => {
+        const aKey = a.lastOpenedAt ?? a.updatedAt;
+        const bKey = b.lastOpenedAt ?? b.updatedAt;
+        return bKey.localeCompare(aKey);
+      })
+      .slice(0, RECENT_LIMIT);
+  }, [projects]);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -147,8 +147,12 @@ export function OpenProjectDialog({
     try {
       const rows = await apiFetch<Project[]>("/projects");
       setProjects(rows);
-      const firstActive = rows.find((p) => p.status === "active");
-      setSelectedId((prev) => prev ?? firstActive?.id ?? null);
+      const sorted = [...rows].sort((a, b) => {
+        const aKey = a.lastOpenedAt ?? a.updatedAt;
+        const bKey = b.lastOpenedAt ?? b.updatedAt;
+        return bKey.localeCompare(aKey);
+      });
+      setSelectedId(sorted[0]?.id ?? null);
     } catch (err) {
       setError(err instanceof Error ? err.message : t("common.failedToLoad"));
     } finally {
@@ -157,15 +161,18 @@ export function OpenProjectDialog({
   }, [t]);
 
   useEffect(() => {
-    if (open) void load();
+    if (open) {
+      setShowNew(false);
+      setNewTitle("");
+      void load();
+    }
   }, [open, load]);
 
-  async function handleOpenSelected() {
-    if (!selectedId) return;
-    setOpening(true);
+  async function openProject(id: string) {
+    setBusy(true);
     setError(null);
     try {
-      const project = await apiFetch<Project>(`/projects/${selectedId}/open`, {
+      const project = await apiFetch<Project>(`/projects/${id}/open`, {
         method: "POST",
         body: "{}",
       });
@@ -175,31 +182,26 @@ export function OpenProjectDialog({
     } catch (err) {
       setError(err instanceof Error ? err.message : t("project.openFailed"));
     } finally {
-      setOpening(false);
+      setBusy(false);
     }
   }
 
-  async function handleCreateAndOpen() {
+  async function createAndOpen() {
     if (!newTitle.trim()) return;
-    setCreating(true);
+    setBusy(true);
     setError(null);
     try {
       const project = await apiFetch<Project>("/projects", {
         method: "POST",
-        body: JSON.stringify({
-          title: newTitle.trim(),
-          summary: newSummary.trim() || undefined,
-        }),
+        body: JSON.stringify({ title: newTitle.trim() }),
       });
       rememberOpened(project);
-      setNewTitle("");
-      setNewSummary("");
       setOpen(false);
       navigate(`/app/projects/${project.id}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : t("project.createFailed"));
     } finally {
-      setCreating(false);
+      setBusy(false);
     }
   }
 
@@ -213,10 +215,7 @@ export function OpenProjectDialog({
   }
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(_e, data) => setOpen(data.open)}
-    >
+    <Dialog open={open} onOpenChange={(_e, data) => setOpen(data.open)}>
       {!hideTrigger && (
         <DialogTrigger disableButtonEnhancement>
           <Button
@@ -232,18 +231,16 @@ export function OpenProjectDialog({
         <DialogBody>
           <DialogTitle>{t("project.openTitle")}</DialogTitle>
           <DialogContent className={styles.content}>
-            <Body1 className={styles.muted}>{t("project.openLead")}</Body1>
-
             {loading && <Spinner size="tiny" label={t("common.loading")} />}
             {error && <Body1 className={styles.error}>{error}</Body1>}
 
-            {!loading && activeProjects.length === 0 && (
+            {!loading && recentProjects.length === 0 && !showNew && (
               <Body1 className={styles.muted}>{t("project.empty")}</Body1>
             )}
 
-            {!loading && activeProjects.length > 0 && (
+            {!loading && recentProjects.length > 0 && (
               <ul className={styles.list}>
-                {activeProjects.map((project) => (
+                {recentProjects.map((project) => (
                   <li key={project.id}>
                     <button
                       type="button"
@@ -254,64 +251,53 @@ export function OpenProjectDialog({
                         .filter(Boolean)
                         .join(" ")}
                       onClick={() => setSelectedId(project.id)}
-                      onDoubleClick={() => {
-                        setSelectedId(project.id);
-                        void handleOpenSelected();
-                      }}
+                      onDoubleClick={() => void openProject(project.id)}
                     >
                       <span className={styles.itemTitle}>{project.title}</span>
                       <span className={styles.itemMeta}>
-                        {t("project.lastOpened", {
-                          when: formatWhen(
-                            project.lastOpenedAt ?? project.updatedAt,
-                          ),
-                        })}
+                        {formatWhen(project.lastOpenedAt ?? project.updatedAt)}
                       </span>
-                      {project.summary ? (
-                        <span className={styles.itemMeta}>{project.summary}</span>
-                      ) : null}
                     </button>
                   </li>
                 ))}
               </ul>
             )}
 
-            <div className={styles.createBox}>
-              <Body1 className={styles.itemTitle}>{t("project.createTitle")}</Body1>
-              <Field label={t("project.titleLabel")}>
+            {showNew && (
+              <div className={styles.newRow}>
                 <Input
                   value={newTitle}
                   onChange={(_e, data) => setNewTitle(data.value)}
                   placeholder={t("project.titlePlaceholder")}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") void createAndOpen();
+                  }}
                 />
-              </Field>
-              <Field label={t("project.summaryLabel")}>
-                <Textarea
-                  value={newSummary}
-                  onChange={(_e, data) => setNewSummary(data.value)}
-                  placeholder={t("project.summaryPlaceholder")}
-                  rows={2}
-                />
-              </Field>
-            </div>
+                <Button
+                  appearance="primary"
+                  disabled={!newTitle.trim() || busy}
+                  onClick={() => void createAndOpen()}
+                >
+                  {t("project.createAndOpen")}
+                </Button>
+              </div>
+            )}
           </DialogContent>
           <DialogActions>
+            {!showNew && (
+              <Button appearance="subtle" onClick={() => setShowNew(true)}>
+                {t("project.new")}
+              </Button>
+            )}
             <DialogTrigger disableButtonEnhancement>
               <Button appearance="secondary">{t("common.close")}</Button>
             </DialogTrigger>
             <Button
-              appearance="secondary"
-              disabled={!newTitle.trim() || creating}
-              onClick={() => void handleCreateAndOpen()}
-            >
-              {creating ? t("common.loading") : t("project.createAndOpen")}
-            </Button>
-            <Button
               appearance="primary"
-              disabled={!selectedId || opening || loading}
-              onClick={() => void handleOpenSelected()}
+              disabled={!selectedId || busy || loading || showNew}
+              onClick={() => selectedId && void openProject(selectedId)}
             >
-              {opening ? t("common.loading") : t("project.openSelected")}
+              {t("project.openSelected")}
             </Button>
           </DialogActions>
         </DialogBody>
