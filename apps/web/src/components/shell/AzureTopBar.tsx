@@ -6,10 +6,10 @@ import {
   mergeClasses,
 } from "@fluentui/react-components";
 import {
-  CloudRegular,
   OpenRegular,
   PersonCircleRegular,
   SignOutRegular,
+  StarRegular,
 } from "@fluentui/react-icons";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
@@ -28,6 +28,7 @@ const useStyles = makeStyles({
     padding: "0 16px",
     backgroundColor: azureShellColors.topBar,
     color: azureShellColors.topBarText,
+    borderBottom: `3px solid ${azureShellColors.topBarAccent}`,
   },
   left: {
     display: "flex",
@@ -43,6 +44,9 @@ const useStyles = makeStyles({
     color: "inherit",
     whiteSpace: "nowrap",
   },
+  brandIcon: {
+    color: azureShellColors.topBarAccent,
+  },
   brandText: {
     fontSize: "15px",
     fontWeight: 600,
@@ -51,7 +55,7 @@ const useStyles = makeStyles({
   divider: {
     width: "1px",
     height: "20px",
-    backgroundColor: "rgba(255,255,255,0.35)",
+    backgroundColor: "rgba(240,192,20,0.35)",
   },
   context: {
     fontSize: "13px",
@@ -70,6 +74,9 @@ const useStyles = makeStyles({
   },
   ghostButton: {
     color: "#ffffff",
+    transitionProperty: "background-color, color",
+    transitionDuration: "0.15s",
+    transitionTimingFunction: "ease",
     ":hover": {
       backgroundColor: azureShellColors.topBarHover,
       color: "#ffffff",
@@ -104,7 +111,7 @@ export function AzureTopBar({
     <header className={styles.bar}>
       <div className={styles.left}>
         <RouterLink to="/" className={styles.brand}>
-          <CloudRegular fontSize={20} />
+          <StarRegular fontSize={20} className={styles.brandIcon} />
           <span className={styles.brandText}>{t("shell.brand")}</span>
         </RouterLink>
         <span className={styles.divider} aria-hidden />

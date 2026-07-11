@@ -12,6 +12,7 @@ import {
   type ArchitectureResponse,
 } from "@microstar/shared";
 import { useTranslation } from "react-i18next";
+import { azureShellColors } from "../../theme/azureTheme";
 import { ConnectionEdge } from "./ConnectionEdge";
 import { ResourceNode } from "./ResourceNode";
 
@@ -38,8 +39,8 @@ const useStyles = makeStyles({
     maxWidth: "720px",
     aspectRatio: "720 / 420",
     margin: "0 auto 16px",
-    backgroundColor: "#faf9f8",
-    border: "1px solid #edebe9",
+    backgroundColor: azureShellColors.sidebar,
+    border: `1px solid ${azureShellColors.panelBorder}`,
     borderRadius: "2px",
     overflow: "hidden",
   },

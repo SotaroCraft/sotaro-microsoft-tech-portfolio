@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     borderTop: `1px solid ${azureShellColors.panelBorder}`,
     backgroundColor: azureShellColors.panel,
     fontSize: "12px",
-    color: "#605e5c",
+    color: azureShellColors.mutedText,
     textAlign: "center",
   },
 });

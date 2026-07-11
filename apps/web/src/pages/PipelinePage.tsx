@@ -41,7 +41,7 @@ const useStyles = makeStyles({
   },
   card: {
     marginTop: "8px",
-    backgroundColor: "#faf9f8",
+    backgroundColor: azureShellColors.sidebar,
     border: `1px solid ${azureShellColors.panelBorder}`,
     borderRadius: "2px",
     boxShadow: "none",
@@ -57,7 +57,7 @@ const useStyles = makeStyles({
     padding: "0 12px 4px",
   },
   nextAction: {
-    color: "#605e5c",
+    color: azureShellColors.mutedText,
   },
   primaryBadge: {
     color: azureShellColors.accentText,

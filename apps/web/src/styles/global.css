@@ -1,3 +1,20 @@
+:root {
+  /* MicroStar yellow visual tokens (mirrors azureShellColors) */
+  --ms-gold: #e8b923;
+  --ms-gold-bright: #f0c014;
+  --ms-gold-soft: #fef6dc;
+  --ms-gold-text: #6b5200;
+  --ms-navy: #1b2430;
+  --ms-navy-hover: #2a3544;
+  --ms-canvas: #f2f0ea;
+  --ms-panel: #ffffff;
+  --ms-panel-border: #e8e4da;
+  --ms-sidebar: #faf8f3;
+  --ms-link: #8a6a00;
+  --ms-muted: #5c574c;
+  --ms-body: #2a261c;
+}
+
 *,
 *::before,
 *::after {
@@ -19,8 +36,24 @@ body {
     BlinkMacSystemFont,
     sans-serif;
   -webkit-font-smoothing: antialiased;
+  color: var(--ms-body);
+  background-color: var(--ms-canvas);
+  /* Soft warm wash — yellow undertone without flat single-color walls */
+  background-image:
+    radial-gradient(ellipse 120% 80% at 0% -20%, rgba(240, 192, 20, 0.12), transparent 55%),
+    radial-gradient(ellipse 90% 60% at 100% 0%, rgba(27, 36, 48, 0.04), transparent 50%);
 }
 
 a {
   color: inherit;
+}
+
+/* Subtle presence for interactive chrome */
+a,
+button {
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    opacity 0.15s ease;
 }

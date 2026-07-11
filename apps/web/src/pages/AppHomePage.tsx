@@ -41,7 +41,7 @@ const useStyles = makeStyles({
     marginTop: "8px",
   },
   muted: {
-    color: "#605e5c",
+    color: azureShellColors.mutedText,
   },
 });
 

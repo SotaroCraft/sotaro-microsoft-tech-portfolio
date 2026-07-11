@@ -25,10 +25,10 @@ const useStyles = makeStyles({
     },
   },
   current: {
-    color: "#323130",
+    color: azureShellColors.bodyText,
   },
   sep: {
-    color: "#605e5c",
+    color: azureShellColors.mutedText,
     display: "flex",
     alignItems: "center",
   },

@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     backgroundColor: azureShellColors.panel,
     textAlign: "center",
     fontSize: "12px",
-    color: "#605e5c",
+    color: azureShellColors.mutedText,
   },
 });
 

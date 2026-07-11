@@ -1,40 +1,59 @@
-import { createLightTheme, type Theme } from "@fluentui/react-components";
+import { createLightTheme, type BrandVariants, type Theme } from "@fluentui/react-components";
 
-/** Lime green brand ramp (primary #65a30d) — distinct from Azure Portal blue. */
-const limeBrand = {
-  10: "#1a2e05",
-  20: "#253a0a",
-  30: "#365314",
-  40: "#3f6212",
-  50: "#4d7c0f",
-  60: "#65a30d",
-  70: "#84cc16",
-  80: "#65a30d",
-  90: "#84cc16",
-  100: "#a3e635",
-  110: "#bef264",
-  120: "#d9f99d",
-  130: "#ecfccb",
-  140: "#f0fdf4",
-  150: "#f7fee7",
-  160: "#fafdf4",
+/**
+ * MicroStar yellow / gold brand ramp.
+ * Primary surface gold #E8B923; darker steps for text-on-brand contrast helpers.
+ */
+const microStarGold: BrandVariants = {
+  10: "#1A1400",
+  20: "#2B2100",
+  30: "#4A3800",
+  40: "#6B5200",
+  50: "#8A6A00",
+  60: "#A67F00",
+  70: "#C4980A",
+  80: "#E8B923",
+  90: "#F0C93A",
+  100: "#F5D76E",
+  110: "#F9E49A",
+  120: "#FCEFC0",
+  130: "#FEF6DC",
+  140: "#FFF9EB",
+  150: "#FFFCF5",
+  160: "#FFFEFA",
 };
+
+/** Charcoal navy for shell chrome — pairs with gold for star / energy contrast. */
+const navy = {
+  base: "#1B2430",
+  hover: "#2A3544",
+  deep: "#121820",
+} as const;
 
 export const azureTheme: Theme = {
-  ...createLightTheme(limeBrand),
+  ...createLightTheme(microStarGold),
+  // Gold buttons need dark foreground for readable contrast (WCAG-ish).
+  colorNeutralForegroundOnBrand: navy.base,
 };
 
+/**
+ * Shell chrome tokens (CSS-variable mirrors live in `styles/global.css`).
+ * Yellow-forward MicroStar look: navy top bar + gold accents on warm light surfaces.
+ */
 export const azureShellColors = {
-  topBar: "#65a30d",
-  topBarHover: "#4d7c0f",
+  topBar: navy.base,
+  topBarHover: navy.hover,
   topBarText: "#ffffff",
-  link: "#4d7c0f",
-  accentLight: "#ecfccb",
-  accentText: "#3f6212",
-  canvas: "#f3f2f1",
+  topBarAccent: "#F0C014",
+  link: "#8A6A00",
+  accentLight: "#FEF6DC",
+  accentText: "#6B5200",
+  canvas: "#F2F0EA",
   panel: "#ffffff",
-  panelBorder: "#edebe9",
-  sidebar: "#faf9f8",
-  sidebarSelected: "#e1dfdd",
-  sidebarAccent: "#65a30d",
+  panelBorder: "#E8E4DA",
+  sidebar: "#FAF8F3",
+  sidebarSelected: "#FEF6DC",
+  sidebarAccent: "#E8B923",
+  mutedText: "#5C574C",
+  bodyText: "#2A261C",
 } as const;

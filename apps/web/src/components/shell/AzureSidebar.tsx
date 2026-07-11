@@ -24,25 +24,28 @@ const useStyles = makeStyles({
     margin: "0 8px",
     borderRadius: "2px",
     textDecoration: "none",
-    color: "#323130",
+    color: azureShellColors.bodyText,
     fontSize: "14px",
     borderLeft: "3px solid transparent",
+    transitionProperty: "background-color, border-color",
+    transitionDuration: "0.15s",
+    transitionTimingFunction: "ease",
     ":hover": {
       backgroundColor: azureShellColors.sidebarSelected,
     },
   },
   active: {
-    backgroundColor: "#ffffff",
+    backgroundColor: azureShellColors.panel,
     borderLeftColor: azureShellColors.sidebarAccent,
     fontWeight: 600,
-    boxShadow: "inset 0 -1px 0 #edebe9, inset 0 1px 0 #edebe9",
+    boxShadow: `inset 0 -1px 0 ${azureShellColors.panelBorder}, inset 0 1px 0 ${azureShellColors.panelBorder}`,
   },
   footer: {
     marginTop: "auto",
     padding: "12px 16px",
     borderTop: `1px solid ${azureShellColors.panelBorder}`,
     fontSize: "12px",
-    color: "#605e5c",
+    color: azureShellColors.mutedText,
   },
 });
 
