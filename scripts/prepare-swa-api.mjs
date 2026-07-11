@@ -90,6 +90,4 @@ if (!existsSync(join(swaApi, "dist/src/index.js"))) {
   throw new Error("swa-api bundle missing dist/src/index.js");
 }
 
-rmSync(join(swaApi, "node_modules"), { recursive: true, force: true });
-
-console.log("swa-api bundle ready (node_modules excluded — Oryx installs on deploy)");
+console.log("swa-api bundle ready");
