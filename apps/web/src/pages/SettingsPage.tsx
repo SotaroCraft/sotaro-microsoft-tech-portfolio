@@ -3,12 +3,11 @@ import {
   Button,
   Field,
   Input,
-  Title2,
   makeStyles,
-  tokens,
 } from "@fluentui/react-components";
 import { MILESTONE_TARGET_ISO } from "@microbootcan/shared";
 import { useEffect, useState } from "react";
+import { ContentPanel } from "../components/shell/ContentPanel";
 import { apiFetch } from "../lib/api";
 import { useUserSettings } from "../hooks/useUserSettings";
 
@@ -16,11 +15,7 @@ const useStyles = makeStyles({
   form: {
     display: "grid",
     gap: "12px",
-    marginTop: "16px",
-    padding: "16px",
-    maxWidth: "480px",
-    backgroundColor: tokens.colorNeutralBackground1,
-    borderRadius: tokens.borderRadiusMedium,
+    maxWidth: "520px",
   },
 });
 
@@ -53,10 +48,7 @@ export function SettingsPage() {
   }
 
   return (
-    <section>
-      <Title2>Workspace settings</Title2>
-      <Body1>Configure milestone countdown target (ISO 8601 with offset).</Body1>
-
+    <ContentPanel>
       <div className={styles.form}>
         <Field label="Milestone target ISO">
           <Input
@@ -69,6 +61,6 @@ export function SettingsPage() {
         </Button>
         {message && <Body1>{message}</Body1>}
       </div>
-    </section>
+    </ContentPanel>
   );
 }

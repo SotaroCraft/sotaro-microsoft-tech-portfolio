@@ -3,44 +3,50 @@ import {
   Button,
   Card,
   CardHeader,
-  FluentProvider,
   Link,
-  Title1,
   Title2,
   makeStyles,
   tokens,
 } from "@fluentui/react-components";
+import { OpenRegular } from "@fluentui/react-icons";
 import { Link as RouterLink } from "react-router-dom";
 import { ArchitectureDiagram } from "../components/ArchitectureDiagram";
+import { ContentPanel } from "../components/shell/ContentPanel";
+import { azureShellColors } from "../theme/azureTheme";
 
 const useStyles = makeStyles({
-  root: {
-    minHeight: "100vh",
-    backgroundColor: tokens.colorNeutralBackground2,
-    padding: "32px 24px",
-  },
-  hero: {
-    maxWidth: "960px",
-    margin: "0 auto 32px",
-    padding: "32px",
-    backgroundColor: tokens.colorNeutralBackground1,
-    borderRadius: tokens.borderRadiusLarge,
-    borderLeft: `4px solid ${tokens.colorBrandBackground}`,
+  actions: {
+    display: "flex",
+    gap: "8px",
+    flexWrap: "wrap",
+    marginBottom: "20px",
   },
   grid: {
-    maxWidth: "960px",
-    margin: "0 auto",
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
     gap: "16px",
   },
-  architectureCard: {
+  architecturePanel: {
     gridColumn: "1 / -1",
+    padding: 0,
+    overflow: "hidden",
   },
-  footer: {
-    maxWidth: "960px",
-    margin: "32px auto 0",
+  architectureInner: {
+    padding: "16px 20px",
+  },
+  card: {
+    backgroundColor: azureShellColors.panel,
+    border: `1px solid ${azureShellColors.panelBorder}`,
+    borderRadius: "2px",
+    boxShadow: "none",
+  },
+  footerLink: {
+    marginTop: "24px",
     textAlign: "center",
+  },
+  meta: {
+    color: tokens.colorNeutralForeground3,
+    fontSize: tokens.fontSizeBase200,
   },
 });
 
@@ -58,51 +64,52 @@ export function LandingPage() {
   const styles = useStyles();
 
   return (
-    <FluentProvider>
-      <div className={styles.root}>
-        <section className={styles.hero}>
-          <Title1>MicroBootCan</Title1>
-          <Body1>
-            Azure-native personal productivity PWA — milestone tracking,
-            structured achievement journal, and opportunity pipeline management.
-          </Body1>
-          <div style={{ marginTop: "16px" }}>
-            <RouterLink to="/app">
-              <Button appearance="primary">Open workspace</Button>
-            </RouterLink>
-          </div>
-        </section>
-
-        <div className={styles.grid}>
-          <Card className={styles.architectureCard}>
-            <CardHeader header={<Title2>Architecture</Title2>} />
-            <ArchitectureDiagram />
-          </Card>
-
-          <Card>
-            <CardHeader header={<Title2>Stack</Title2>} />
-            <Body1>{STACK.join(" · ")}</Body1>
-          </Card>
-
-          <Card>
-            <CardHeader header={<Title2>Privacy</Title2>} />
-            <Body1>
-              Public landing shows architecture only. Personal data lives in an
-              Entra ID–protected workspace.
-            </Body1>
-          </Card>
-        </div>
-
-        <div className={styles.footer}>
-          <Link
-            href="https://github.com/SotaroCraft/sotaro-microsoft-tech-portfolio"
-            target="_blank"
-            rel="noreferrer"
-          >
-            View source on GitHub
-          </Link>
-        </div>
+    <>
+      <div className={styles.actions}>
+        <RouterLink to="/app">
+          <Button appearance="primary" icon={<OpenRegular />}>
+            Open workspace
+          </Button>
+        </RouterLink>
+        <RouterLink to="/glossary">
+          <Button appearance="secondary">View terminology</Button>
+        </RouterLink>
       </div>
-    </FluentProvider>
+
+      <div className={styles.grid}>
+        <ContentPanel className={styles.architecturePanel}>
+          <div className={styles.architectureInner}>
+            <Title2>Architecture</Title2>
+            <Body1 className={styles.meta}>
+              Live Azure stack topology (mock fallback when API is offline)
+            </Body1>
+          </div>
+          <ArchitectureDiagram />
+        </ContentPanel>
+
+        <Card className={styles.card}>
+          <CardHeader header={<Title2>Stack</Title2>} />
+          <Body1>{STACK.join(" · ")}</Body1>
+        </Card>
+
+        <Card className={styles.card}>
+          <CardHeader header={<Title2>Privacy</Title2>} />
+          <Body1>
+            Public landing shows architecture only. Personal data lives in an
+            Entra ID–protected workspace.
+          </Body1>
+        </Card>
+      </div>
+
+      <div className={styles.footerLink}>
+        <Link
+          href="https://github.com/SotaroCraft/sotaro-microsoft-tech-portfolio"
+          target="_blank"
+          rel="noreferrer"
+        >
+          View source on GitHub
+        </Link>
+      </div>
+    </>
   );
 }

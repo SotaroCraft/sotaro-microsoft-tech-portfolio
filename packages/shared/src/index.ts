@@ -29,3 +29,4 @@ export * from "./demo-data";
 export * from "./architecture/icon-registry";
 export * from "./architecture/layout";
 export * from "./architecture/mock-data";
+export * from "./glossary";

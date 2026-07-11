@@ -7,15 +7,15 @@ import {
   Field,
   Input,
   Option,
-  Title2,
   Title3,
   makeStyles,
-  tokens,
 } from "@fluentui/react-components";
 import type { Application, Company } from "@microbootcan/shared";
 import { PIPELINE_STAGES } from "@microbootcan/shared";
 import { useEffect, useMemo, useState } from "react";
+import { ContentPanel } from "../components/shell/ContentPanel";
 import { apiFetch } from "../lib/api";
+import { azureShellColors } from "../theme/azureTheme";
 
 const useStyles = makeStyles({
   board: {
@@ -25,21 +25,27 @@ const useStyles = makeStyles({
     marginTop: "16px",
   },
   column: {
-    backgroundColor: tokens.colorNeutralBackground1,
-    borderRadius: tokens.borderRadiusMedium,
+    backgroundColor: azureShellColors.panel,
+    border: `1px solid ${azureShellColors.panelBorder}`,
+    borderRadius: "2px",
     padding: "12px",
     minHeight: "240px",
   },
+  columnHeader: {
+    paddingBottom: "8px",
+    borderBottom: `1px solid ${azureShellColors.panelBorder}`,
+    marginBottom: "8px",
+  },
   card: {
     marginTop: "8px",
+    backgroundColor: "#faf9f8",
+    border: `1px solid ${azureShellColors.panelBorder}`,
+    borderRadius: "2px",
+    boxShadow: "none",
   },
   form: {
     display: "grid",
     gap: "12px",
-    marginTop: "16px",
-    padding: "16px",
-    backgroundColor: tokens.colorNeutralBackground1,
-    borderRadius: tokens.borderRadiusMedium,
   },
 });
 
@@ -115,59 +121,60 @@ export function PipelinePage() {
   }
 
   return (
-    <section>
-      <Title2>Pipeline tracker</Title2>
-      <Body1>Kanban scaffold for opportunities across pipeline stages.</Body1>
+    <>
       {error && <Body1>{error}</Body1>}
 
-      <div className={styles.form}>
-        <Field label="New organization">
-          <Input
-            value={companyName}
-            onChange={(_, data) => setCompanyName(data.value)}
-          />
-        </Field>
-        <Button onClick={() => void addCompany()}>Add organization</Button>
+      <ContentPanel>
+        <div className={styles.form}>
+          <Field label="New organization">
+            <Input
+              value={companyName}
+              onChange={(_, data) => setCompanyName(data.value)}
+            />
+          </Field>
+          <Button onClick={() => void addCompany()}>Add organization</Button>
 
-        <Field label="Organization">
-          <Dropdown
-            value={
-              companyById.get(selectedCompanyId)?.name ?? "Select organization"
-            }
-            onOptionSelect={(_, data) =>
-              setSelectedCompanyId(String(data.optionValue ?? ""))
-            }
-          >
-            {companies.map((company) => (
-              <Option key={company.id} value={company.id} text={company.name}>
-                {company.name}
-              </Option>
-            ))}
-          </Dropdown>
-        </Field>
-        <Field label="Opportunity title">
-          <Input value={roleTitle} onChange={(_, data) => setRoleTitle(data.value)} />
-        </Field>
-        <Button appearance="primary" onClick={() => void addApplication()}>
-          Add opportunity
-        </Button>
-      </div>
+          <Field label="Organization">
+            <Dropdown
+              value={
+                companyById.get(selectedCompanyId)?.name ?? "Select organization"
+              }
+              onOptionSelect={(_, data) =>
+                setSelectedCompanyId(String(data.optionValue ?? ""))
+              }
+            >
+              {companies.map((company) => (
+                <Option key={company.id} value={company.id} text={company.name}>
+                  {company.name}
+                </Option>
+              ))}
+            </Dropdown>
+          </Field>
+          <Field label="Opportunity title">
+            <Input
+              value={roleTitle}
+              onChange={(_, data) => setRoleTitle(data.value)}
+            />
+          </Field>
+          <Button appearance="primary" onClick={() => void addApplication()}>
+            Add opportunity
+          </Button>
+        </div>
+      </ContentPanel>
 
       <div className={styles.board}>
         {PIPELINE_STAGES.map((stage) => {
           const cards = applications.filter((row) => row.stage === stage.id);
           return (
             <div key={stage.id} className={styles.column}>
-              <Title3>{stage.labelEn}</Title3>
-              <Body1>{cards.length} items</Body1>
+              <div className={styles.columnHeader}>
+                <Title3>{stage.labelEn}</Title3>
+                <Body1>{cards.length} items</Body1>
+              </div>
               {cards.map((application) => (
                 <Card key={application.id} className={styles.card}>
                   <CardHeader
-                    header={
-                      <Title3>
-                        {application.roleTitle}
-                      </Title3>
-                    }
+                    header={<Title3>{application.roleTitle}</Title3>}
                     description={
                       companyById.get(application.companyId)?.name ?? "Unknown"
                     }
@@ -179,7 +186,11 @@ export function PipelinePage() {
                     }
                   >
                     {PIPELINE_STAGES.map((option) => (
-                      <Option key={option.id} value={option.id} text={option.labelEn}>
+                      <Option
+                        key={option.id}
+                        value={option.id}
+                        text={option.labelEn}
+                      >
                         {option.labelEn}
                       </Option>
                     ))}
@@ -190,6 +201,6 @@ export function PipelinePage() {
           );
         })}
       </div>
-    </section>
+    </>
   );
 }

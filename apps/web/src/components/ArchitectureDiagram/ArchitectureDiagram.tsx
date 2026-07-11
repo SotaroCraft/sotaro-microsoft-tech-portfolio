@@ -36,9 +36,10 @@ const useStyles = makeStyles({
     width: "100%",
     maxWidth: "720px",
     aspectRatio: "720 / 420",
-    margin: "0 auto",
-    backgroundColor: tokens.colorNeutralBackground3,
-    borderRadius: tokens.borderRadiusMedium,
+    margin: "0 auto 16px",
+    backgroundColor: "#faf9f8",
+    border: "1px solid #edebe9",
+    borderRadius: "2px",
     overflow: "hidden",
   },
   svg: {

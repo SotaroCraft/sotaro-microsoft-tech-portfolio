@@ -6,13 +6,14 @@ import {
   Field,
   Input,
   Textarea,
-  Title2,
+  Title3,
   makeStyles,
-  tokens,
 } from "@fluentui/react-components";
 import type { Episode } from "@microbootcan/shared";
 import { useEffect, useState } from "react";
+import { ContentPanel } from "../components/shell/ContentPanel";
 import { apiFetch } from "../lib/api";
+import { azureShellColors } from "../theme/azureTheme";
 
 const useStyles = makeStyles({
   list: {
@@ -23,10 +24,12 @@ const useStyles = makeStyles({
   form: {
     display: "grid",
     gap: "12px",
-    marginTop: "16px",
-    padding: "16px",
-    backgroundColor: tokens.colorNeutralBackground1,
-    borderRadius: tokens.borderRadiusMedium,
+  },
+  card: {
+    backgroundColor: azureShellColors.panel,
+    border: `1px solid ${azureShellColors.panelBorder}`,
+    borderRadius: "2px",
+    boxShadow: "none",
   },
 });
 
@@ -67,37 +70,36 @@ export function JournalPage() {
   }
 
   return (
-    <section>
-      <Title2>Achievement journal</Title2>
-      <Body1>Structured notes for milestones and deliverables (STAR fields optional).</Body1>
+    <>
+      <ContentPanel>
+        <div className={styles.form}>
+          <Field label="Title">
+            <Input value={title} onChange={(_, data) => setTitle(data.value)} />
+          </Field>
+          <Field label="Body">
+            <Textarea
+              value={bodyText}
+              onChange={(_, data) => setBodyText(data.value)}
+              rows={4}
+            />
+          </Field>
+          <Button appearance="primary" onClick={() => void handleCreate()}>
+            Add entry
+          </Button>
+        </div>
+      </ContentPanel>
 
-      <div className={styles.form}>
-        <Field label="Title">
-          <Input value={title} onChange={(_, data) => setTitle(data.value)} />
-        </Field>
-        <Field label="Body">
-          <Textarea
-            value={bodyText}
-            onChange={(_, data) => setBodyText(data.value)}
-            rows={4}
-          />
-        </Field>
-        <Button appearance="primary" onClick={() => void handleCreate()}>
-          Add entry
-        </Button>
-      </div>
-
-      {loading && <Body1>Loading entries…</Body1>}
-      {error && <Body1>{error}</Body1>}
+      {loading && <Body1 style={{ marginTop: 16 }}>Loading entries…</Body1>}
+      {error && <Body1 style={{ marginTop: 16 }}>{error}</Body1>}
 
       <div className={styles.list}>
         {episodes.map((episode) => (
-          <Card key={episode.id}>
-            <CardHeader header={<Title2>{episode.title}</Title2>} />
+          <Card key={episode.id} className={styles.card}>
+            <CardHeader header={<Title3>{episode.title}</Title3>} />
             <Body1>{episode.bodyText}</Body1>
           </Card>
         ))}
       </div>
-    </section>
+    </>
   );
 }
