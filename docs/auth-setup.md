@@ -36,7 +36,7 @@ az staticwebapp appsettings set `
   --setting-names ALLOWED_USER_EMAIL=you@example.com
 ```
 
-`staticwebapp.config.json` includes the Entra issuer and references `AZURE_CLIENT_ID` / `AZURE_CLIENT_SECRET` app settings — no separate Portal identity-provider step is required after the script runs.
+After the script, link the provider in **Azure Portal → Static Web App → Authentication → Add identity provider → Microsoft** (same client ID and secret). Route protection is in `staticwebapp.config.json`; Entra credentials stay in app settings only (not in the config file — that pattern blocked SWA deploy).
 
 ### Manual (Azure portal)
 
