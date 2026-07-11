@@ -79,19 +79,17 @@ az ad app update --id $AppId --required-resource-accesses "@$($tmp.FullName)" | 
 Remove-Item $tmp.FullName -Force
 
 Write-Host "Ensuring SPA redirect URIs for MSAL..."
-$spaList = ($SpaRedirectUris | ForEach-Object { "`"$_`"" }) -join " "
-# Use Microsoft Graph REST via az rest for spa redirectUris (az ad app update --spa-redirect-uris varies by CLI version)
-$body = @{
-  spa = @{
-    redirectUris = @($SpaRedirectUris)
-  }
-} | ConvertTo-Json -Depth 5 -Compress
-
+# UTF-8 no BOM JSON file — inline --body breaks on Windows PowerShell escaping
 $objectId = az ad app show --id $AppId --query id -o tsv
+$spaPath = Join-Path $env:TEMP "microstar-spa-redirects.json"
+$utf8 = New-Object System.Text.UTF8Encoding $false
+$spaJson = (@{ spa = @{ redirectUris = @($SpaRedirectUris) } } | ConvertTo-Json -Depth 5 -Compress)
+[System.IO.File]::WriteAllText($spaPath, $spaJson, $utf8)
 az rest --method PATCH `
   --uri "https://graph.microsoft.com/v1.0/applications/$objectId" `
   --headers "Content-Type=application/json" `
-  --body $body | Out-Null
+  --body "@$spaPath" | Out-Null
+Remove-Item $spaPath -Force -ErrorAction SilentlyContinue
 
 Write-Host ""
 Write-Host "Delegated permissions requested on app registration:"
@@ -116,4 +114,4 @@ if ($GrantAdminConsent) {
 }
 
 Write-Host ""
-Write-Host "想定費用: 即時 ¥0 / 追加固定費 ¥0（ディレクトリ設定のみ）"
+Write-Host "Estimated cost: immediate JPY 0 / added fixed JPY 0 (directory config only)"

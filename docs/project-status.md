@@ -67,7 +67,7 @@ Endpoint: `https://microbootcan-openai-z6mnn.openai.azure.com/`
 | Track A — Capture→Match→Decide | ✅ | STAR Journal・`/app/match`・Decide API/UI・Overview ライブ化（ローカル） |
 | Must 4 機能 | ✅ | Journal / Pipeline / Summary / Milestone countdown（`/app` UI） |
 | AI プロバイダ | ✅ | `mock` / `gemini` / `azure` + `POST /api/match`（本番 AI 切替は承認後） |
-| Graph 取り込み | ✅ 初版 | `/app/inbox` — Calendar + Mail（MSAL / mock）。設計: [graph-import-design.md](graph-import-design.md) |
+| Graph 取り込み | ✅ 初版 | `/app/inbox` — Calendar + Mail。Entra 委任権限 + admin consent + SPA redirect ✅（2026-07-11）。CI に `VITE_ENTRA_*` 注入 |
 | 構成図 + 公式アイコン | ✅ | mock Resource Graph 応答（本番 RG 読取は承認後） |
 | `resources/` gitignore + sync | ✅ | `pnpm sync:icons` → `public/architecture-icons/` |
 | `pnpm build` / typecheck | ✅ | shared + api + web typecheck 成功（2026-07-11） |
@@ -234,14 +234,15 @@ api/src/services/ai/
 
 | 操作 | 即時課金 | 月次影響 | 状態 |
 |------|----------|----------|------|
-| SWA 新規作成（Free） | なし | ¥0 固定想定 | **承認待ち** |
-| GitHub Actions デプロイ | なし | ¥0（Actions 無料枠内想定） | トークン設定後 |
+| SWA 新規作成（Free） | なし | ¥0 固定想定 | ✅ 済 |
+| GitHub Actions デプロイ | なし | ¥0（Actions 無料枠内想定） | ✅ トークン設定済・CI 成功 |
 | Entra App Registration | なし | ¥0 | ✅ 完了 |
+| Graph 委任権限 + admin consent + SPA redirect | なし | ¥0 | ✅ 完了（User.Read / Calendars.Read / Mail.Read） |
 | Resource Graph Reader ロール付与 | なし | ¥0 読取のみ | **承認待ち** |
 | Gemini API Key 本番設定 | 従量 | 無料枠 + 予算内要監視 | **承認待ち** |
-| Azure OpenAI 本番呼び出し | 従量 | TPM 10K 内運用想定 | リソース既存・切替は承認後 |
+| Azure OpenAI 本番呼び出し | 従量 | TPM 10K 内・既存デプロイ利用 | **承認待ち**（`AI_PROVIDER` は当面 `mock`） |
 
-**Phase B Entra 登録は ¥0。** App Registration + SWA app settings のみ（2026-07-11 実行）。
+**手動確認:** Portal → SWA → Authentication で Microsoft プロバイダがリンクされているか（ログイン失敗時）。
 
 ---
 

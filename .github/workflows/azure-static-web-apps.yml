@@ -26,6 +26,11 @@ jobs:
           cache: "pnpm"
 
       - name: Install and build
+        env:
+          # Public Entra app/tenant IDs for MSAL Graph (Inbox). Not secrets.
+          VITE_ENTRA_CLIENT_ID: f1f127a3-c543-4432-9844-54e4c62344af
+          VITE_ENTRA_TENANT_ID: 11697245-2cdb-40d5-b979-d8ee6577ee4a
+          VITE_GRAPH_USE_MOCK: "false"
         run: |
           pnpm install --frozen-lockfile
           pnpm build
