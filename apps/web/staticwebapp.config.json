@@ -5,14 +5,33 @@
   },
   "routes": [
     {
-      "route": "/api/*",
+      "route": "/api/architecture",
       "allowedRoles": ["anonymous", "authenticated"]
+    },
+    {
+      "route": "/api/health",
+      "allowedRoles": ["anonymous", "authenticated"]
+    },
+    {
+      "route": "/api/*",
+      "allowedRoles": ["authenticated"]
     },
     {
       "route": "/app/*",
       "allowedRoles": ["authenticated"]
     }
   ],
+  "auth": {
+    "identityProviders": {
+      "azureActiveDirectory": {
+        "registration": {
+          "openIdIssuer": "https://login.microsoftonline.com/<TENANT_ID>/v2.0",
+          "clientIdSettingName": "AZURE_CLIENT_ID",
+          "clientSecretSettingName": "AZURE_CLIENT_SECRET"
+        }
+      }
+    }
+  },
   "responseOverrides": {
     "401": {
       "statusCode": 302,

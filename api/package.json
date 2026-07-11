@@ -12,6 +12,7 @@
     "lint": "echo \"lint api: ok\""
   },
   "dependencies": {
+    "@azure/cosmos": "^4.4.1",
     "@azure/functions": "^4.7.0",
     "@microbootcan/shared": "workspace:*"
   },

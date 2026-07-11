@@ -11,6 +11,7 @@ import {
   tokens,
 } from "@fluentui/react-components";
 import { Link as RouterLink } from "react-router-dom";
+import { ArchitectureDiagram } from "../components/ArchitectureDiagram";
 
 const useStyles = makeStyles({
   root: {
@@ -32,6 +33,9 @@ const useStyles = makeStyles({
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
     gap: "16px",
+  },
+  architectureCard: {
+    gridColumn: "1 / -1",
   },
   footer: {
     maxWidth: "960px",
@@ -70,12 +74,9 @@ export function LandingPage() {
         </section>
 
         <div className={styles.grid}>
-          <Card>
+          <Card className={styles.architectureCard}>
             <CardHeader header={<Title2>Architecture</Title2>} />
-            <Body1>
-              Serverless full-stack sample: React frontend, TypeScript API,
-              NoSQL persistence, and optional AI-assisted context matching.
-            </Body1>
+            <ArchitectureDiagram />
           </Card>
 
           <Card>

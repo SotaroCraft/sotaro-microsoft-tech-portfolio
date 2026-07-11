@@ -8,7 +8,13 @@
     "COSMOS_KEY": "REPLACE_WITH_EMULATOR_KEY",
     "COSMOS_DATABASE": "microbootcan",
     "DEV_AUTH_BYPASS": "true",
-    "DEV_USER_ID": "dev-user-local"
+    "DEV_USER_ID": "dev-user-local",
+    "AI_PROVIDER": "mock",
+    "GEMINI_API_KEY": "",
+    "AZURE_OPENAI_ENDPOINT": "",
+    "AZURE_OPENAI_API_KEY": "",
+    "AZURE_OPENAI_CHAT_DEPLOYMENT": "gpt-5-mini",
+    "AZURE_OPENAI_EMBEDDING_DEPLOYMENT": "text-embedding-3-small"
   },
   "Host": {
     "CORS": "*"

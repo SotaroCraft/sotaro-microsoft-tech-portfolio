@@ -35,9 +35,9 @@ npm install -g pnpm @azure/static-web-apps-cli
 
 | プロファイル | `APP_ENV` | Cosmos | OpenAI | 用途 |
 |-------------|-----------|--------|--------|------|
-| **local** | `local` | Emulator (Docker) | モック | 日常開発・オフライン |
-| **dev** | `dev` | Azure Cosmos（既存） | Azure OpenAI（TPM 低） | 結合確認 |
-| **prod** | `prod` | Azure Cosmos | Azure OpenAI | SWA デプロイのみ |
+| **local** | `local` | Emulator (Docker) | モック（`AI_PROVIDER=mock`） | 日常開発・オフライン |
+| **dev** | `dev` | Azure Cosmos（既存） | Gemini または Azure OpenAI | 結合確認 |
+| **prod** | `prod` | Azure Cosmos | Azure OpenAI（Phase F） | SWA デプロイのみ |
 
 `.env.example` をコピーして `.env.local` を作成する（Git 禁止）。
 
@@ -80,13 +80,25 @@ swa start http://localhost:5173 --api-location api
 | `local` | `DEV_AUTH_BYPASS=true` + 固定 dev ユーザー ID。**本番ビルドでは無効** |
 | `dev` / `prod` | SWA Built-in Auth（Entra ID） |
 
-## OpenAI モック
+## AI プロバイダ
 
-`APP_ENV=local` 時:
+`api/src/services/ai/` の `getAiProvider()` が `AI_PROVIDER` を解決する。
+
+| `AI_PROVIDER` | 動作 |
+|---------------|------|
+| `mock`（省略時 + `APP_ENV=local`） | 決定論的ダミー応答。課金なし |
+| `gemini` | Google Gemini REST（`GEMINI_API_KEY` 必須 — **従量課金、要承認**） |
+| `azure` | Azure OpenAI REST（`AZURE_OPENAI_*` 必須） |
+
+### OpenAI モック（local）
+
+`APP_ENV=local` かつ `AI_PROVIDER=mock`（デフォルト）時:
 
 - `match` API は固定 Top3 エントリ + サンプルドラフトを返す
 - `embedding` API は決定論的ダミーベクトルを返す
 - 実 Azure OpenAI 呼び出しは **行わない**
+
+Azure OpenAI 結合確認: `.env.local` で `AI_PROVIDER=azure` と `AZURE_OPENAI_*` を設定。
 
 ## シードデータ
 
@@ -104,6 +116,46 @@ pnpm db:seed    # Emulator に demo-data を投入（実装後）
 | Emulator SSL エラー | Node 側で `NODE_TLS_REJECT_UNAUTHORIZED=0`（**local のみ**） |
 | Functions が Cosmos に繋がらない | `local.settings.json` の接続文字列確認 |
 | SWA CLI 404 | `staticwebapp.config.json` の routes 確認 |
+
+## Azure Architecture Icons
+
+Phase E 構成図用の Microsoft Azure Architecture Icons（714 SVG）を **リポジトリ外相当** のローカル専用パスに置く。
+
+### 配置
+
+```
+resources/
+└── Icons/
+    ├── web/              # Static Web Apps 等
+    ├── compute/          # Function Apps 等
+    ├── databases/        # Cosmos DB 等
+    ├── monitor/          # App Insights, Log Analytics 等
+    ├── security/         # Entra 関連
+    ├── general/          # Resource Groups, Budgets 等
+    └── …（計 28 カテゴリ）
+```
+
+- **`resources/` は `.gitignore` 対象** — GitHub に 714 ファイルを載せない
+- 初回 clone 後、`resources/` が無くても `apps/web/public/architecture-icons/` のデプロイ束で構成図は動作する
+- フルセットは [Azure Architecture Icons](https://learn.microsoft.com/en-us/azure/architecture/icons/) から取得し、上記パスに展開
+
+### アイコン同期（`pnpm sync:icons`）
+
+レジストリ（`packages/shared/src/architecture/icon-registry.ts`）に登録された SVG のみ、マスター → デプロイ束へコピーする。
+
+```powershell
+pnpm sync:icons
+# → apps/web/public/architecture-icons/ を更新
+# 差分があれば git add & commit
+```
+
+**いつ実行するか**:
+
+1. 新しい ARM `resourceType` を構成図に追加したとき（レジストリ更新後）
+2. `resources/Icons/` を初めて配置したとき
+3. Phase E 実装開始前の初期デプロイ束作成時
+
+詳細: [project-status.md](project-status.md#アイコン戦略phase-e)
 
 ## 非公開ツール
 

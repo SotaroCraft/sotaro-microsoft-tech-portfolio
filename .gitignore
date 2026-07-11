@@ -38,3 +38,6 @@ coverage/
 
 # Private local tools (scrapers etc.)
 tools/private/
+
+# Azure architecture icons (local master library — not in repo)
+resources/

@@ -26,3 +26,5 @@ export const AI_BUDGET = {
 
 export * from "./schemas";
 export * from "./demo-data";
+export * from "./architecture/icon-registry";
+export * from "./architecture/layout";

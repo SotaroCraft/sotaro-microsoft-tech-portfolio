@@ -11,6 +11,7 @@
     "dev": "pnpm --filter @microbootcan/shared build && pnpm --filter web dev",
     "dev:swa": "echo \"SWA CLI: install @azure/static-web-apps-cli globally, then run swa start\"",
     "build": "pnpm --filter @microbootcan/shared build && pnpm -r --filter !@microbootcan/shared build",
+    "sync:icons": "node scripts/sync-architecture-icons.mjs",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck"
   }

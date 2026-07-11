@@ -7,9 +7,24 @@ param baseName string
 @description('Resource tags')
 param tags object
 
+@description('AI provider for Functions app settings')
+param aiProvider string = 'mock'
+
+@description('Gemini API key (optional — set after deploy)')
+@secure()
+param geminiApiKey string = ''
+
+@description('Azure OpenAI endpoint (optional)')
+param azureOpenAiEndpoint string = ''
+
+@description('Azure OpenAI API key (optional)')
+@secure()
+param azureOpenAiApiKey string = ''
+
 var uniqueSuffix = uniqueString(resourceGroup().id)
 var cosmosAccountName = '${baseName}cosmos${uniqueSuffix}'
 var appInsightsName = '${baseName}-ai-${uniqueSuffix}'
+var staticSiteName = 'stapp-${baseName}-${uniqueSuffix}'
 
 // Application Insights + Log Analytics
 resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
@@ -138,7 +153,25 @@ resource settingsContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/c
   }
 }
 
+module staticWebApp 'static-web-app.bicep' = {
+  name: 'microbootcan-swa'
+  params: {
+    location: location
+    staticSiteName: staticSiteName
+    tags: tags
+    cosmosEndpoint: cosmosAccount.properties.documentEndpoint
+    cosmosKey: cosmosAccount.listKeys().primaryMasterKey
+    appInsightsConnectionString: appInsights.properties.ConnectionString
+    aiProvider: aiProvider
+    geminiApiKey: geminiApiKey
+    azureOpenAiEndpoint: azureOpenAiEndpoint
+    azureOpenAiApiKey: azureOpenAiApiKey
+  }
+}
+
 output cosmosAccountName string = cosmosAccount.name
 output cosmosEndpoint string = cosmosAccount.properties.documentEndpoint
 output appInsightsConnectionString string = appInsights.properties.ConnectionString
 output appInsightsInstrumentationKey string = appInsights.properties.InstrumentationKey
+output staticSiteName string = staticWebApp.outputs.staticSiteName
+output staticSiteDefaultHostname string = staticWebApp.outputs.staticSiteDefaultHostname
