@@ -69,12 +69,6 @@ writeFileSync(
 
 writeFileSync(join(swaApi, ".funcignore"), ["**/*.map", "**/*.ts", "src/"].join("\n"));
 
-execSync("npm install --omit=dev --no-audit --no-fund", {
-  cwd: swaApi,
-  stdio: "inherit",
-  shell: true,
-});
-
 if (!existsSync(join(swaApi, "index.js"))) {
   throw new Error("swa-api bundle missing index.js");
 }
@@ -89,4 +83,4 @@ function countFiles(dir) {
   return count;
 }
 
-console.log(`swa-api bundle ready (${countFiles(swaApi)} files)`);
+console.log(`swa-api bundle ready (${countFiles(swaApi)} files, deps installed by Oryx on Linux)`);
