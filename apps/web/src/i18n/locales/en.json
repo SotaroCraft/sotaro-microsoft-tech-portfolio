@@ -64,7 +64,7 @@
     },
     "charter": {
       "title": "Project charter",
-      "subtitle": "Purpose and how work is meant to move here"
+      "subtitle": "Personal planning memo"
     },
     "overview": {
       "title": "Today",
@@ -97,7 +97,7 @@
   },
   "landing": {
     "openWorkspace": "Open workspace",
-    "viewCharter": "Read the project charter",
+    "viewCharter": "Open charter memo",
     "viewTerminology": "View terminology",
     "architecture": "Architecture",
     "architectureHint": "Live Azure stack topology (mock fallback when API is offline)",
@@ -239,37 +239,38 @@
     "close": "Close"
   },
   "charter": {
-    "purposeTitle": "Purpose",
-    "purposeBody": "Help business initiatives move forward—including consultation and deliberation along the way—and leave judgments and outcomes as records you can refer to later.",
-    "capabilitiesTitle": "What you can do here",
-    "capabilitiesLead": "Work progresses through these kinds of steps.",
-    "capabilities": {
+    "memoNote": "Not an external pitch. A private memo to re-read when the direction drifts.",
+    "purposeTitle": "What I am aiming for",
+    "purposeBody": "Move initiatives forward while leaving judgments and outcomes as records I can reopen later. Not a place for code—a place for judgments and outcomes.",
+    "planTitle": "Plan",
+    "planLead": "Spell out the working sequence as follows.",
+    "steps": {
       "launch": {
-        "title": "Start an initiative",
-        "body": "Clarify the case or theme you are advancing and create a clear starting point."
+        "title": "1. Start the initiative",
+        "body": "Decide the case or theme now in play. Do not start without a clear origin."
       },
       "plan": {
-        "title": "Plan the approach",
-        "body": "Organize goals and how you will proceed so stakeholders share the same frame."
+        "title": "2. Write the plan",
+        "body": "Put goals and approach into words so the next moves are visible."
       },
       "consult": {
-        "title": "Consult",
-        "body": "Pressure-test options and gather material for decisions."
+        "title": "3. Consult",
+        "body": "Pressure-test options and add material for decisions."
       },
       "single": {
-        "title": "Run a focused review",
-        "body": "Get a coherent view or proposal for a single question."
+        "title": "4. Run a focused review",
+        "body": "Produce a coherent view for a single question."
       },
       "multi": {
-        "title": "Advance compound work",
-        "body": "Move several threads in parallel so the whole initiative progresses."
+        "title": "5. Advance compound work",
+        "body": "Carry several threads in parallel so the whole initiative moves."
       },
       "commit": {
-        "title": "Commit to the record",
-        "body": "Capture conclusions, context, and results as searchable knowledge."
+        "title": "6. Commit to the record",
+        "body": "Drop conclusions, context, and results into searchable knowledge."
       }
     },
-    "outcomeTitle": "What remains",
-    "outcomeBody": "Not scattered notes, but a collection of outcome records with situation, challenge, action, and result—ready to search, compare, and use for the next decision."
+    "outcomeTitle": "Outcome to lock in",
+    "outcomeBody": "Not scattered notes—outcome records with situation, challenge, action, and result. Search, compare, and use them for the next decision."
   }
 }

@@ -40,7 +40,7 @@ const useStyles = makeStyles({
   },
 });
 
-const CAPABILITY_KEYS = [
+const STEP_KEYS = [
   "launch",
   "plan",
   "consult",
@@ -57,6 +57,12 @@ export function CharterPage() {
     <div className={styles.stack}>
       <ContentPanel>
         <div className={styles.section}>
+          <Body1 className={styles.itemBody}>{t("charter.memoNote")}</Body1>
+        </div>
+      </ContentPanel>
+
+      <ContentPanel>
+        <div className={styles.section}>
           <Title2>{t("charter.purposeTitle")}</Title2>
           <Body1>{t("charter.purposeBody")}</Body1>
         </div>
@@ -64,16 +70,16 @@ export function CharterPage() {
 
       <ContentPanel>
         <div className={styles.section}>
-          <Title2>{t("charter.capabilitiesTitle")}</Title2>
-          <Body1>{t("charter.capabilitiesLead")}</Body1>
+          <Title2>{t("charter.planTitle")}</Title2>
+          <Body1>{t("charter.planLead")}</Body1>
           <ul className={styles.list}>
-            {CAPABILITY_KEYS.map((key) => (
+            {STEP_KEYS.map((key) => (
               <li key={key} className={styles.listItem}>
                 <Title3 className={styles.itemTitle}>
-                  {t(`charter.capabilities.${key}.title`)}
+                  {t(`charter.steps.${key}.title`)}
                 </Title3>
                 <Body1 className={styles.itemBody}>
-                  {t(`charter.capabilities.${key}.body`)}
+                  {t(`charter.steps.${key}.body`)}
                 </Body1>
               </li>
             ))}
