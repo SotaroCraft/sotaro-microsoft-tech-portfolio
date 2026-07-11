@@ -74,7 +74,11 @@ export function ArchitectureDiagram() {
         return;
       }
       const fallback = await fetch("/architecture.mock.json");
-      if (!fallback.ok) throw new Error(`HTTP ${res.status}`);
+      if (!fallback.ok) {
+        throw new Error(
+          `API HTTP ${res.status} and fallback HTTP ${fallback.status}`,
+        );
+      }
       setData((await fallback.json()) as ArchitectureResponse);
     } catch (err) {
       setError(
