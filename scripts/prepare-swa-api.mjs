@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Slim Azure Functions bundle for SWA linked API.
- * Bundles app + shared + @azure/cosmos via ncc; keeps @azure/functions external.
+ * Bundles the public SWA entry (health + architecture) via ncc.
+ * Oryx installs @azure/functions on Linux during deploy (api_build_command).
  */
 import { execSync } from "node:child_process";
 import {
@@ -32,9 +33,9 @@ execSync(`${pnpm} --filter @microbootcan/shared build && ${pnpm} --filter @micro
 });
 
 const apiPkg = JSON.parse(readFileSync(join(apiRoot, "package.json"), "utf8"));
-const entry = join(apiRoot, "dist/src/index.js");
+const entry = join(apiRoot, "dist/src/index.swa.js");
 if (!existsSync(entry)) {
-  throw new Error(`Missing API build output: ${entry}`);
+  throw new Error(`Missing SWA API build output: ${entry}`);
 }
 
 execSync(
@@ -60,7 +61,8 @@ writeFileSync(
       dependencies: {
         "@azure/functions": apiPkg.dependencies["@azure/functions"],
       },
-      engines: { node: ">=20" },
+      // Pin major so Oryx / SWA use Node 20 (not latest 22 from ">=20").
+      engines: { node: "20" },
     },
     null,
     2,
@@ -83,4 +85,6 @@ function countFiles(dir) {
   return count;
 }
 
-console.log(`swa-api bundle ready (${countFiles(swaApi)} files, deps installed by Oryx on Linux)`);
+console.log(
+  `swa-api bundle ready (${countFiles(swaApi)} files, deps installed by Oryx on Linux)`,
+);
