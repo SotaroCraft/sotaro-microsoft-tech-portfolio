@@ -31,9 +31,6 @@ jobs:
           pnpm build
           cp apps/web/staticwebapp.config.json apps/web/dist/staticwebapp.config.json
 
-      - name: Prepare API bundle
-        run: node scripts/prepare-swa-api.mjs
-
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
