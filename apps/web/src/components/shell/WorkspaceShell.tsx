@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Outlet, useLocation } from "react-router-dom";
 import { workspaceNav } from "../../config/navigation";
 import { useCountdown } from "../../hooks/useCountdown";
+import { useCurrentProject } from "../../hooks/useCurrentProject";
 import { usePageMeta } from "../../hooks/usePageMeta";
 import { useUserSettings } from "../../hooks/useUserSettings";
 import { azureShellColors } from "../../theme/azureTheme";
@@ -28,6 +29,14 @@ const useStyles = makeStyles({
     padding: "20px 24px 32px",
     overflow: "auto",
   },
+  mainGate: {
+    flex: 1,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "24px",
+    overflow: "auto",
+  },
   footer: {
     padding: "10px 24px",
     borderTop: `1px solid ${azureShellColors.panelBorder}`,
@@ -42,9 +51,12 @@ export function WorkspaceShell() {
   const styles = useStyles();
   const { pathname } = useLocation();
   const { t } = useTranslation();
+  const { currentProjectId } = useCurrentProject();
   const { settings, loading } = useUserSettings();
   const countdown = useCountdown(settings?.milestoneTargetIso ?? "");
   const meta = usePageMeta("workspace", pathname);
+  const projectOpen = Boolean(currentProjectId);
+  const isGate = pathname === "/app" || pathname === "/app/";
 
   const crumbs = [
     { label: t("shell.breadcrumbHome"), to: "/app" },
@@ -59,24 +71,30 @@ export function WorkspaceShell() {
         contextLabel={t("shell.workspaceContext")}
         showWorkspaceLink={false}
       />
-      <AzureBreadcrumb items={crumbs} />
+      {projectOpen && !isGate && <AzureBreadcrumb items={crumbs} />}
       <div className={styles.body}>
-        <AzureSidebar
-          items={workspaceNav}
-          footer={
-            loading
-              ? t("shell.countdownLoading")
-              : t("shell.countdownLabel", { label: countdown.label })
-          }
-        />
-        <main className={styles.main}>
-          {meta && <PageHeader title={meta.title} subtitle={meta.subtitle} />}
+        {projectOpen && !isGate && (
+          <AzureSidebar
+            items={workspaceNav}
+            footer={
+              loading
+                ? t("shell.countdownLoading")
+                : t("shell.countdownLabel", { label: countdown.label })
+            }
+          />
+        )}
+        <main className={isGate || !projectOpen ? styles.mainGate : styles.main}>
+          {projectOpen && !isGate && meta && (
+            <PageHeader title={meta.title} subtitle={meta.subtitle} />
+          )}
           <Outlet />
         </main>
       </div>
-      <footer className={styles.footer}>
-        <Body1>{t("shell.workspaceFooter")}</Body1>
-      </footer>
+      {projectOpen && !isGate && (
+        <footer className={styles.footer}>
+          <Body1>{t("shell.workspaceFooter")}</Body1>
+        </footer>
+      )}
     </div>
   );
 }
