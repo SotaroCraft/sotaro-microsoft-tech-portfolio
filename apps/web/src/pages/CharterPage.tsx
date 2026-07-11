@@ -1,4 +1,15 @@
-import { Body1, Title2, Title3, makeStyles } from "@fluentui/react-components";
+import {
+  Body1,
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
+  Title2,
+  Title3,
+  makeStyles,
+} from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
 import { ContentPanel } from "../components/shell/ContentPanel";
 import { azureShellColors } from "../theme/azureTheme";
@@ -7,7 +18,7 @@ const useStyles = makeStyles({
   stack: {
     display: "grid",
     gap: "20px",
-    maxWidth: "720px",
+    maxWidth: "800px",
   },
   section: {
     display: "grid",
@@ -38,6 +49,18 @@ const useStyles = makeStyles({
     color: azureShellColors.bodyText,
     lineHeight: "1.5",
   },
+  tableWrap: {
+    overflowX: "auto",
+  },
+  table: {
+    minWidth: "560px",
+  },
+  colCursor: {
+    width: "42%",
+  },
+  colHere: {
+    width: "58%",
+  },
 });
 
 const STEP_KEYS = [
@@ -47,6 +70,16 @@ const STEP_KEYS = [
   "single",
   "multi",
   "commit",
+] as const;
+
+const COMPARE_KEYS = [
+  "repo",
+  "project",
+  "plan",
+  "ask",
+  "agent",
+  "multitask",
+  "push",
 ] as const;
 
 export function CharterPage() {
@@ -65,6 +98,38 @@ export function CharterPage() {
         <div className={styles.section}>
           <Title2>{t("charter.purposeTitle")}</Title2>
           <Body1>{t("charter.purposeBody")}</Body1>
+        </div>
+      </ContentPanel>
+
+      <ContentPanel>
+        <div className={styles.section}>
+          <Title2>{t("charter.compareTitle")}</Title2>
+          <Body1>{t("charter.compareLead")}</Body1>
+          <div className={styles.tableWrap}>
+            <Table
+              className={styles.table}
+              aria-label={t("charter.compareTitle")}
+            >
+              <TableHeader>
+                <TableRow>
+                  <TableHeaderCell className={styles.colCursor}>
+                    {t("charter.compareColCursor")}
+                  </TableHeaderCell>
+                  <TableHeaderCell className={styles.colHere}>
+                    {t("charter.compareColHere")}
+                  </TableHeaderCell>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {COMPARE_KEYS.map((key) => (
+                  <TableRow key={key}>
+                    <TableCell>{t(`charter.compare.${key}.cursor`)}</TableCell>
+                    <TableCell>{t(`charter.compare.${key}.here`)}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </div>
       </ContentPanel>
 
