@@ -1,19 +1,33 @@
 {
   "nav": {
     "home": "ホーム",
-    "terminology": "用語定義",
-    "overview": "概要",
-    "journal": "ジャーナル",
-    "match": "マッチ",
-    "inbox": "受信トレイ",
-    "pipeline": "パイプライン",
-    "summary": "サマリー",
-    "settings": "設定"
+    "terminology": "用語の説明",
+    "overview": "今日",
+    "overviewHint": "次にやることと直近の記録",
+    "journal": "実績を書く",
+    "journalHint": "STAR で実績メモを残す",
+    "inbox": "Outlook取込",
+    "inboxHint": "予定・メールを選んで取り込む",
+    "match": "照合する",
+    "matchHint": "参照テキストと実績を突き合わせる",
+    "pipeline": "進捗ボード",
+    "pipelineHint": "案件の段階と次アクション",
+    "summary": "要約と数字",
+    "summaryHint": "日英の要約と KPI",
+    "settings": "設定",
+    "settingsHint": "マイルストーン日付など",
+    "section": {
+      "today": "いま",
+      "flow": "① 書いて → 取込 → 照合 → 進める",
+      "reflect": "② 振り返る",
+      "more": "その他"
+    },
+    "ariaWorkspace": "ワークスペースメニュー"
   },
   "shell": {
     "brand": "MicroStarPlatform",
     "publicPreview": "公開プレビュー",
-    "workspaceContext": "ワークスペース · rg-microbootcan-prod",
+    "workspaceContext": "個人ワークスペース",
     "workspace": "ワークスペース",
     "account": "アカウント",
     "github": "GitHub",
@@ -45,32 +59,32 @@
       "subtitle": "フレームワークとアプリ用語"
     },
     "overview": {
-      "title": "概要",
-      "subtitle": "ワークスペース・ダッシュボードとサービス状態"
+      "title": "今日",
+      "subtitle": "次アクションと直近の実績"
     },
     "journal": {
-      "title": "実績ジャーナル",
-      "subtitle": "STAR フィールド任意の構造化メモ"
+      "title": "実績を書く",
+      "subtitle": "状況・課題・行動・結果（STAR）でメモする"
     },
     "match": {
-      "title": "コンテキスト・マッチング",
-      "subtitle": "参照テキストとジャーナルを照合"
+      "title": "照合する",
+      "subtitle": "貼った文章に近い実績を探す"
     },
     "inbox": {
-      "title": "受信トレイ",
-      "subtitle": "Outlook の予定・メールをマッチ／ジャーナルへ取り込み"
+      "title": "Outlookから取り込む",
+      "subtitle": "予定やメールを選んで、照合や実績メモへ渡す"
     },
     "pipeline": {
-      "title": "パイプライン管理",
-      "subtitle": "ステージ別カンバンビュー"
+      "title": "進捗ボード",
+      "subtitle": "段階を進め、次にやることを書く"
     },
     "summary": {
-      "title": "メトリクスとサマリー",
-      "subtitle": "日英サマリーと KPI メトリクス"
+      "title": "要約と数字",
+      "subtitle": "日英の要約文と KPI を更新する"
     },
     "settings": {
       "title": "設定",
-      "subtitle": "マイルストーン目標とワークスペース設定"
+      "subtitle": "マイルストーンの目標日"
     }
   },
   "landing": {
@@ -97,7 +111,7 @@
     "openInWorkspace": "ワークスペースで開く"
   },
   "dashboard": {
-    "intro": "マイルストーン追跡と構造化記録の Must モジュール。左メニューから各ブレードを開いてください。",
+    "intro": "流れはシンプルです。実績を書く → Outlookから取り込む → 照合する → 進捗ボードで次アクション。左の番号メニューに沿って進めてください。",
     "apiStatus": "API 状態",
     "apiChecking": "/api/health を確認中…",
     "apiOffline": "オフライン: {{error}}",

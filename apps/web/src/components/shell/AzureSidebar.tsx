@@ -1,4 +1,5 @@
 import { Body1, makeStyles, mergeClasses } from "@fluentui/react-components";
+import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import type { NavItem } from "../../config/navigation";
@@ -6,7 +7,7 @@ import { azureShellColors } from "../../theme/azureTheme";
 
 const useStyles = makeStyles({
   nav: {
-    width: "220px",
+    width: "232px",
     flexShrink: 0,
     backgroundColor: azureShellColors.sidebar,
     borderRight: `1px solid ${azureShellColors.panelBorder}`,
@@ -15,6 +16,14 @@ const useStyles = makeStyles({
     flexDirection: "column",
     gap: "2px",
     minHeight: "100%",
+  },
+  section: {
+    margin: "12px 16px 4px",
+    fontSize: "11px",
+    fontWeight: 600,
+    letterSpacing: "0.04em",
+    textTransform: "uppercase",
+    color: azureShellColors.mutedText,
   },
   item: {
     display: "flex",
@@ -64,20 +73,30 @@ export function AzureSidebar({ items, footer }: AzureSidebarProps) {
   const { pathname } = useLocation();
   const { t } = useTranslation();
 
+  let lastSection: string | undefined;
+
   return (
-    <aside className={styles.nav}>
+    <aside className={styles.nav} aria-label={t("nav.ariaWorkspace")}>
       {items.map((item) => {
         const Icon = item.icon;
         const active = isActive(pathname, item);
+        const showSection = Boolean(item.sectionKey && item.sectionKey !== lastSection);
+        if (item.sectionKey) lastSection = item.sectionKey;
+
         return (
-          <RouterLink
-            key={item.to}
-            to={item.to}
-            className={mergeClasses(styles.item, active && styles.active)}
-          >
-            <Icon fontSize={18} />
-            <span>{t(item.labelKey)}</span>
-          </RouterLink>
+          <Fragment key={item.to}>
+            {showSection && item.sectionKey ? (
+              <div className={styles.section}>{t(item.sectionKey)}</div>
+            ) : null}
+            <RouterLink
+              to={item.to}
+              className={mergeClasses(styles.item, active && styles.active)}
+              title={t(`${item.labelKey}Hint`)}
+            >
+              <Icon fontSize={18} />
+              <span>{t(item.labelKey)}</span>
+            </RouterLink>
+          </Fragment>
         );
       })}
       {footer && (

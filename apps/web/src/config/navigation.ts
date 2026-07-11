@@ -15,16 +15,18 @@ export type NavItem = {
   labelKey: string;
   icon: ComponentType<{ className?: string; fontSize?: number }>;
   end?: boolean;
+  /** Optional sidebar section header i18n key */
+  sectionKey?: string;
 };
 
 export const workspaceNav: NavItem[] = [
-  { to: "/app", labelKey: "nav.overview", icon: HomeRegular, end: true },
-  { to: "/app/journal", labelKey: "nav.journal", icon: BookRegular },
-  { to: "/app/match", labelKey: "nav.match", icon: SearchRegular },
-  { to: "/app/inbox", labelKey: "nav.inbox", icon: MailInboxRegular },
-  { to: "/app/pipeline", labelKey: "nav.pipeline", icon: TableRegular },
-  { to: "/app/summary", labelKey: "nav.summary", icon: DataBarVerticalRegular },
-  { to: "/app/settings", labelKey: "nav.settings", icon: SettingsRegular },
+  { to: "/app", labelKey: "nav.overview", icon: HomeRegular, end: true, sectionKey: "nav.section.today" },
+  { to: "/app/journal", labelKey: "nav.journal", icon: BookRegular, sectionKey: "nav.section.flow" },
+  { to: "/app/inbox", labelKey: "nav.inbox", icon: MailInboxRegular, sectionKey: "nav.section.flow" },
+  { to: "/app/match", labelKey: "nav.match", icon: SearchRegular, sectionKey: "nav.section.flow" },
+  { to: "/app/pipeline", labelKey: "nav.pipeline", icon: TableRegular, sectionKey: "nav.section.flow" },
+  { to: "/app/summary", labelKey: "nav.summary", icon: DataBarVerticalRegular, sectionKey: "nav.section.reflect" },
+  { to: "/app/settings", labelKey: "nav.settings", icon: SettingsRegular, sectionKey: "nav.section.more" },
 ];
 
 export const publicNav: NavItem[] = [

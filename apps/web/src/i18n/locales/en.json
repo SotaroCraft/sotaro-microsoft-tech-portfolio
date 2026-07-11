@@ -2,18 +2,32 @@
   "nav": {
     "home": "Home",
     "terminology": "Terminology",
-    "overview": "Overview",
-    "journal": "Journal",
-    "match": "Match",
-    "inbox": "Inbox",
-    "pipeline": "Pipeline",
-    "summary": "Summary",
-    "settings": "Settings"
+    "overview": "Today",
+    "overviewHint": "Next actions and recent notes",
+    "journal": "Write achievement",
+    "journalHint": "Capture a STAR-structured note",
+    "inbox": "From Outlook",
+    "inboxHint": "Pick a meeting or mail to import",
+    "match": "Match text",
+    "matchHint": "Find journal notes related to pasted text",
+    "pipeline": "Progress board",
+    "pipelineHint": "Stages and next actions",
+    "summary": "Summary & metrics",
+    "summaryHint": "Bilingual summary and KPIs",
+    "settings": "Settings",
+    "settingsHint": "Milestone target date",
+    "section": {
+      "today": "Now",
+      "flow": "1 Write → import → match → move",
+      "reflect": "2 Reflect",
+      "more": "More"
+    },
+    "ariaWorkspace": "Workspace menu"
   },
   "shell": {
     "brand": "MicroStarPlatform",
     "publicPreview": "Public preview",
-    "workspaceContext": "Workspace · rg-microbootcan-prod",
+    "workspaceContext": "Personal workspace",
     "workspace": "Workspace",
     "account": "Account",
     "github": "GitHub",
@@ -45,32 +59,32 @@
       "subtitle": "Framework and app vocabulary"
     },
     "overview": {
-      "title": "Overview",
-      "subtitle": "Workspace dashboard and service health"
+      "title": "Today",
+      "subtitle": "Next actions and recent achievements"
     },
     "journal": {
-      "title": "Achievement journal",
-      "subtitle": "Structured notes with optional STAR fields"
+      "title": "Write an achievement",
+      "subtitle": "Note situation, task, action, and result (STAR)"
     },
     "match": {
-      "title": "Context matching",
-      "subtitle": "Match reference text to journal entries"
+      "title": "Match text",
+      "subtitle": "Find journal notes related to pasted reference text"
     },
     "inbox": {
-      "title": "Inbox",
-      "subtitle": "Import Outlook calendar or mail into Match or Journal"
+      "title": "Import from Outlook",
+      "subtitle": "Pick a meeting or mail, then send it to Match or Journal"
     },
     "pipeline": {
-      "title": "Pipeline tracker",
-      "subtitle": "Kanban view across pipeline stages"
+      "title": "Progress board",
+      "subtitle": "Move stages and set the next action"
     },
     "summary": {
-      "title": "Metrics & summary",
-      "subtitle": "Bilingual summary and KPI metrics"
+      "title": "Summary & metrics",
+      "subtitle": "Keep bilingual summary and KPIs current"
     },
     "settings": {
       "title": "Settings",
-      "subtitle": "Milestone target and workspace preferences"
+      "subtitle": "Milestone target date"
     }
   },
   "landing": {
@@ -97,7 +111,7 @@
     "openInWorkspace": "Open in workspace"
   },
   "dashboard": {
-    "intro": "Must-have modules for milestone tracking and structured records. Use the left menu to open each blade.",
+    "intro": "Simple loop: write an achievement → import from Outlook → match text → set next actions on the progress board. Follow the numbered menu on the left.",
     "apiStatus": "API status",
     "apiChecking": "Checking /api/health…",
     "apiOffline": "Offline: {{error}}",
