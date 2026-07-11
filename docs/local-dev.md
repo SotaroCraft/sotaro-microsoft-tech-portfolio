@@ -2,22 +2,31 @@
 
 [CHARTER.md](../CHARTER.md) のエンジニアリング原則に基づくローカル開発手順。
 
-## 構成方針（ハイブリッド）
+## 構成方針（本番同等）
 
-| レイヤ | 実行場所 | 理由 |
-|--------|----------|------|
-| React (Vite) | ホスト | HMR・SWA CLI との公式連携 |
-| Azure Functions | ホスト (`func start`) | SWA linked Functions の標準フロー |
-| SWA CLI | ホスト (`swa start`) | 本番に近いプロキシ・認証ルート |
-| Cosmos DB | Docker (Emulator) | オフライン開発・CI 再現性 |
-| Azurite | Docker（任意） | Functions ローカルストレージ |
-| Azure OpenAI | **モック**（local）/ Azure（dev） | 課金防止 |
+ローカルと本番で **同じ API 面・同じ認証ゲート・同じ Cosmos コンテナ** を使う。
+
+| レイヤ | 実行場所 | 本番との対応 |
+|--------|----------|-------------|
+| React (Vite) | ホスト `:5173` | SWA 静的ホスト |
+| Azure Functions | ホスト `:7071`（`pnpm dev`） | SWA linked Functions |
+| SWA CLI（任意） | `:4280`（`pnpm dev:swa`） | 本番 Entra / `/.auth` |
+| Cosmos DB | Docker Emulator `:8081` | Azure Cosmos（同一コンテナ名） |
+| Azurite | Docker | Functions ストレージ |
+| AI | `AI_PROVIDER=mock` | 本番も当面 `mock` |
 
 ```
-pnpm dev  ──►  SWA CLI  ──►  Vite (5173) + Functions (7071)
-                              │
-                              ▼
-                    Cosmos Emulator (Docker :8081)
+pnpm dev
+  ├── ensure-local-settings + docker compose (Cosmos / Azurite)
+  ├── api  build → func start (:7071)
+  └── web  Vite (:5173) → proxy /api → :7071
+           └── /.auth/* をローカルモック（本番 SWA と同等ゲート）
+```
+
+Entra 実ログインをローカルで試す場合:
+
+```
+pnpm dev:swa   # Vite + SWA CLI → http://localhost:4280
 ```
 
 ## 前提ツール
@@ -26,9 +35,9 @@ pnpm dev  ──►  SWA CLI  ──►  Vite (5173) + Functions (7071)
 winget install OpenJS.NodeJS.LTS
 winget install Microsoft.AzureCLI
 winget install Microsoft.Azure.FunctionsCoreTools
-winget install Docker.DockerDesktop   # Cosmos Emulator 用
+winget install Docker.DockerDesktop   # Cosmos Emulator + Azurite
 
-npm install -g pnpm @azure/static-web-apps-cli
+npm install -g pnpm
 ```
 
 ## 環境プロファイル
@@ -37,48 +46,45 @@ npm install -g pnpm @azure/static-web-apps-cli
 |-------------|-----------|--------|--------|------|
 | **local** | `local` | Emulator (Docker) | モック（`AI_PROVIDER=mock`） | 日常開発・オフライン |
 | **dev** | `dev` | Azure Cosmos（既存） | Gemini または Azure OpenAI | 結合確認 |
-| **prod** | `prod` | Azure Cosmos | Azure OpenAI（Phase F） | SWA デプロイのみ |
+| **prod** | `prod` | Azure Cosmos | Azure OpenAI（承認後） | SWA デプロイのみ |
 
-`.env.example` をコピーして `.env.local` を作成する（Git 禁止）。
-
-```powershell
-cp .env.example .env.local
-# APP_ENV=local を設定
-```
+`pnpm dev` 初回で `api/local.settings.json` が無ければ example から自動生成される（Git 禁止）。
 
 ## 起動手順
 
-### 1. Docker（Cosmos Emulator）
-
-```powershell
-docker compose up -d
-# Emulator 起動待ち（初回は 1〜2 分）
-curl -k https://localhost:8081/_explorer/index.html
-```
-
-### 2. アプリ
-
 ```powershell
 pnpm install
-pnpm dev          # SWA CLI: フロント + API を一体起動
+pnpm dev          # Cosmos/Azurite + API + Vite（本番同等スタック）
 ```
 
-ブラウザ: `http://localhost:4280`（SWA CLI デフォルト）
+ブラウザ: **http://localhost:5173/**
 
-### 3. 個別起動（デバッグ時）
+| コマンド | 内容 |
+|----------|------|
+| `pnpm dev` | 推奨。API + フロント。認証はローカルモック（`DEV_AUTH_BYPASS` + `/.auth` モック） |
+| `pnpm dev:swa` | 本番と同じ SWA Entra。**http://localhost:4280** |
+| `pnpm dev:web` / `dev:api` | 片方だけ（デバッグ用） |
+| `pnpm dev:deps` | Docker のみ再起動 |
+
+### 個別起動（デバッグ時）
 
 ```powershell
-pnpm --filter web dev      # Vite のみ :5173
-pnpm --filter api start    # Functions のみ :7071
-swa start http://localhost:5173 --api-location api
+node scripts/ensure-local-settings.mjs
+pnpm --filter @microstar/shared build
+pnpm --filter @microstar/api build
+pnpm --filter @microstar/api start    # :7071
+pnpm --filter @microstar/web dev      # :5173
 ```
 
-## 認証（local）
+## 認証（local ↔ prod）
 
 | 環境 | 方式 |
 |------|------|
-| `local` | `DEV_AUTH_BYPASS=true` + 固定 dev ユーザー ID。**本番ビルドでは無効** |
-| `dev` / `prod` | SWA Built-in Auth（Entra ID） |
+| `pnpm dev`（:5173） | API: `DEV_AUTH_BYPASS=true`。UI: Vite が `/.auth/me` をモックし `RequireAuth` でゲート（本番 SWA 相当） |
+| `pnpm dev:swa`（:4280） | 本番と同じ SWA Built-in Auth（Entra）。`VITE_LOCAL_AUTH_BYPASS=false` 推奨 |
+| **prod** | SWA Built-in Auth + `x-ms-client-principal` |
+
+フロントの Entra / Graph クライアント ID は本番 CI と同じ値を `apps/web/.env.development` に置く。
 
 ## AI プロバイダ
 
@@ -90,32 +96,23 @@ swa start http://localhost:5173 --api-location api
 | `gemini` | Google Gemini REST（`GEMINI_API_KEY` 必須 — **従量課金、要承認**） |
 | `azure` | Azure OpenAI REST（`AZURE_OPENAI_*` 必須） |
 
-### OpenAI モック（local）
+ローカル・本番とも当面 `mock`。有料 AI 切替は承認後。
 
-`APP_ENV=local` かつ `AI_PROVIDER=mock`（デフォルト）時:
+## Cosmos コンテナ
 
-- `match` API は固定 Top3 エントリ + サンプルドラフトを返す
-- `embedding` API は決定論的ダミーベクトルを返す
-- 実 Azure OpenAI 呼び出しは **行わない**
+初回 API 呼び出しで DB / コンテナを `createIfNotExists`（Bicep と同名）:
 
-Azure OpenAI 結合確認: `.env.local` で `AI_PROVIDER=azure` と `AZURE_OPENAI_*` を設定。
-
-## シードデータ
-
-```powershell
-pnpm db:seed    # Emulator に demo-data を投入（実装後）
-```
-
-シードは `packages/shared/demo-data/` の架空データのみ。個人データ禁止。
+`episodes` · `companies` · `applications` · `career` · `settings` · `projects`
 
 ## トラブルシュート
 
 | 症状 | 対処 |
 |------|------|
-| Cosmos Emulator 接続失敗 | Docker Desktop 起動確認、`docker compose logs cosmos-emulator` |
-| Emulator SSL エラー | Node 側で `NODE_TLS_REJECT_UNAUTHORIZED=0`（**local のみ**） |
-| Functions が Cosmos に繋がらない | `local.settings.json` の接続文字列確認 |
-| SWA CLI 404 | `staticwebapp.config.json` の routes 確認 |
+| `/api/*` が HTTP 500 / proxy error | `pnpm dev` で API も起動しているか。旧 `vite` 単独は不可 |
+| Cosmos Emulator 接続失敗 | Docker Desktop 起動、`docker compose logs cosmos-emulator` |
+| Emulator SSL エラー | `local.settings.json` の `NODE_TLS_REJECT_UNAUTHORIZED=0`（local のみ） |
+| Functions ストレージ警告 | Azurite（`docker compose up -d`） |
+| SWA CLI 404 | `staticwebapp.config.json` の routes 確認、`:4280` で開いているか |
 
 ## Azure Architecture Icons
 

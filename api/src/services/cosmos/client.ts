@@ -1,7 +1,9 @@
 import { CosmosClient, type Database, type Container } from "@azure/cosmos";
+import { COSMOS_CONTAINERS } from "./containers";
 
 let client: CosmosClient | undefined;
 let database: Database | undefined;
+let ensured = false;
 
 const containerCache = new Map<string, Container>();
 
@@ -27,12 +29,31 @@ export function getCosmosClient(): CosmosClient {
   return client;
 }
 
-export async function getCosmosDatabase(): Promise<Database> {
-  if (!database) {
-    const { databaseId } = readCosmosConfig();
-    database = getCosmosClient().database(databaseId);
+/** Create database + all containers (same set as Bicep) on first use — local emulator parity. */
+export async function ensureCosmosReady(): Promise<Database> {
+  if (ensured && database) {
+    return database;
   }
-  return database;
+
+  const { databaseId } = readCosmosConfig();
+  const { database: db } = await getCosmosClient().databases.createIfNotExists({
+    id: databaseId,
+  });
+
+  for (const name of Object.values(COSMOS_CONTAINERS)) {
+    await db.containers.createIfNotExists({
+      id: name,
+      partitionKey: { paths: ["/userId"] },
+    });
+  }
+
+  database = db;
+  ensured = true;
+  return db;
+}
+
+export async function getCosmosDatabase(): Promise<Database> {
+  return ensureCosmosReady();
 }
 
 export async function getCosmosContainer(name: string): Promise<Container> {

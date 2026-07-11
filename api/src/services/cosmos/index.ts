@@ -1,4 +1,9 @@
-export { getCosmosClient, getCosmosContainer, getCosmosDatabase } from "./client";
+export {
+  ensureCosmosReady,
+  getCosmosClient,
+  getCosmosContainer,
+  getCosmosDatabase,
+} from "./client";
 export { COSMOS_CONTAINERS } from "./containers";
 export * from "./repositories/applications";
 export * from "./repositories/companies";

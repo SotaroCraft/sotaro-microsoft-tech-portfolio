@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { FluentProvider } from "@fluentui/react-components";
+import { RequireAuth } from "./components/RequireAuth";
 import { WorkspaceShell } from "./components/shell/WorkspaceShell";
 import { AppHomePage } from "./pages/AppHomePage";
 import { JournalPage } from "./pages/JournalPage";
@@ -17,34 +18,36 @@ export function App() {
   return (
     <FluentProvider theme={azureTheme}>
       <BrowserRouter>
-        <ProjectProvider>
-          <Routes>
-            <Route path="/" element={<Navigate to="/app" replace />} />
-            <Route
-              path="/charter"
-              element={<Navigate to="/app/charter" replace />}
-            />
-            <Route
-              path="/glossary"
-              element={<Navigate to="/app/charter" replace />}
-            />
-            <Route path="/app" element={<WorkspaceShell />}>
-              <Route index element={<AppHomePage />} />
+        <RequireAuth>
+          <ProjectProvider>
+            <Routes>
+              <Route path="/" element={<Navigate to="/app" replace />} />
               <Route
-                path="projects/:projectId"
-                element={<ProjectWorkspacePage />}
+                path="/charter"
+                element={<Navigate to="/app/charter" replace />}
               />
-              <Route path="journal" element={<JournalPage />} />
-              <Route path="match" element={<MatchPage />} />
-              <Route path="inbox" element={<InboxPage />} />
-              <Route path="pipeline" element={<PipelinePage />} />
-              <Route path="summary" element={<SummaryPage />} />
-              <Route path="charter" element={<CharterPage />} />
-              <Route path="settings" element={<SettingsPage />} />
-            </Route>
-            <Route path="*" element={<Navigate to="/app" replace />} />
-          </Routes>
-        </ProjectProvider>
+              <Route
+                path="/glossary"
+                element={<Navigate to="/app/charter" replace />}
+              />
+              <Route path="/app" element={<WorkspaceShell />}>
+                <Route index element={<AppHomePage />} />
+                <Route
+                  path="projects/:projectId"
+                  element={<ProjectWorkspacePage />}
+                />
+                <Route path="journal" element={<JournalPage />} />
+                <Route path="match" element={<MatchPage />} />
+                <Route path="inbox" element={<InboxPage />} />
+                <Route path="pipeline" element={<PipelinePage />} />
+                <Route path="summary" element={<SummaryPage />} />
+                <Route path="charter" element={<CharterPage />} />
+                <Route path="settings" element={<SettingsPage />} />
+              </Route>
+              <Route path="*" element={<Navigate to="/app" replace />} />
+            </Routes>
+          </ProjectProvider>
+        </RequireAuth>
       </BrowserRouter>
     </FluentProvider>
   );

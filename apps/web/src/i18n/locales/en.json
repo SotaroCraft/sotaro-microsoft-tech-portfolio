@@ -46,7 +46,8 @@
   "auth": {
     "signIn": "Sign in with Microsoft",
     "signOut": "Sign out",
-    "signedInAs": "{{email}}"
+    "signedInAs": "{{email}}",
+    "checking": "Checking sign-in…"
   },
   "language": {
     "label": "Language",

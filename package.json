@@ -8,8 +8,12 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "pnpm --filter @microstar/shared build && pnpm --filter web dev",
-    "dev:swa": "echo \"SWA CLI: install @azure/static-web-apps-cli globally, then run swa start\"",
+    "dev:prepare": "node scripts/ensure-local-settings.mjs && pnpm --filter @microstar/shared build && pnpm --filter @microstar/api build",
+    "dev:web": "pnpm --filter @microstar/web dev",
+    "dev:api": "pnpm --filter @microstar/api start",
+    "dev": "pnpm run dev:prepare && concurrently -k -n api,web -c blue,green \"pnpm run dev:api\" \"pnpm run dev:web\"",
+    "dev:swa": "pnpm run dev:prepare && concurrently -k -n web,swa -c green,magenta \"pnpm run dev:web\" \"npx --yes @azure/static-web-apps-cli@2 start http://localhost:5173 --api-location api --port 4280\"",
+    "dev:deps": "docker compose up -d",
     "build": "pnpm --filter @microstar/shared build && node scripts/write-architecture-mock.mjs && pnpm -r --filter !@microstar/shared build",
     "prepare:swa-api": "node scripts/prepare-swa-api.mjs",
     "sync:icons": "node scripts/sync-architecture-icons.mjs",
@@ -17,6 +21,7 @@
     "typecheck": "pnpm -r typecheck"
   },
   "devDependencies": {
+    "concurrently": "^9.1.2",
     "esbuild": "^0.25.5"
   }
 }

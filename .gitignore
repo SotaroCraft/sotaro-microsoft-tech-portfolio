@@ -9,6 +9,7 @@ local.settings.json
 *.env
 *.env.*
 !*.env.example
+!apps/web/.env.development
 infra/azure.config
 .azure-credentials
 api/local.settings.json

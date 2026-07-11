@@ -14,7 +14,7 @@ Living document: Q&A 合意・Azure リソース・進捗・次フェーズ。
 | **正式名** | **MicroStarPlatform**（旧称 MicroBootCan）。Azure リソース ID は `microbootcan-*` を維持 |
 | **公開コピー** | 転職・選考・面接等の語は公開面に使わない。中立表現（MicroStar, DMTA, milestone, achievement journal 等）— [CHARTER.md](../CHARTER.md) |
 | **月次予算** | ¥2,900 上限。Azure 操作は事前承認 + 事後「想定費用」報告 |
-| **ローカル開発** | Cosmos Emulator + OpenAI モック。`APP_ENV=local` — [local-dev.md](local-dev.md) |
+| **ローカル開発** | `pnpm dev` = Cosmos Emulator + Functions + Vite（本番同等 API/認証ゲート）。`AI_PROVIDER=mock` — [local-dev.md](local-dev.md) |
 | **AI 戦略（暫定）** | Phase D: Gemini API（開発・低コスト）。Phase F: Azure OpenAI へ移行（ポートフォリオ完成時） |
 | **構成図（Phase E）** | Mermaid は補助。**公式 Azure Architecture SVG** をランディングのメイン可視化 |
 | **アイコン管理** | `resources/` は gitignore。デプロイ用サブセットを `pnpm sync:icons` で同期 |

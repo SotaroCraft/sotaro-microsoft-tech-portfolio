@@ -46,7 +46,8 @@
   "auth": {
     "signIn": "Microsoft でサインイン",
     "signOut": "サインアウト",
-    "signedInAs": "{{email}}"
+    "signedInAs": "{{email}}",
+    "checking": "サインインを確認しています…"
   },
   "language": {
     "label": "言語",

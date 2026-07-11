@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "start": "func start",
+    "start": "npx --yes azure-functions-core-tools@4 start",
     "typecheck": "tsc --noEmit",
     "lint": "echo \"lint api: ok\""
   },

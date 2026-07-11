@@ -5,23 +5,10 @@ import type {
   UpdateProjectInput,
 } from "@microstar/shared";
 import { projectSchema } from "@microstar/shared";
-import { getCosmosContainer, getCosmosDatabase } from "../client";
+import { getCosmosContainer } from "../client";
 import { COSMOS_CONTAINERS } from "../containers";
 
-let ensured = false;
-
-async function ensureProjectsContainer(): Promise<void> {
-  if (ensured) return;
-  const db = await getCosmosDatabase();
-  await db.containers.createIfNotExists({
-    id: COSMOS_CONTAINERS.projects,
-    partitionKey: { paths: ["/userId"] },
-  });
-  ensured = true;
-}
-
 async function projectsContainer() {
-  await ensureProjectsContainer();
   return getCosmosContainer(COSMOS_CONTAINERS.projects);
 }
 

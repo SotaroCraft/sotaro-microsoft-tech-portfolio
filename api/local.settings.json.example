@@ -1,16 +1,19 @@
 {
   "IsEncrypted": false,
   "Values": {
-    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;",
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "APP_ENV": "local",
     "DEV_AUTH_BYPASS": "true",
     "DEV_USER_ID": "dev-user-local",
     "ALLOWED_USER_EMAIL": "",
     "COSMOS_ENDPOINT": "https://localhost:8081",
-    "COSMOS_KEY": "",
+    "COSMOS_KEY": "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
     "COSMOS_DATABASE": "microbootcan",
-    "AI_PROVIDER": "mock"
+    "AI_PROVIDER": "mock",
+    "NODE_TLS_REJECT_UNAUTHORIZED": "0",
+    "AI_MONTHLY_CHAT_LIMIT": "100",
+    "AI_MONTHLY_EMBEDDING_LIMIT": "200"
   },
   "Host": {
     "CORS": "*"
