@@ -40,17 +40,6 @@ jobs:
       - name: Copy SWA config into dist
         run: cp apps/web/staticwebapp.config.json apps/web/dist/staticwebapp.config.json
 
-      - name: Prepare API bundle for SWA
-        run: |
-          pnpm --filter @microbootcan/api --prod deploy swa-api
-          node -e "
-            const fs = require('fs');
-            const pkg = JSON.parse(fs.readFileSync('swa-api/package.json', 'utf8'));
-            pkg.dependencies['@microbootcan/shared'] = 'file:./node_modules/@microbootcan/shared';
-            delete pkg.devDependencies;
-            fs.writeFileSync('swa-api/package.json', JSON.stringify(pkg, null, 2));
-          "
-
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -59,10 +48,8 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "apps/web"
-          api_location: "swa-api"
           output_location: "dist"
           skip_app_build: true
-          api_build_command: "echo API prebuilt via pnpm deploy"
 
   close_pull_request:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
