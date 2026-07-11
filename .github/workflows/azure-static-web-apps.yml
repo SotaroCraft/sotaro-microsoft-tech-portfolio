@@ -21,24 +21,15 @@ jobs:
           submodules: true
           lfs: false
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        # version omitted — reads packageManager from package.json (pnpm@9.15.4)
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build monorepo
-        run: pnpm build
-
-      - name: Copy SWA config into dist
-        run: cp apps/web/staticwebapp.config.json apps/web/dist/staticwebapp.config.json
+      - name: Verify deployment token is configured
+        env:
+          SWA_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+        run: |
+          if [ -z "$SWA_TOKEN" ]; then
+            echo "AZURE_STATIC_WEB_APPS_API_TOKEN is empty. Add it to Environment secrets."
+            exit 1
+          fi
+          echo "Deployment token is configured (length ${#SWA_TOKEN})."
 
       - name: Build And Deploy
         id: builddeploy
@@ -47,9 +38,11 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "apps/web"
-          output_location: "dist"
-          skip_app_build: true
+          app_location: "/"
+          api_location: "api"
+          output_location: "apps/web/dist"
+          app_build_command: "corepack enable && corepack prepare pnpm@9.15.4 --activate && pnpm install --frozen-lockfile && pnpm build && cp apps/web/staticwebapp.config.json apps/web/dist/staticwebapp.config.json"
+          api_build_command: "corepack enable && corepack prepare pnpm@9.15.4 --activate && pnpm install --frozen-lockfile && pnpm --filter @microbootcan/shared build && pnpm --filter @microbootcan/api build"
 
   close_pull_request:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
