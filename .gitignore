@@ -13,7 +13,8 @@ infra/azure.config
 .azure-credentials
 api/local.settings.json
 
-# IDE
+# IDE / Cursor (local agent config — do not publish)
+.cursor/
 .vscode/
 .idea/
 
