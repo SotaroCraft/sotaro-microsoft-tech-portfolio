@@ -73,8 +73,8 @@ export function LandingPage() {
             {t("landing.openWorkspace")}
           </Button>
         </RouterLink>
-        <RouterLink to="/glossary">
-          <Button appearance="secondary">{t("landing.viewTerminology")}</Button>
+        <RouterLink to="/charter">
+          <Button appearance="secondary">{t("landing.viewCharter")}</Button>
         </RouterLink>
       </div>
 

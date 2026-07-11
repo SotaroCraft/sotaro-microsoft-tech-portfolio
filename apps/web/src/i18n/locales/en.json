@@ -1,6 +1,7 @@
 {
   "nav": {
     "home": "Home",
+    "charter": "Project charter",
     "terminology": "Terminology",
     "overview": "Today",
     "overviewHint": "Next actions and recent notes",
@@ -31,6 +32,9 @@
     "workspace": "Workspace",
     "account": "Account",
     "github": "GitHub",
+    "help": "Help",
+    "helpAria": "Open terminology help",
+    "helpTitle": "Terminology",
     "breadcrumbHome": "Home",
     "breadcrumbOverview": "Overview",
     "breadcrumbPage": "Page",
@@ -57,6 +61,10 @@
     "glossary": {
       "title": "Terminology",
       "subtitle": "Framework and app vocabulary"
+    },
+    "charter": {
+      "title": "Project charter",
+      "subtitle": "Purpose and how work is meant to move here"
     },
     "overview": {
       "title": "Today",
@@ -89,6 +97,7 @@
   },
   "landing": {
     "openWorkspace": "Open workspace",
+    "viewCharter": "Read the project charter",
     "viewTerminology": "View terminology",
     "architecture": "Architecture",
     "architectureHint": "Live Azure stack topology (mock fallback when API is offline)",
@@ -226,6 +235,41 @@
   },
   "common": {
     "loading": "Loading…",
-    "failedToLoad": "Failed to load"
+    "failedToLoad": "Failed to load",
+    "close": "Close"
+  },
+  "charter": {
+    "purposeTitle": "Purpose",
+    "purposeBody": "Help business initiatives move forward—including consultation and deliberation along the way—and leave judgments and outcomes as records you can refer to later.",
+    "capabilitiesTitle": "What you can do here",
+    "capabilitiesLead": "Work progresses through these kinds of steps.",
+    "capabilities": {
+      "launch": {
+        "title": "Start an initiative",
+        "body": "Clarify the case or theme you are advancing and create a clear starting point."
+      },
+      "plan": {
+        "title": "Plan the approach",
+        "body": "Organize goals and how you will proceed so stakeholders share the same frame."
+      },
+      "consult": {
+        "title": "Consult",
+        "body": "Pressure-test options and gather material for decisions."
+      },
+      "single": {
+        "title": "Run a focused review",
+        "body": "Get a coherent view or proposal for a single question."
+      },
+      "multi": {
+        "title": "Advance compound work",
+        "body": "Move several threads in parallel so the whole initiative progresses."
+      },
+      "commit": {
+        "title": "Commit to the record",
+        "body": "Capture conclusions, context, and results as searchable knowledge."
+      }
+    },
+    "outcomeTitle": "What remains",
+    "outcomeBody": "Not scattered notes, but a collection of outcome records with situation, challenge, action, and result—ready to search, compare, and use for the next decision."
   }
 }

@@ -9,7 +9,7 @@ import { MatchPage } from "./pages/MatchPage";
 import { InboxPage } from "./pages/InboxPage";
 import { PipelinePage } from "./pages/PipelinePage";
 import { SettingsPage } from "./pages/SettingsPage";
-import { GlossaryPage } from "./pages/GlossaryPage";
+import { CharterPage } from "./pages/CharterPage";
 import { SummaryPage } from "./pages/SummaryPage";
 import { azureTheme } from "./theme/azureTheme";
 
@@ -27,13 +27,14 @@ export function App() {
             }
           />
           <Route
-            path="/glossary"
+            path="/charter"
             element={
               <PublicShell>
-                <GlossaryPage />
+                <CharterPage />
               </PublicShell>
             }
           />
+          <Route path="/glossary" element={<Navigate to="/charter" replace />} />
           <Route path="/app" element={<WorkspaceShell />}>
             <Route index element={<AppHomePage />} />
             <Route path="journal" element={<JournalPage />} />

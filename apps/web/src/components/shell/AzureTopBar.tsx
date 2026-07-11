@@ -15,6 +15,7 @@ import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { loginUrl, logoutUrl, useAuth } from "../../hooks/useAuth";
+import { GlossaryHelpDialog } from "../GlossaryHelpDialog";
 import { LanguageSwitcher } from "../LanguageSwitcher";
 import { azureShellColors } from "../../theme/azureTheme";
 
@@ -121,6 +122,7 @@ export function AzureTopBar({
       </div>
       <div className={styles.right}>
         {trailing ?? <LanguageSwitcher />}
+        <GlossaryHelpDialog triggerClassName={styles.ghostButton} />
         {!loading && isAuthenticated && email && (
           <Body1 className={styles.userLabel}>
             {t("auth.signedInAs", { email })}

@@ -1,6 +1,7 @@
 {
   "nav": {
     "home": "ホーム",
+    "charter": "プロジェクト憲章",
     "terminology": "用語の説明",
     "overview": "今日",
     "overviewHint": "次にやることと直近の記録",
@@ -31,6 +32,9 @@
     "workspace": "ワークスペース",
     "account": "アカウント",
     "github": "GitHub",
+    "help": "ヘルプ",
+    "helpAria": "用語の説明を開く",
+    "helpTitle": "用語の説明",
     "breadcrumbHome": "ホーム",
     "breadcrumbOverview": "概要",
     "breadcrumbPage": "ページ",
@@ -55,8 +59,12 @@
       "subtitle": "小さな実績を集める — DMTA から STAR へ"
     },
     "glossary": {
-      "title": "用語定義",
+      "title": "用語の説明",
       "subtitle": "フレームワークとアプリ用語"
+    },
+    "charter": {
+      "title": "プロジェクト憲章",
+      "subtitle": "目的と、この場で大切にしている進め方"
     },
     "overview": {
       "title": "今日",
@@ -89,6 +97,7 @@
   },
   "landing": {
     "openWorkspace": "ワークスペースを開く",
+    "viewCharter": "プロジェクト憲章を読む",
     "viewTerminology": "用語定義を見る",
     "architecture": "アーキテクチャ",
     "architectureHint": "Azure スタック構成（API オフライン時はモックにフォールバック）",
@@ -226,6 +235,41 @@
   },
   "common": {
     "loading": "読み込み中…",
-    "failedToLoad": "読み込みに失敗しました"
+    "failedToLoad": "読み込みに失敗しました",
+    "close": "閉じる"
+  },
+  "charter": {
+    "purposeTitle": "目的",
+    "purposeBody": "ビジネス上の取り組みを、途中の相談や検討も含めて進め、最終的に判断と実績が参照可能な記録として残せるようにします。",
+    "capabilitiesTitle": "この場でできること",
+    "capabilitiesLead": "取り組みの進め方を、次のように支えます。",
+    "capabilities": {
+      "launch": {
+        "title": "取り組みを立ち上げる",
+        "body": "いま進める案件やテーマをはっきりさせ、作業の起点をつくります。"
+      },
+      "plan": {
+        "title": "計画を立てる",
+        "body": "ゴールと進め方を整理し、関係者の認識をそろえる土台にします。"
+      },
+      "consult": {
+        "title": "相談する",
+        "body": "方針や選択肢について壁打ちし、判断の材料を集めます。"
+      },
+      "single": {
+        "title": "単発で検討する",
+        "body": "一つの問いに対して、まとまった見解や提案を得ます。"
+      },
+      "multi": {
+        "title": "複合的に検討する",
+        "body": "複数の論点や作業を並行して進め、全体として前に進めます。"
+      },
+      "commit": {
+        "title": "記録として確定する",
+        "body": "結論・経緯・結果を、あとから探せる形でナレッジに落とし込みます。"
+      }
+    },
+    "outcomeTitle": "残る成果",
+    "outcomeBody": "散らばったメモではなく、状況・課題・行動・結果がそろう実績記録の集まりです。検索し、見比べ、次の判断に使えます。"
   }
 }

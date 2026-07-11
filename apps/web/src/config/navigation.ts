@@ -31,7 +31,7 @@ export const workspaceNav: NavItem[] = [
 
 export const publicNav: NavItem[] = [
   { to: "/", labelKey: "nav.home", icon: HomeRegular, end: true },
-  { to: "/glossary", labelKey: "nav.terminology", icon: BookInformationRegular },
+  { to: "/charter", labelKey: "nav.charter", icon: BookInformationRegular },
 ];
 
 export type BreadcrumbItem = {
@@ -41,7 +41,7 @@ export type BreadcrumbItem = {
 
 const publicPageKeys: Record<string, string> = {
   "/": "pages.home",
-  "/glossary": "pages.glossary",
+  "/charter": "pages.charter",
 };
 
 const workspacePageKeys: Record<string, string> = {
