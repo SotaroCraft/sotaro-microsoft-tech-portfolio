@@ -67,7 +67,6 @@ resource swaAppSettings 'Microsoft.Web/staticSites/config@2023-12-01' = {
     AZURE_OPENAI_API_KEY: azureOpenAiApiKey
     AZURE_OPENAI_CHAT_DEPLOYMENT: 'gpt-5-mini'
     AZURE_OPENAI_EMBEDDING_DEPLOYMENT: 'text-embedding-3-small'
-    FUNCTIONS_WORKER_RUNTIME: 'node'
   }
 }
 
