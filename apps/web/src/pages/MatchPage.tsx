@@ -10,10 +10,11 @@ import {
   makeStyles,
 } from "@fluentui/react-components";
 import type { MatchResponse } from "@microstar/shared";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import { ContentPanel } from "../components/shell/ContentPanel";
+import type { GraphImportHandoff } from "../lib/graph";
 import { apiFetch } from "../lib/api";
 import { azureShellColors } from "../theme/azureTheme";
 
@@ -34,7 +35,7 @@ const useStyles = makeStyles({
     boxShadow: "none",
   },
   meta: {
-    color: "#605e5c",
+    color: azureShellColors.mutedText,
     marginBottom: "8px",
   },
   draft: {
@@ -53,11 +54,20 @@ const useStyles = makeStyles({
 export function MatchPage() {
   const styles = useStyles();
   const { t } = useTranslation();
+  const location = useLocation();
   const [referenceText, setReferenceText] = useState("");
   const [topK, setTopK] = useState("3");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState<MatchResponse | null>(null);
+
+  useEffect(() => {
+    const handoff = (location.state as { graphImport?: GraphImportHandoff } | null)
+      ?.graphImport;
+    if (handoff?.plainText) {
+      setReferenceText(handoff.plainText);
+    }
+  }, [location.state]);
 
   async function handleMatch() {
     if (!referenceText.trim()) return;
@@ -92,6 +102,9 @@ export function MatchPage() {
               rows={6}
             />
           </Field>
+          <RouterLink to="/app/inbox">
+            <Button appearance="secondary">{t("match.importFromGraph")}</Button>
+          </RouterLink>
           <Field label={t("match.topKLabel")}>
             <Input
               type="number"

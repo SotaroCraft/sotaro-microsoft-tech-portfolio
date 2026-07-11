@@ -13,8 +13,10 @@ import type { Episode } from "@microstar/shared";
 import { STAR_FIELDS } from "@microstar/shared";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import { ContentPanel } from "../components/shell/ContentPanel";
 import { useAppLocale } from "../hooks/useAppLocale";
+import type { GraphImportHandoff } from "../lib/graph";
 import { apiFetch } from "../lib/api";
 import { azureShellColors } from "../theme/azureTheme";
 
@@ -51,11 +53,11 @@ const useStyles = makeStyles({
   },
   empty: {
     marginTop: "16px",
-    color: "#605e5c",
+    color: azureShellColors.mutedText,
   },
   tags: {
     marginTop: "8px",
-    color: "#605e5c",
+    color: azureShellColors.mutedText,
   },
 });
 
@@ -116,12 +118,27 @@ export function JournalPage() {
   const styles = useStyles();
   const { t } = useTranslation();
   const locale = useAppLocale();
+  const location = useLocation();
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handoff = (location.state as { graphImport?: GraphImportHandoff } | null)
+      ?.graphImport;
+    if (!handoff) return;
+    const draft = handoff.journalDraft;
+    setEditingId(null);
+    setForm({
+      ...emptyForm(),
+      title: draft?.title ?? "",
+      situation: draft?.situation ?? "",
+      bodyText: draft?.bodyText ?? handoff.plainText,
+    });
+  }, [location.state]);
 
   const starLabel = (letter: string) => {
     const field = STAR_FIELDS.find((row) => row.letter === letter);
@@ -275,6 +292,9 @@ export function JournalPage() {
                 {t("journal.cancelEdit")}
               </Button>
             )}
+            <RouterLink to="/app/inbox">
+              <Button appearance="secondary">{t("journal.importFromGraph")}</Button>
+            </RouterLink>
           </div>
         </div>
       </ContentPanel>

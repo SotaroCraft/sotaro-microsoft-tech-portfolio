@@ -5,6 +5,7 @@
     "overview": "Overview",
     "journal": "Journal",
     "match": "Match",
+    "inbox": "Inbox",
     "pipeline": "Pipeline",
     "summary": "Summary",
     "settings": "Settings"
@@ -54,6 +55,10 @@
     "match": {
       "title": "Context matching",
       "subtitle": "Match reference text to journal entries"
+    },
+    "inbox": {
+      "title": "Inbox",
+      "subtitle": "Import Outlook calendar or mail into Match or Journal"
     },
     "pipeline": {
       "title": "Pipeline tracker",
@@ -128,7 +133,8 @@
     "delete": "Delete",
     "confirmDelete": "Delete this journal entry?",
     "empty": "No entries yet. Capture a milestone with optional STAR fields.",
-    "loading": "Loading entries…"
+    "loading": "Loading entries…",
+    "importFromGraph": "Import from Outlook"
   },
   "match": {
     "referenceLabel": "Reference text",
@@ -142,7 +148,22 @@
     "noResults": "No matching journal entries.",
     "openJournal": "Open journal",
     "openPipeline": "Open pipeline",
-    "setNextAction": "Set next action"
+    "setNextAction": "Set next action",
+    "importFromGraph": "Import from Outlook"
+  },
+  "inbox": {
+    "intro": "Pull a calendar event or mail message into Match reference text or a Journal draft. Nothing is saved until you confirm on those pages.",
+    "mockMode": "Mock mode — sample Outlook items (set VITE_ENTRA_CLIENT_ID for live Graph).",
+    "liveMode": "Live Microsoft Graph — consent may appear on first load.",
+    "tabCalendar": "Calendar",
+    "tabMail": "Mail",
+    "loadCalendar": "Load recent calendar",
+    "loadMail": "Load recent mail",
+    "loading": "Loading…",
+    "consentHint": "User-initiated only. Delegated scopes: User.Read, Calendars.Read, Mail.Read.",
+    "empty": "No items returned.",
+    "useInMatch": "Use in Match",
+    "useInJournal": "Use in Journal"
   },
   "pipeline": {
     "newOrganization": "New organization",

@@ -6,6 +6,7 @@ import { LandingPage } from "./pages/LandingPage";
 import { AppHomePage } from "./pages/AppHomePage";
 import { JournalPage } from "./pages/JournalPage";
 import { MatchPage } from "./pages/MatchPage";
+import { InboxPage } from "./pages/InboxPage";
 import { PipelinePage } from "./pages/PipelinePage";
 import { SettingsPage } from "./pages/SettingsPage";
 import { GlossaryPage } from "./pages/GlossaryPage";
@@ -37,6 +38,7 @@ export function App() {
             <Route index element={<AppHomePage />} />
             <Route path="journal" element={<JournalPage />} />
             <Route path="match" element={<MatchPage />} />
+            <Route path="inbox" element={<InboxPage />} />
             <Route path="pipeline" element={<PipelinePage />} />
             <Route path="summary" element={<SummaryPage />} />
             <Route path="settings" element={<SettingsPage />} />

@@ -92,8 +92,59 @@ swa start http://localhost:5173 --api-location api
 
 Use `/.auth/login/aad` on the SWA CLI port (`4280`) to test the login flow against your App Registration (add `http://localhost:4280/.auth/login/aad/callback` as redirect URI).
 
+## Microsoft Graph delegated import
+
+SWA `/.auth` authenticates the workspace but does **not** issue Graph tokens for `Calendars.Read` / `Mail.Read`. The Inbox page (`/app/inbox`) uses **MSAL.js** in the browser for user-initiated Graph reads.
+
+### Scopes (first slice — both locked)
+
+| Delegated scope | Purpose |
+|-----------------|--------|
+| `User.Read` | Profile baseline |
+| `Calendars.Read` | Recent Outlook calendar events |
+| `Mail.Read` | Recent Outlook mail messages |
+
+### Automated permission update
+
+```powershell
+# From repo root — requires az login with rights to update the app registration
+.\scripts\setup-graph-permissions.ps1
+# Optional admin consent (tenant-wide):
+.\scripts\setup-graph-permissions.ps1 -GrantAdminConsent
+```
+
+Expected cost: **¥0** (Entra directory config only; no new Azure resources).
+
+### Manual Portal steps (if `az` unavailable)
+
+1. **Azure Portal** → **Microsoft Entra ID** → **App registrations** → `MicroBootCan SWA` (or your SWA app).
+2. **API permissions** → **Add a permission** → **Microsoft Graph** → **Delegated**:
+   - `User.Read`
+   - `Calendars.Read`
+   - `Mail.Read`
+3. **Grant admin consent** (recommended for single-user tenant) — or rely on per-user consent on first MSAL popup.
+4. **Authentication** → **Add a platform** → **Single-page application** if missing. Redirect URIs:
+   - `https://ambitious-desert-0763df000.7.azurestaticapps.net`
+   - `http://localhost:5173`
+   - `http://localhost:4280`
+   Keep existing SWA callbacks under Web / `/.auth/login/aad/callback` unchanged.
+5. Note **Application (client) ID** and **Directory (tenant) ID**.
+
+### Web env (Vite)
+
+```env
+VITE_ENTRA_CLIENT_ID=<same client ID as SWA Entra app>
+VITE_ENTRA_TENANT_ID=<your tenant GUID>
+VITE_GRAPH_USE_MOCK=false
+```
+
+When `VITE_ENTRA_CLIENT_ID` is unset (or `VITE_GRAPH_USE_MOCK=true`), Inbox uses **mock** calendar/mail items so Match / Journal prefill works without consent.
+
+Design detail: [graph-import-design.md](graph-import-design.md).
+
 ## Related docs
 
 - [azure-setup.md](azure-setup.md) — SWA deploy + GitHub secrets
 - [local-dev.md](local-dev.md) — hybrid local stack
+- [graph-import-design.md](graph-import-design.md) — Graph import (Calendar + Mail)
 - [CHARTER.md](../CHARTER.md) — privacy and public copy rules

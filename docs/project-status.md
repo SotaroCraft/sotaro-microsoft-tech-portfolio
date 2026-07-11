@@ -3,7 +3,7 @@
 Living document: Q&A 合意・Azure リソース・進捗・次フェーズ。  
 詳細計画は Cursor Plan（Q&A Plan）を参照。本ファイルは **実装と運用の現在地** を追記する。
 
-最終更新: 2026-07-11（Track A 完了・SWA B1 出荷・Graph 設計固定）
+最終更新: 2026-07-11（Graph Inbox 実装 — Outlook Calendar + Mail）
 
 ---
 
@@ -67,7 +67,7 @@ Endpoint: `https://microbootcan-openai-z6mnn.openai.azure.com/`
 | Track A — Capture→Match→Decide | ✅ | STAR Journal・`/app/match`・Decide API/UI・Overview ライブ化（ローカル） |
 | Must 4 機能 | ✅ | Journal / Pipeline / Summary / Milestone countdown（`/app` UI） |
 | AI プロバイダ | ✅ | `mock` / `gemini` / `azure` + `POST /api/match`（本番 AI 切替は承認後） |
-| Graph 取り込み | 📋 設計のみ | [graph-import-design.md](graph-import-design.md) — 実装は承認後 |
+| Graph 取り込み | ✅ 初版 | `/app/inbox` — Calendar + Mail（MSAL / mock）。設計: [graph-import-design.md](graph-import-design.md) |
 | 構成図 + 公式アイコン | ✅ | mock Resource Graph 応答（本番 RG 読取は承認後） |
 | `resources/` gitignore + sync | ✅ | `pnpm sync:icons` → `public/architecture-icons/` |
 | `pnpm build` / typecheck | ✅ | shared + api + web typecheck 成功（2026-07-11） |
@@ -92,6 +92,18 @@ Endpoint: `https://microbootcan-openai-z6mnn.openai.azure.com/`
 - 本番 app settings: `COSMOS_*` 注入済、`AI_PROVIDER=mock`（有料 AI は未承認のため切替しない）
 - 実験ディレクトリ `swa-api-min/` / `swa-api-ncc-test/` / `swa-api-test/` は gitignore（コミットしない）
 - 残ブロッカー: GitHub Secret `AZURE_STATIC_WEB_APPS_API_TOKEN`、Entra Portal プロバイダリンク
+
+### Graph Inbox（2026-07-11）
+
+ユーザー起点の Outlook 取り込み（常時同期なし）。SWA `/.auth` は維持し、Graph は MSAL 委任トークン。
+
+| 項目 | 状態 |
+|------|------|
+| スコープ | `User.Read` + `Calendars.Read` + `Mail.Read`（両方ロック） |
+| UI | `/app/inbox` — Calendar / Mail タブ → Match 参照テキスト or Journal 下書き |
+| ローカル | `VITE_GRAPH_USE_MOCK` / client ID 未設定時はモック項目 |
+| Entra | `scripts/setup-graph-permissions.ps1` + [auth-setup.md](auth-setup.md) Portal 手順 |
+| 課金 | 権限追加 ¥0。新規有料リソースなし。本番 AI 未使用 |
 
 ---
 
@@ -273,6 +285,6 @@ api/src/services/ai/
 | [CHARTER.md](../CHARTER.md) | 憲章・公開コピー・予算 |
 | [local-dev.md](local-dev.md) | ローカル開発・アイコン同期 |
 | [azure-setup.md](azure-setup.md) | Azure セットアップ・再デプロイ・SWA |
-| [graph-import-design.md](graph-import-design.md) | Graph 委任取り込み設計（実装は承認後） |
+| [graph-import-design.md](graph-import-design.md) | Graph 委任取り込み（Calendar + Mail 初版実装済） |
 | [monorepo-overview.md](monorepo-overview.md) | リポジトリ構成 |
 | [auth-setup.md](auth-setup.md) | Entra / SWA 認証 |
