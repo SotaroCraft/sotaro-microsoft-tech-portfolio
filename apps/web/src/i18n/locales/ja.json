@@ -242,6 +242,40 @@
     "memoNote": "対外向けの説明文ではない。方針がぶれたときに読み返す、自分用のメモ。",
     "purposeTitle": "何を目指すか",
     "purposeBody": "取り組みを進めながら、判断と実績をあとから参照できる記録として残す。コード置き場ではなく、判断と実績の置き場をつくる。",
+    "compareTitle": "Cursor 系ツールとの対比",
+    "compareLead": "体験の型は似せる。置き場と成果物が違う。",
+    "compareColCursor": "Cursor 系（コーディング）",
+    "compareColHere": "この Platform（判断・実績）",
+    "compare": {
+      "repo": {
+        "cursor": "リポジトリ＝ソースコード",
+        "here": "リポジトリ＝この Platform（判断と実績）"
+      },
+      "project": {
+        "cursor": "プロジェクト作成",
+        "here": "取り組み・テーマの立ち上げ"
+      },
+      "plan": {
+        "cursor": "Plan — 計画モード",
+        "here": "計画を言語化する"
+      },
+      "ask": {
+        "cursor": "Ask — 相談・壁打ち",
+        "here": "方針や選択肢の相談"
+      },
+      "agent": {
+        "cursor": "Agent — 単発の推論・実行",
+        "here": "一つの問いに対する単発検討"
+      },
+      "multitask": {
+        "cursor": "MultiTask — 複合・並行の推論",
+        "here": "複数論点の複合検討"
+      },
+      "push": {
+        "cursor": "リポジトリへ Push",
+        "here": "STAR へ落とし込み（状況・課題・行動・結果の確定記録）"
+      }
+    },
     "planTitle": "計画",
     "planLead": "進め方を、次の順序で言語化する。",
     "steps": {

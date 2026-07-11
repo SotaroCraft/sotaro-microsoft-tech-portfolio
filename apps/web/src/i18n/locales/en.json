@@ -242,6 +242,40 @@
     "memoNote": "Not an external pitch. A private memo to re-read when the direction drifts.",
     "purposeTitle": "What I am aiming for",
     "purposeBody": "Move initiatives forward while leaving judgments and outcomes as records I can reopen later. Not a place for code—a place for judgments and outcomes.",
+    "compareTitle": "Contrast with Cursor-class tools",
+    "compareLead": "Same shape of experience; different repository and outcomes.",
+    "compareColCursor": "Cursor-class (coding)",
+    "compareColHere": "This Platform (judgment & outcomes)",
+    "compare": {
+      "repo": {
+        "cursor": "Repository = source code",
+        "here": "Repository = this Platform (judgments and outcomes)"
+      },
+      "project": {
+        "cursor": "Create a project",
+        "here": "Start an initiative / theme"
+      },
+      "plan": {
+        "cursor": "Plan — planning mode",
+        "here": "Spell out the plan in words"
+      },
+      "ask": {
+        "cursor": "Ask — consult / pressure-test",
+        "here": "Consult on direction and options"
+      },
+      "agent": {
+        "cursor": "Agent — single-shot inference / execution",
+        "here": "Focused review of one question"
+      },
+      "multitask": {
+        "cursor": "MultiTask — compound / parallel inference",
+        "here": "Compound review across several threads"
+      },
+      "push": {
+        "cursor": "Push to the repository",
+        "here": "Commit into STAR (situation / task / action / result)"
+      }
+    },
     "planTitle": "Plan",
     "planLead": "Spell out the working sequence as follows.",
     "steps": {
