@@ -69,9 +69,13 @@ export function ArchitectureDiagram() {
 
     try {
       const res = await fetch("/api/architecture");
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json = (await res.json()) as ArchitectureResponse;
-      setData(json);
+      if (res.ok) {
+        setData((await res.json()) as ArchitectureResponse);
+        return;
+      }
+      const fallback = await fetch("/architecture.mock.json");
+      if (!fallback.ok) throw new Error(`HTTP ${res.status}`);
+      setData((await fallback.json()) as ArchitectureResponse);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Failed to load architecture",
