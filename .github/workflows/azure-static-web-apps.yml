@@ -36,6 +36,9 @@ jobs:
       - name: Build monorepo
         run: pnpm build
 
+      - name: Prepare API bundle for SWA
+        run: pnpm --filter @microbootcan/api --prod deploy swa-api
+
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -44,9 +47,10 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "apps/web"
-          api_location: "api"
+          api_location: "swa-api"
           output_location: "dist"
           skip_app_build: true
+          skip_api_build: true
 
   close_pull_request:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
