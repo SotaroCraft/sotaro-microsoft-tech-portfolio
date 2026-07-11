@@ -1,5 +1,4 @@
 import {
-  Body1,
   Button,
   Dialog,
   DialogActions,

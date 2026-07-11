@@ -54,12 +54,12 @@ const useStyles = makeStyles({
     font: "inherit",
     color: "inherit",
     ":hover": {
-      borderColor: azureShellColors.sidebarAccent,
+      border: `1px solid ${azureShellColors.sidebarAccent}`,
       backgroundColor: azureShellColors.sidebarSelected,
     },
   },
   itemSelected: {
-    borderColor: azureShellColors.sidebarAccent,
+    border: `1px solid ${azureShellColors.sidebarAccent}`,
     boxShadow: `inset 3px 0 0 ${azureShellColors.sidebarAccent}`,
   },
   itemTitle: {

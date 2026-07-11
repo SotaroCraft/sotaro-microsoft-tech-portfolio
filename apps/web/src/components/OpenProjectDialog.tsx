@@ -61,28 +61,42 @@ export function OpenProjectDialog({
 
   return (
     <Dialog open={open} onOpenChange={(_e, data) => setOpen(data.open)}>
-      {!hideTrigger && (
-        <DialogTrigger disableButtonEnhancement>
-          <Button
-            appearance="subtle"
-            className={triggerClassName ?? styles.ghost}
-            icon={<FolderOpenRegular />}
-          >
-            {t("project.openDialog")}
-          </Button>
-        </DialogTrigger>
+      {hideTrigger ? (
+        <DialogSurface className={styles.surface}>
+          <DialogBody>
+            <DialogContent className={styles.content}>
+              <OpenProjectPanel
+                showClose
+                onClose={() => setOpen(false)}
+                onOpened={() => setOpen(false)}
+              />
+            </DialogContent>
+          </DialogBody>
+        </DialogSurface>
+      ) : (
+        <>
+          <DialogTrigger disableButtonEnhancement>
+            <Button
+              appearance="subtle"
+              className={triggerClassName ?? styles.ghost}
+              icon={<FolderOpenRegular />}
+            >
+              {t("project.openDialog")}
+            </Button>
+          </DialogTrigger>
+          <DialogSurface className={styles.surface}>
+            <DialogBody>
+              <DialogContent className={styles.content}>
+                <OpenProjectPanel
+                  showClose
+                  onClose={() => setOpen(false)}
+                  onOpened={() => setOpen(false)}
+                />
+              </DialogContent>
+            </DialogBody>
+          </DialogSurface>
+        </>
       )}
-      <DialogSurface className={styles.surface}>
-        <DialogBody>
-          <DialogContent className={styles.content}>
-            <OpenProjectPanel
-              showClose
-              onClose={() => setOpen(false)}
-              onOpened={() => setOpen(false)}
-            />
-          </DialogContent>
-        </DialogBody>
-      </DialogSurface>
     </Dialog>
   );
 }
