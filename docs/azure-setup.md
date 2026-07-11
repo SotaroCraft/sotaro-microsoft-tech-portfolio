@@ -65,6 +65,8 @@ az deployment sub create `
 
 `infra/modules/static-web-app.bicep` が SWA（Free tier）と Functions 向け app settings を定義します。
 
+> **リージョン**: SWA は `japaneast` 非対応のため **`eastasia`** にデプロイ。Cosmos / App Insights は `japaneast` のまま。
+
 | App setting | 用途 |
 |-------------|------|
 | `COSMOS_ENDPOINT` / `COSMOS_KEY` / `COSMOS_DATABASE` | Cosmos DB 接続（Bicep で Cosmos キーを注入） |
