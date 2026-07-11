@@ -118,7 +118,7 @@ flowchart LR
 | Phase | 内容 | コード | Azure デプロイ |
 |-------|------|--------|----------------|
 | **A** | SWA + GitHub Actions + Cosmos 本番接続 | ✅ Bicep + workflow | ✅ SWA デプロイ済（2026-07-11） |
-| **B** | Entra 認証 + `/app` 保護 + API デプロイ | ✅ コード + Entra 登録 | 🟡 CI デプロイ確認待ち |
+| **B** | Entra 認証 + `/app` 保護 + API デプロイ | ✅ コード + Entra 登録 | 🟡 フロント反映済・API デプロイ未完了 |
 | **C** | Must 4 機能一括 | ✅ Cosmos repos + `/app` UI | Cosmos 既存・接続は Phase A |
 | **D** | AI 抽象化 + Gemini コンテキストマッチ | ✅ `gemini-provider` + `/api/match` | ⬜ Gemini Key 設定は承認後 |
 | **E** | 構成図 + 公式 SVG + Landing | ✅ mock API + UI | Resource Graph Reader は承認後 |
@@ -141,7 +141,9 @@ flowchart LR
 3. ✅ `ALLOWED_USER_EMAIL` を SWA app settings に設定
 4. ✅ `scripts/prepare-swa-api.mjs` — 軽量 API バンドル（CI `api_location: swa-api`）
 5. ✅ `useAuth` + トップバー Sign in/out + 日英 i18n
-6. ⬜ CI 成功後: `/api/health` 200、`/app` → Entra ログイン動作確認
+6. ✅ CI #22 成功 — フロント + 認証ルート本番反映（`/app` → Entra ログインリダイレクト）
+7. ⬜ Portal: Authentication → Microsoft プロバイダをリンク（client ID / secret）
+8. ⬜ Functions API デプロイ（`swa-api` バンドル — CI #21–23 で要調査）
 
 ### Phase E — Resource Graph（承認後）
 
