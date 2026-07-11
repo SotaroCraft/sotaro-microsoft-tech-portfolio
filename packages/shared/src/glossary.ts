@@ -103,22 +103,34 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     labelEn: "MicroStar",
     labelJa: "MicroStar",
     summaryEn:
-      "A short daily project unit. Run DMTA, then optionally keep the outcome as a STAR achievement.",
+      "A short theme (about a day, sometimes a few days). Work the theme loop; keep judgments and outcomes in the STAR knowledge base.",
     summaryJa:
-      "1日単位の短プロジェクト。DMTA で回し、残すものだけを STAR 実績にする。",
+      "短いテーマ（目安1日、ときに数日）。運転し、判断と実績は STAR ナレッジベースへ残す。",
     moduleEn: "Product doctrine · Platform",
     moduleJa: "プロダクト思想 · プラットフォーム",
   },
   {
     id: "dmta",
-    labelEn: "DMTA loop",
-    labelJa: "DMTA ループ",
+    labelEn: "Theme loop (DMTA metaphor)",
+    labelJa: "テーマ運転（DMTA たとえ）",
     summaryEn:
-      "Design → Make → Test → Analyze—the operating loop for each MicroStar.",
+      "Theme → approach → build → evaluate → next action. DMTA is an optional metaphor, not a required label.",
     summaryJa:
-      "Design → Make → Test → Analyze。各 MicroStar の運転形式。",
-    moduleEn: "Product doctrine · daily loop",
-    moduleJa: "プロダクト思想 · 日次ループ",
+      "テーマ → 手段 → 実装 → 評価 → 次アクション。DMTA はたとえであり必須ラベルではない。",
+    moduleEn: "Product doctrine · theme loop",
+    moduleJa: "プロダクト思想 · テーマ運転",
+  },
+  {
+    id: "star-knowledge-base",
+    labelEn: "STAR knowledge base",
+    labelJa: "STAR ナレッジベース",
+    summaryEn:
+      "The product outcome: a database of STAR-analyzed judgments and achievements—searchable, matchable, reusable.",
+    summaryJa:
+      "プロダクトの成果定義。STAR 分析した判断・実績の DB。検索・照合・再利用の対象。",
+    moduleEn: "Product doctrine · outcome",
+    moduleJa: "プロダクト思想 · 成果",
+    appRoute: "/app/journal",
   },
   {
     id: "milestone-countdown",
@@ -149,11 +161,11 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     labelEn: "STAR",
     labelJa: "STAR 形式",
     summaryEn:
-      "Situation / Task / Action / Result—a framework to capture experience in a consistent shape.",
+      "Situation / Task / Action / Result—the record shape of the STAR knowledge base.",
     summaryJa:
-      "Situation / Task / Action / Result の4要素で経験を同じ型にそろえるフレームワーク。",
-    moduleEn: "Framework · used inside Achievement journal",
-    moduleJa: "フレームワーク · 実績ジャーナル内で使用",
+      "Situation / Task / Action / Result。STAR ナレッジベースのレコード形状。",
+    moduleEn: "Framework · STAR knowledge base",
+    moduleJa: "フレームワーク · STAR ナレッジベース",
     appRoute: "/app/journal",
   },
   {
