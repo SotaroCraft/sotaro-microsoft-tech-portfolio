@@ -11,6 +11,7 @@ import {
   buildDiagramLayout,
   type ArchitectureResponse,
 } from "@microbootcan/shared";
+import { useTranslation } from "react-i18next";
 import { ConnectionEdge } from "./ConnectionEdge";
 import { ResourceNode } from "./ResourceNode";
 
@@ -60,6 +61,7 @@ const useStyles = makeStyles({
 
 export function ArchitectureDiagram() {
   const styles = useStyles();
+  const { t, i18n } = useTranslation();
   const [data, setData] = useState<ArchitectureResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -83,12 +85,12 @@ export function ArchitectureDiagram() {
       setData((await fallback.json()) as ArchitectureResponse);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to load architecture",
+        err instanceof Error ? err.message : t("architecture.loadFailed"),
       );
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     void load();
@@ -109,8 +111,14 @@ export function ArchitectureDiagram() {
       <div className={styles.toolbar}>
         <Body1 className={styles.meta}>
           {data
-            ? `${data.resourceGroup} · ${data.region} · updated ${new Date(data.fetchedAt).toLocaleString()}`
-            : "Live Azure stack topology"}
+            ? t("architecture.updated", {
+                resourceGroup: data.resourceGroup,
+                region: data.region,
+                time: new Date(data.fetchedAt).toLocaleString(
+                  i18n.language.startsWith("ja") ? "ja-JP" : "en-US",
+                ),
+              })
+            : t("architecture.topology")}
         </Body1>
         <Button
           appearance="subtle"
@@ -118,14 +126,16 @@ export function ArchitectureDiagram() {
           disabled={loading}
           onClick={() => void load()}
         >
-          Refresh
+          {t("architecture.refresh")}
         </Button>
       </div>
 
-      {loading && !data && <Spinner label="Loading architecture..." />}
+      {loading && !data && (
+        <Spinner label={t("architecture.loading")} />
+      )}
       {error && (
         <Body1 className={styles.error}>
-          Architecture unavailable: {error}
+          {t("architecture.unavailable", { error })}
         </Body1>
       )}
 

@@ -3,14 +3,39 @@
     "rewrite": "/index.html",
     "exclude": ["/api/*", "/*.{css,js,png,jpg,svg,ico,json}"]
   },
+  "auth": {
+    "identityProviders": {
+      "azureActiveDirectory": {
+        "registration": {
+          "openIdIssuer": "https://login.microsoftonline.com/11697245-2cdb-40d5-b979-d8ee6577ee4a/v2.0",
+          "clientIdSettingName": "AZURE_CLIENT_ID",
+          "clientSecretSettingName": "AZURE_CLIENT_SECRET"
+        }
+      }
+    }
+  },
   "routes": [
     {
+      "route": "/api/architecture",
+      "allowedRoles": ["anonymous"]
+    },
+    {
+      "route": "/api/health",
+      "allowedRoles": ["anonymous"]
+    },
+    {
       "route": "/api/*",
-      "allowedRoles": ["anonymous", "authenticated"]
+      "allowedRoles": ["authenticated"]
     },
     {
       "route": "/app/*",
-      "allowedRoles": ["anonymous", "authenticated"]
+      "allowedRoles": ["authenticated"]
     }
-  ]
+  ],
+  "responseOverrides": {
+    "401": {
+      "redirect": "/.auth/login/aad?post_login_redirect_uri=.referrer",
+      "statusCode": 302
+    }
+  }
 }

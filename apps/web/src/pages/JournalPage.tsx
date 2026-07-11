@@ -11,7 +11,9 @@ import {
 } from "@fluentui/react-components";
 import type { Episode } from "@microbootcan/shared";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ContentPanel } from "../components/shell/ContentPanel";
+import { useAppLocale } from "../hooks/useAppLocale";
 import { apiFetch } from "../lib/api";
 import { azureShellColors } from "../theme/azureTheme";
 
@@ -35,6 +37,8 @@ const useStyles = makeStyles({
 
 export function JournalPage() {
   const styles = useStyles();
+  const { t } = useTranslation();
+  const locale = useAppLocale();
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [title, setTitle] = useState("");
   const [bodyText, setBodyText] = useState("");
@@ -48,7 +52,7 @@ export function JournalPage() {
       setEpisodes(data);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load");
+      setError(err instanceof Error ? err.message : t("common.failedToLoad"));
     } finally {
       setLoading(false);
     }
@@ -62,7 +66,12 @@ export function JournalPage() {
     if (!title.trim() || !bodyText.trim()) return;
     await apiFetch<Episode>("/episodes", {
       method: "POST",
-      body: JSON.stringify({ title, bodyText, tags: [], locale: "ja" }),
+      body: JSON.stringify({
+        title,
+        bodyText,
+        tags: [],
+        locale,
+      }),
     });
     setTitle("");
     setBodyText("");
@@ -73,10 +82,10 @@ export function JournalPage() {
     <>
       <ContentPanel>
         <div className={styles.form}>
-          <Field label="Title">
+          <Field label={t("journal.titleLabel")}>
             <Input value={title} onChange={(_, data) => setTitle(data.value)} />
           </Field>
-          <Field label="Body">
+          <Field label={t("journal.bodyLabel")}>
             <Textarea
               value={bodyText}
               onChange={(_, data) => setBodyText(data.value)}
@@ -84,12 +93,14 @@ export function JournalPage() {
             />
           </Field>
           <Button appearance="primary" onClick={() => void handleCreate()}>
-            Add entry
+            {t("journal.addEntry")}
           </Button>
         </div>
       </ContentPanel>
 
-      {loading && <Body1 style={{ marginTop: 16 }}>Loading entries…</Body1>}
+      {loading && (
+        <Body1 style={{ marginTop: 16 }}>{t("journal.loading")}</Body1>
+      )}
       {error && <Body1 style={{ marginTop: 16 }}>{error}</Body1>}
 
       <div className={styles.list}>

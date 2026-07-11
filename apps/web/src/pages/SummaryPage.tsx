@@ -8,6 +8,7 @@ import {
 } from "@fluentui/react-components";
 import type { CareerSummary } from "@microbootcan/shared";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ContentPanel } from "../components/shell/ContentPanel";
 import { apiFetch } from "../lib/api";
 
@@ -20,6 +21,7 @@ const useStyles = makeStyles({
 
 export function SummaryPage() {
   const styles = useStyles();
+  const { t } = useTranslation();
   const [summaryJa, setSummaryJa] = useState("");
   const [summaryEn, setSummaryEn] = useState("");
   const [metricsText, setMetricsText] = useState("");
@@ -60,37 +62,37 @@ export function SummaryPage() {
       method: "PUT",
       body: JSON.stringify({ summaryJa, summaryEn, metrics }),
     });
-    setMessage("Saved metrics & summary.");
+    setMessage(t("summary.saved"));
   }
 
   return (
     <>
-      {loading && <Body1>Loading…</Body1>}
+      {loading && <Body1>{t("summary.loading")}</Body1>}
 
       <ContentPanel>
         <div className={styles.form}>
-          <Field label="Summary (JA)">
+          <Field label={t("summary.summaryJa")}>
             <Textarea
               value={summaryJa}
               onChange={(_, data) => setSummaryJa(data.value)}
               rows={4}
             />
           </Field>
-          <Field label="Summary (EN)">
+          <Field label={t("summary.summaryEn")}>
             <Textarea
               value={summaryEn}
               onChange={(_, data) => setSummaryEn(data.value)}
               rows={4}
             />
           </Field>
-          <Field label="Metrics (label=value per line)">
+          <Field label={t("summary.metrics")}>
             <Input
               value={metricsText}
               onChange={(_, data) => setMetricsText(data.value)}
             />
           </Field>
           <Button appearance="primary" onClick={() => void handleSave()}>
-            Save summary
+            {t("summary.save")}
           </Button>
           {message && <Body1>{message}</Body1>}
         </div>

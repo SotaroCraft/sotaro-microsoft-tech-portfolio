@@ -10,22 +10,22 @@ import {
 
 export type NavItem = {
   to: string;
-  label: string;
+  labelKey: string;
   icon: ComponentType<{ className?: string; fontSize?: number }>;
   end?: boolean;
 };
 
 export const workspaceNav: NavItem[] = [
-  { to: "/app", label: "Overview", icon: HomeRegular, end: true },
-  { to: "/app/journal", label: "Journal", icon: BookRegular },
-  { to: "/app/pipeline", label: "Pipeline", icon: TableRegular },
-  { to: "/app/summary", label: "Summary", icon: DataBarVerticalRegular },
-  { to: "/app/settings", label: "Settings", icon: SettingsRegular },
+  { to: "/app", labelKey: "nav.overview", icon: HomeRegular, end: true },
+  { to: "/app/journal", labelKey: "nav.journal", icon: BookRegular },
+  { to: "/app/pipeline", labelKey: "nav.pipeline", icon: TableRegular },
+  { to: "/app/summary", labelKey: "nav.summary", icon: DataBarVerticalRegular },
+  { to: "/app/settings", labelKey: "nav.settings", icon: SettingsRegular },
 ];
 
 export const publicNav: NavItem[] = [
-  { to: "/", label: "Home", icon: HomeRegular, end: true },
-  { to: "/glossary", label: "Terminology", icon: BookInformationRegular },
+  { to: "/", labelKey: "nav.home", icon: HomeRegular, end: true },
+  { to: "/glossary", labelKey: "nav.terminology", icon: BookInformationRegular },
 ];
 
 export type BreadcrumbItem = {
@@ -33,38 +33,23 @@ export type BreadcrumbItem = {
   to?: string;
 };
 
-export const workspaceTitles: Record<string, { title: string; subtitle: string }> =
-  {
-    "/app": {
-      title: "Overview",
-      subtitle: "Workspace dashboard and service health",
-    },
-    "/app/journal": {
-      title: "Achievement journal",
-      subtitle: "Structured notes with optional STAR fields",
-    },
-    "/app/pipeline": {
-      title: "Pipeline tracker",
-      subtitle: "Kanban view across pipeline stages",
-    },
-    "/app/summary": {
-      title: "Metrics & summary",
-      subtitle: "Bilingual summary and KPI metrics",
-    },
-    "/app/settings": {
-      title: "Settings",
-      subtitle: "Milestone target and workspace preferences",
-    },
-  };
+const publicPageKeys: Record<string, string> = {
+  "/": "pages.home",
+  "/glossary": "pages.glossary",
+};
 
-export const publicTitles: Record<string, { title: string; subtitle: string }> =
-  {
-    "/": {
-      title: "MicroBootCan",
-      subtitle: "Azure-native personal productivity PWA",
-    },
-    "/glossary": {
-      title: "Terminology",
-      subtitle: "Framework and app vocabulary (EN / JA)",
-    },
-  };
+const workspacePageKeys: Record<string, string> = {
+  "/app": "pages.overview",
+  "/app/journal": "pages.journal",
+  "/app/pipeline": "pages.pipeline",
+  "/app/summary": "pages.summary",
+  "/app/settings": "pages.settings",
+};
+
+export function getPublicPageKey(pathname: string): string | undefined {
+  return publicPageKeys[pathname];
+}
+
+export function getWorkspacePageKey(pathname: string): string | undefined {
+  return workspacePageKeys[pathname] ?? workspacePageKeys["/app"];
+}

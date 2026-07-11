@@ -1,4 +1,5 @@
 import { Body1, makeStyles, mergeClasses } from "@fluentui/react-components";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import type { NavItem } from "../../config/navigation";
 import { azureShellColors } from "../../theme/azureTheme";
@@ -58,6 +59,7 @@ function isActive(pathname: string, item: NavItem) {
 export function AzureSidebar({ items, footer }: AzureSidebarProps) {
   const styles = useStyles();
   const { pathname } = useLocation();
+  const { t } = useTranslation();
 
   return (
     <aside className={styles.nav}>
@@ -71,7 +73,7 @@ export function AzureSidebar({ items, footer }: AzureSidebarProps) {
             className={mergeClasses(styles.item, active && styles.active)}
           >
             <Icon fontSize={18} />
-            <span>{item.label}</span>
+            <span>{t(item.labelKey)}</span>
           </RouterLink>
         );
       })}

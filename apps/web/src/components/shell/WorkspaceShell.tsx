@@ -1,7 +1,9 @@
 import { Body1, makeStyles } from "@fluentui/react-components";
+import { useTranslation } from "react-i18next";
 import { Outlet, useLocation } from "react-router-dom";
-import { workspaceNav, workspaceTitles } from "../../config/navigation";
+import { workspaceNav } from "../../config/navigation";
 import { useCountdown } from "../../hooks/useCountdown";
+import { usePageMeta } from "../../hooks/usePageMeta";
 import { useUserSettings } from "../../hooks/useUserSettings";
 import { azureShellColors } from "../../theme/azureTheme";
 import { AzureBreadcrumb } from "./AzureBreadcrumb";
@@ -39,21 +41,22 @@ const useStyles = makeStyles({
 export function WorkspaceShell() {
   const styles = useStyles();
   const { pathname } = useLocation();
+  const { t } = useTranslation();
   const { settings, loading } = useUserSettings();
   const countdown = useCountdown(settings?.milestoneTargetIso ?? "");
-  const meta = workspaceTitles[pathname] ?? workspaceTitles["/app"];
+  const meta = usePageMeta("workspace", pathname);
 
   const crumbs = [
-    { label: "Home", to: "/app" },
+    { label: t("shell.breadcrumbHome"), to: "/app" },
     ...(pathname !== "/app"
-      ? [{ label: meta.title }]
-      : [{ label: "Overview" }]),
+      ? [{ label: meta?.title ?? t("shell.breadcrumbOverview") }]
+      : [{ label: t("shell.breadcrumbOverview") }]),
   ];
 
   return (
     <div className={styles.root}>
       <AzureTopBar
-        contextLabel="Workspace · rg-microbootcan-prod"
+        contextLabel={t("shell.workspaceContext")}
         showWorkspaceLink={false}
       />
       <AzureBreadcrumb items={crumbs} />
@@ -62,17 +65,17 @@ export function WorkspaceShell() {
           items={workspaceNav}
           footer={
             loading
-              ? "Milestone countdown…"
-              : `Countdown: ${countdown.label}`
+              ? t("shell.countdownLoading")
+              : t("shell.countdownLabel", { label: countdown.label })
           }
         />
         <main className={styles.main}>
-          <PageHeader title={meta.title} subtitle={meta.subtitle} />
+          {meta && <PageHeader title={meta.title} subtitle={meta.subtitle} />}
           <Outlet />
         </main>
       </div>
       <footer className={styles.footer}>
-        <Body1>Authenticated workspace — personal data stays private.</Body1>
+        <Body1>{t("shell.workspaceFooter")}</Body1>
       </footer>
     </div>
   );

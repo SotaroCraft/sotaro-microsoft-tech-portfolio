@@ -1,0 +1,148 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "terminology": "用語定義",
+    "overview": "概要",
+    "journal": "ジャーナル",
+    "pipeline": "パイプライン",
+    "summary": "サマリー",
+    "settings": "設定"
+  },
+  "shell": {
+    "brand": "MicroBootCan",
+    "publicPreview": "公開プレビュー",
+    "workspaceContext": "ワークスペース · rg-microbootcan-prod",
+    "workspace": "ワークスペース",
+    "account": "アカウント",
+    "github": "GitHub",
+    "breadcrumbHome": "ホーム",
+    "breadcrumbOverview": "概要",
+    "breadcrumbPage": "ページ",
+    "publicFooter": "公開ランディング — 個人データは Entra ID 保護のワークスペースに保存されます。",
+    "workspaceFooter": "認証済みワークスペース — 個人データは非公開のままです。",
+    "countdownLoading": "マイルストーン・カウントダウン…",
+    "countdownLabel": "カウントダウン: {{label}}"
+  },
+  "auth": {
+    "signIn": "Microsoft でサインイン",
+    "signOut": "サインアウト",
+    "signedInAs": "{{email}}"
+  },
+  "language": {
+    "label": "言語",
+    "en": "English",
+    "ja": "日本語"
+  },
+  "pages": {
+    "home": {
+      "title": "MicroBootCan",
+      "subtitle": "Azure ネイティブの個人向け生産性 PWA"
+    },
+    "glossary": {
+      "title": "用語定義",
+      "subtitle": "フレームワークとアプリ用語"
+    },
+    "overview": {
+      "title": "概要",
+      "subtitle": "ワークスペース・ダッシュボードとサービス状態"
+    },
+    "journal": {
+      "title": "実績ジャーナル",
+      "subtitle": "STAR フィールド任意の構造化メモ"
+    },
+    "pipeline": {
+      "title": "パイプライン管理",
+      "subtitle": "ステージ別カンバンビュー"
+    },
+    "summary": {
+      "title": "メトリクスとサマリー",
+      "subtitle": "日英サマリーと KPI メトリクス"
+    },
+    "settings": {
+      "title": "設定",
+      "subtitle": "マイルストーン目標とワークスペース設定"
+    }
+  },
+  "landing": {
+    "openWorkspace": "ワークスペースを開く",
+    "viewTerminology": "用語定義を見る",
+    "architecture": "アーキテクチャ",
+    "architectureHint": "Azure スタック構成（API オフライン時はモックにフォールバック）",
+    "stack": "スタック",
+    "privacy": "プライバシー",
+    "privacyBody": "公開ランディングはアーキテクチャのみ表示。個人データは Entra ID 保護のワークスペースに保存されます。",
+    "viewSource": "GitHub でソースを見る"
+  },
+  "glossary": {
+    "intro": "公開サイトと非公開ワークスペースで使う中立ラベルです。STAR はフレームワーク、Web アプリは構造化記録を永続化する最初のステップです。",
+    "layersTitle": "プロダクトの層構造",
+    "layersDesc": "フレームワーク → Web アプリ → モジュール",
+    "starTitle": "STAR フィールド",
+    "starDesc": "実績ジャーナル — エントリごとに任意",
+    "starColField": "項目",
+    "starColEn": "英語",
+    "starColJa": "日本語",
+    "starColPrompt": "記入のヒント",
+    "termsTitle": "アプリ用語",
+    "openInWorkspace": "ワークスペースで開く"
+  },
+  "dashboard": {
+    "intro": "マイルストーン追跡と構造化記録の Must モジュール。左メニューから各ブレードを開いてください。",
+    "apiStatus": "API 状態",
+    "apiChecking": "/api/health を確認中…",
+    "apiOffline": "オフライン: {{error}}",
+    "apiOk": "正常 — 環境: {{env}}",
+    "pipelineStages": "パイプライン・ステージ",
+    "stagesConfigured": "{{count}} ステージ設定済み",
+    "openPipeline": "パイプラインを開く",
+    "sampleJournal": "ジャーナルサンプル",
+    "openJournal": "ジャーナルを開く",
+    "budgetCap": "Azure 月次予算上限",
+    "budgetPerMonth": "¥{{amount}} / 月"
+  },
+  "journal": {
+    "titleLabel": "タイトル",
+    "bodyLabel": "本文",
+    "addEntry": "エントリを追加",
+    "loading": "エントリを読み込み中…"
+  },
+  "pipeline": {
+    "newOrganization": "新規組織",
+    "addOrganization": "組織を追加",
+    "organization": "組織",
+    "selectOrganization": "組織を選択",
+    "opportunityTitle": "オポチュニティ名",
+    "addOpportunity": "オポチュニティを追加",
+    "items": "{{count}} 件",
+    "moveStage": "ステージを移動",
+    "unknownOrg": "不明"
+  },
+  "summary": {
+    "loading": "読み込み中…",
+    "summaryJa": "サマリー（日本語）",
+    "summaryEn": "サマリー（英語）",
+    "metrics": "メトリクス（1行に label=value）",
+    "save": "サマリーを保存",
+    "saved": "メトリクスとサマリーを保存しました。"
+  },
+  "settings": {
+    "milestoneIso": "マイルストーン目標（ISO 8601）",
+    "save": "マイルストーンを保存",
+    "saved": "マイルストーン目標を更新しました。"
+  },
+  "architecture": {
+    "topology": "Azure スタック構成（ライブ）",
+    "updated": "{{resourceGroup}} · {{region}} · 更新 {{time}}",
+    "refresh": "更新",
+    "loading": "アーキテクチャを読み込み中…",
+    "unavailable": "アーキテクチャを表示できません: {{error}}",
+    "loadFailed": "アーキテクチャの読み込みに失敗しました"
+  },
+  "countdown": {
+    "reached": "目標日に到達"
+  },
+  "common": {
+    "loading": "読み込み中…",
+    "failedToLoad": "読み込みに失敗しました"
+  }
+}

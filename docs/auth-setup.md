@@ -16,7 +16,29 @@ Configured in [`apps/web/staticwebapp.config.json`](../apps/web/staticwebapp.con
 
 Unauthenticated requests to protected routes receive `401` → redirect to `/.auth/login/aad`.
 
-## Entra App Registration (manual — Azure portal)
+## Entra App Registration
+
+### Automated (recommended)
+
+```powershell
+# From repo root — requires az login
+.\scripts\setup-entra-app.ps1
+```
+
+Creates a single-tenant App Registration, sets redirect URIs for production SWA and local SWA CLI (`4280`), and applies `AZURE_CLIENT_ID` / `AZURE_CLIENT_SECRET` to the Static Web App app settings.
+
+Then set the single-user allowlist on SWA (Functions inherit linked API settings):
+
+```powershell
+az staticwebapp appsettings set `
+  --name stapp-microbootcan-z6mnnh4iqiisc `
+  --resource-group rg-microbootcan-prod `
+  --setting-names ALLOWED_USER_EMAIL=you@example.com
+```
+
+`staticwebapp.config.json` includes the Entra issuer and references `AZURE_CLIENT_ID` / `AZURE_CLIENT_SECRET` app settings — no separate Portal identity-provider step is required after the script runs.
+
+### Manual (Azure portal)
 
 1. **App registrations** → New registration
    - Name: `MicroBootCan SWA`
@@ -37,7 +59,7 @@ After SWA is deployed (Phase A — requires approval):
    - `AZURE_CLIENT_ID`
    - `AZURE_CLIENT_SECRET`
 
-Update `staticwebapp.config.json` `openIdIssuer` tenant segment:
+Update `staticwebapp.config.json` tenant segment if you recreate the App Registration in another tenant:
 
 ```json
 "openIdIssuer": "https://login.microsoftonline.com/<TENANT_ID>/v2.0"

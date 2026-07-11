@@ -3,7 +3,7 @@
 Living document: Q&A 合意・Azure リソース・進捗・次フェーズ。  
 詳細計画は Cursor Plan（Q&A Plan）を参照。本ファイルは **実装と運用の現在地** を追記する。
 
-最終更新: 2026-07-11（Phase A デプロイ完了）
+最終更新: 2026-07-11（Phase B 着手 — Entra + API デプロイ + i18n）
 
 ---
 
@@ -34,7 +34,7 @@ Living document: Q&A 合意・Azure リソース・進捗・次フェーズ。
 | Static Web Apps | `stapp-microbootcan-z6mnnh4iqiisc` | ✅ Phase A（`eastasia`） |
 | Live URL | https://ambitious-desert-0763df000.7.azurestaticapps.net | 🟡 CI トークン設定後に有効 |
 | Azure Functions（SWA linked） | SWA 連携 | ✅ app settings 注入済 |
-| Entra App Registration | `staticwebapp.config.json` 足場 — **未設定** | 🟡 Phase B（要承認） |
+| Entra App Registration | `MicroBootCan SWA` — **作成済**（Phase B） | ✅ |
 
 ### Cosmos DB コンテナ
 
@@ -60,7 +60,8 @@ Endpoint: `https://microbootcan-openai-z6mnn.openai.azure.com/`
 | GitHub Actions（SWA CI/CD） | ✅ | push 済 — **`AZURE_STATIC_WEB_APPS_API_TOKEN` を GitHub Secret に登録要** |
 | ランディング UI + 構成図 | ✅ | `ArchitectureDiagram` + 公式 SVG（11 ファイル同期済） |
 | API | ✅ | health, architecture, episodes, pipeline, summary, settings, match |
-| 認証（SWA Entra） | 🟡 | `staticwebapp.config.json` + `DEV_AUTH_BYPASS` ローカル |
+| 認証（SWA Entra） | ✅ | `/app/*` + API 保護、`useAuth` UI、`setup-entra-app.ps1` |
+| 日英 i18n | ✅ | `react-i18next` + 言語切替 |
 | Must 4 機能 | ✅ | Journal / Pipeline / Summary / Milestone countdown（`/app` UI） |
 | AI プロバイダ | ✅ | `mock` / `gemini` / `azure` + `POST /api/match` |
 | 構成図 + 公式アイコン | ✅ | mock Resource Graph 応答（本番 RG 読取は承認後） |
@@ -117,7 +118,7 @@ flowchart LR
 | Phase | 内容 | コード | Azure デプロイ |
 |-------|------|--------|----------------|
 | **A** | SWA + GitHub Actions + Cosmos 本番接続 | ✅ Bicep + workflow | ✅ SWA デプロイ済（2026-07-11） |
-| **B** | Entra 認証 + `/app` 保護 | ✅ `staticwebapp.config.json` | ⬜ **要承認**（App Registration） |
+| **B** | Entra 認証 + `/app` 保護 + API デプロイ | ✅ コード + Entra 登録 | 🟡 CI デプロイ確認待ち |
 | **C** | Must 4 機能一括 | ✅ Cosmos repos + `/app` UI | Cosmos 既存・接続は Phase A |
 | **D** | AI 抽象化 + Gemini コンテキストマッチ | ✅ `gemini-provider` + `/api/match` | ⬜ Gemini Key 設定は承認後 |
 | **E** | 構成図 + 公式 SVG + Landing | ✅ mock API + UI | Resource Graph Reader は承認後 |
@@ -133,12 +134,14 @@ flowchart LR
    - リポジトリ Settings → Secrets → Actions
 5. Live URL（デプロイ後）: https://ambitious-desert-0763df000.7.azurestaticapps.net
 
-### Phase B — 承認後の Entra 設定（未実行）
+### Phase B — Entra + API（2026-07-11）
 
-1. Entra ID で App Registration 作成（SWA リダイレクト URI）
-2. `AZURE_CLIENT_ID` / `AZURE_CLIENT_SECRET` を SWA App Settings に設定
-3. `staticwebapp.config.json` の `<TENANT_ID>` を実テナント ID に置換
-4. `ALLOWED_USER_EMAIL` を Functions App Settings に設定（単一ユーザー制限）
+1. ✅ `staticwebapp.config.json` — `/app/*`・`/api/*` 認証、`auth.identityProviders.azureActiveDirectory`
+2. ✅ `scripts/setup-entra-app.ps1` — App Registration + SWA `AZURE_CLIENT_ID` / `AZURE_CLIENT_SECRET`
+3. ✅ `ALLOWED_USER_EMAIL` を SWA app settings に設定
+4. ✅ `scripts/prepare-swa-api.mjs` — 軽量 API バンドル（CI `api_location: swa-api`）
+5. ✅ `useAuth` + トップバー Sign in/out + 日英 i18n
+6. ⬜ CI 成功後: `/api/health` 200、`/app` → Entra ログイン動作確認
 
 ### Phase E — Resource Graph（承認後）
 
@@ -193,12 +196,12 @@ api/src/services/ai/
 |------|----------|----------|------|
 | SWA 新規作成（Free） | なし | ¥0 固定想定 | **承認待ち** |
 | GitHub Actions デプロイ | なし | ¥0（Actions 無料枠内想定） | トークン設定後 |
-| Entra App Registration | なし | ¥0 | **承認待ち** |
+| Entra App Registration | なし | ¥0 | ✅ 完了 |
 | Resource Graph Reader ロール付与 | なし | ¥0 読取のみ | **承認待ち** |
 | Gemini API Key 本番設定 | 従量 | 無料枠 + 予算内要監視 | **承認待ち** |
 | Azure OpenAI 本番呼び出し | 従量 | TPM 10K 内運用想定 | リソース既存・切替は承認後 |
 
-**今回のセッションでは Azure へのデプロイ・リソース作成は一切実行していない。**
+**Phase B Entra 登録は ¥0。** App Registration + SWA app settings のみ（2026-07-11 実行）。
 
 ---
 

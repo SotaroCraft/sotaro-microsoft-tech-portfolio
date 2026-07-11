@@ -18,8 +18,10 @@ import {
   PRODUCT_LAYERS,
   STAR_FIELDS,
 } from "@microbootcan/shared";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { ContentPanel } from "../components/shell/ContentPanel";
+import { useAppLocale } from "../hooks/useAppLocale";
 import { azureShellColors } from "../theme/azureTheme";
 
 const useStyles = makeStyles({
@@ -65,25 +67,27 @@ const useStyles = makeStyles({
     borderRadius: "2px",
     boxShadow: "none",
   },
+  starTable: {
+    marginTop: "8px",
+  },
 });
 
 export function GlossaryPage() {
   const styles = useStyles();
+  const { t } = useTranslation();
+  const locale = useAppLocale();
+  const isJa = locale === "ja";
 
   return (
     <div className={styles.stack}>
       <ContentPanel>
-        <Body1>
-          Neutral labels used on the public site and in the private workspace.
-          STAR is a framework; the web app is the first step to persist and reuse
-          structured records.
-        </Body1>
+        <Body1>{t("glossary.intro")}</Body1>
       </ContentPanel>
 
       <Card className={styles.card}>
         <CardHeader
-          header={<Title2>How the product layers fit</Title2>}
-          description="Framework → Web app → Modules"
+          header={<Title2>{t("glossary.layersTitle")}</Title2>}
+          description={t("glossary.layersDesc")}
         />
         <div className={styles.layerList}>
           {PRODUCT_LAYERS.map((layer) => (
@@ -91,10 +95,13 @@ export function GlossaryPage() {
               <span className={styles.layerOrder}>{layer.order}</span>
               <div>
                 <Title3>
-                  {layer.labelEn} / {layer.labelJa}
+                  {isJa ? layer.labelJa : layer.labelEn}
+                  {!isJa && ` / ${layer.labelJa}`}
+                  {isJa && ` / ${layer.labelEn}`}
                 </Title3>
-                <Body1>{layer.descriptionEn}</Body1>
-                <Body1 className={styles.termMeta}>{layer.descriptionJa}</Body1>
+                <Body1>
+                  {isJa ? layer.descriptionJa : layer.descriptionEn}
+                </Body1>
               </div>
             </div>
           ))}
@@ -103,16 +110,16 @@ export function GlossaryPage() {
 
       <Card className={styles.card}>
         <CardHeader
-          header={<Title2>STAR fields</Title2>}
-          description="Achievement journal — optional per entry"
+          header={<Title2>{t("glossary.starTitle")}</Title2>}
+          description={t("glossary.starDesc")}
         />
-        <Table aria-label="STAR field definitions">
+        <Table className={styles.starTable} aria-label={t("glossary.starTitle")}>
           <TableHeader>
             <TableRow>
-              <TableHeaderCell>Field</TableHeaderCell>
-              <TableHeaderCell>English</TableHeaderCell>
-              <TableHeaderCell>日本語</TableHeaderCell>
-              <TableHeaderCell>Prompt</TableHeaderCell>
+              <TableHeaderCell>{t("glossary.starColField")}</TableHeaderCell>
+              <TableHeaderCell>{t("glossary.starColEn")}</TableHeaderCell>
+              <TableHeaderCell>{t("glossary.starColJa")}</TableHeaderCell>
+              <TableHeaderCell>{t("glossary.starColPrompt")}</TableHeaderCell>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -124,9 +131,13 @@ export function GlossaryPage() {
                 <TableCell>{field.labelEn}</TableCell>
                 <TableCell>{field.labelJa}</TableCell>
                 <TableCell>
-                  {field.promptEn}
-                  <br />
-                  <span className={styles.termMeta}>{field.promptJa}</span>
+                  {isJa ? field.promptJa : field.promptEn}
+                  {!isJa && (
+                    <>
+                      <br />
+                      <span className={styles.termMeta}>{field.promptJa}</span>
+                    </>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
@@ -135,24 +146,27 @@ export function GlossaryPage() {
       </Card>
 
       <section className={styles.termGrid}>
-        <Title2>App terms</Title2>
+        <Title2>{t("glossary.termsTitle")}</Title2>
         {GLOSSARY_TERMS.map((term) => (
           <Card key={term.id} className={styles.card} id={term.id}>
             <CardHeader
               header={
                 <Title3>
-                  {term.labelEn} / {term.labelJa}
+                  {isJa ? term.labelJa : term.labelEn}
+                  {" / "}
+                  {isJa ? term.labelEn : term.labelJa}
                 </Title3>
               }
             />
-            <Body1>{term.summaryEn}</Body1>
-            <Body1 className={styles.termMeta}>{term.summaryJa}</Body1>
+            <Body1>{isJa ? term.summaryJa : term.summaryEn}</Body1>
             <Body1 className={styles.termMeta}>
-              {term.moduleEn} · {term.moduleJa}
+              {isJa ? term.moduleJa : term.moduleEn}
               {term.appRoute && (
                 <>
                   {" · "}
-                  <RouterLink to={term.appRoute}>Open in workspace</RouterLink>
+                  <RouterLink to={term.appRoute}>
+                    {t("glossary.openInWorkspace")}
+                  </RouterLink>
                 </>
               )}
             </Body1>

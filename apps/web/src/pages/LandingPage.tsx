@@ -9,6 +9,7 @@ import {
   tokens,
 } from "@fluentui/react-components";
 import { OpenRegular } from "@fluentui/react-icons";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { ArchitectureDiagram } from "../components/ArchitectureDiagram";
 import { ContentPanel } from "../components/shell/ContentPanel";
@@ -62,42 +63,38 @@ const STACK = [
 
 export function LandingPage() {
   const styles = useStyles();
+  const { t } = useTranslation();
 
   return (
     <>
       <div className={styles.actions}>
         <RouterLink to="/app">
           <Button appearance="primary" icon={<OpenRegular />}>
-            Open workspace
+            {t("landing.openWorkspace")}
           </Button>
         </RouterLink>
         <RouterLink to="/glossary">
-          <Button appearance="secondary">View terminology</Button>
+          <Button appearance="secondary">{t("landing.viewTerminology")}</Button>
         </RouterLink>
       </div>
 
       <div className={styles.grid}>
         <ContentPanel className={styles.architecturePanel}>
           <div className={styles.architectureInner}>
-            <Title2>Architecture</Title2>
-            <Body1 className={styles.meta}>
-              Live Azure stack topology (mock fallback when API is offline)
-            </Body1>
+            <Title2>{t("landing.architecture")}</Title2>
+            <Body1 className={styles.meta}>{t("landing.architectureHint")}</Body1>
           </div>
           <ArchitectureDiagram />
         </ContentPanel>
 
         <Card className={styles.card}>
-          <CardHeader header={<Title2>Stack</Title2>} />
+          <CardHeader header={<Title2>{t("landing.stack")}</Title2>} />
           <Body1>{STACK.join(" · ")}</Body1>
         </Card>
 
         <Card className={styles.card}>
-          <CardHeader header={<Title2>Privacy</Title2>} />
-          <Body1>
-            Public landing shows architecture only. Personal data lives in an
-            Entra ID–protected workspace.
-          </Body1>
+          <CardHeader header={<Title2>{t("landing.privacy")}</Title2>} />
+          <Body1>{t("landing.privacyBody")}</Body1>
         </Card>
       </div>
 
@@ -107,7 +104,7 @@ export function LandingPage() {
           target="_blank"
           rel="noreferrer"
         >
-          View source on GitHub
+          {t("landing.viewSource")}
         </Link>
       </div>
     </>

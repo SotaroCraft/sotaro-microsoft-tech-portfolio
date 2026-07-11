@@ -7,6 +7,7 @@ import {
 } from "@fluentui/react-components";
 import { MILESTONE_TARGET_ISO } from "@microbootcan/shared";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ContentPanel } from "../components/shell/ContentPanel";
 import { apiFetch } from "../lib/api";
 import { useUserSettings } from "../hooks/useUserSettings";
@@ -21,6 +22,7 @@ const useStyles = makeStyles({
 
 export function SettingsPage() {
   const styles = useStyles();
+  const { t } = useTranslation();
   const { settings, setSettings } = useUserSettings();
   const [milestoneTargetIso, setMilestoneTargetIso] = useState(
     settings?.milestoneTargetIso ?? MILESTONE_TARGET_ISO,
@@ -44,20 +46,20 @@ export function SettingsPage() {
       body: JSON.stringify({ milestoneTargetIso }),
     });
     setSettings(updated);
-    setMessage("Milestone target updated.");
+    setMessage(t("settings.saved"));
   }
 
   return (
     <ContentPanel>
       <div className={styles.form}>
-        <Field label="Milestone target ISO">
+        <Field label={t("settings.milestoneIso")}>
           <Input
             value={milestoneTargetIso}
             onChange={(_, data) => setMilestoneTargetIso(data.value)}
           />
         </Field>
         <Button appearance="primary" onClick={() => void handleSave()}>
-          Save milestone
+          {t("settings.save")}
         </Button>
         {message && <Body1>{message}</Body1>}
       </div>

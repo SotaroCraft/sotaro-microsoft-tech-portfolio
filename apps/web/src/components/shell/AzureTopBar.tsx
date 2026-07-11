@@ -9,9 +9,13 @@ import {
   CloudRegular,
   OpenRegular,
   PersonCircleRegular,
+  SignOutRegular,
 } from "@fluentui/react-icons";
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
+import { loginUrl, logoutUrl, useAuth } from "../../hooks/useAuth";
+import { LanguageSwitcher } from "../LanguageSwitcher";
 import { azureShellColors } from "../../theme/azureTheme";
 
 const useStyles = makeStyles({
@@ -61,6 +65,8 @@ const useStyles = makeStyles({
     alignItems: "center",
     gap: "8px",
     flexShrink: 0,
+    flexWrap: "wrap",
+    justifyContent: "flex-end",
   },
   ghostButton: {
     color: "#ffffff",
@@ -68,6 +74,14 @@ const useStyles = makeStyles({
       backgroundColor: azureShellColors.topBarHover,
       color: "#ffffff",
     },
+  },
+  userLabel: {
+    fontSize: "12px",
+    opacity: 0.95,
+    maxWidth: "180px",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
   },
 });
 
@@ -78,24 +92,54 @@ type AzureTopBarProps = {
 };
 
 export function AzureTopBar({
-  contextLabel = "MicroBootCan",
+  contextLabel,
   showWorkspaceLink = true,
   trailing,
 }: AzureTopBarProps) {
   const styles = useStyles();
+  const { t } = useTranslation();
+  const { isAuthenticated, email, loading } = useAuth();
 
   return (
     <header className={styles.bar}>
       <div className={styles.left}>
         <RouterLink to="/" className={styles.brand}>
           <CloudRegular fontSize={20} />
-          <span className={styles.brandText}>MicroBootCan</span>
+          <span className={styles.brandText}>{t("shell.brand")}</span>
         </RouterLink>
         <span className={styles.divider} aria-hidden />
-        <Body1 className={styles.context}>{contextLabel}</Body1>
+        <Body1 className={styles.context}>
+          {contextLabel ?? t("shell.brand")}
+        </Body1>
       </div>
       <div className={styles.right}>
-        {trailing}
+        {trailing ?? <LanguageSwitcher />}
+        {!loading && isAuthenticated && email && (
+          <Body1 className={styles.userLabel}>
+            {t("auth.signedInAs", { email })}
+          </Body1>
+        )}
+        {!loading && isAuthenticated && (
+          <Button
+            appearance="subtle"
+            as="a"
+            href={logoutUrl("/")}
+            className={styles.ghostButton}
+            icon={<SignOutRegular />}
+          >
+            {t("auth.signOut")}
+          </Button>
+        )}
+        {!loading && !isAuthenticated && (
+          <Button
+            appearance="subtle"
+            as="a"
+            href={loginUrl("/app")}
+            className={styles.ghostButton}
+          >
+            {t("auth.signIn")}
+          </Button>
+        )}
         {showWorkspaceLink && (
           <RouterLink to="/app">
             <Button
@@ -103,7 +147,7 @@ export function AzureTopBar({
               className={styles.ghostButton}
               icon={<OpenRegular />}
             >
-              Workspace
+              {t("shell.workspace")}
             </Button>
           </RouterLink>
         )}
@@ -111,7 +155,7 @@ export function AzureTopBar({
           appearance="subtle"
           className={styles.ghostButton}
           icon={<PersonCircleRegular />}
-          aria-label="Account"
+          aria-label={t("shell.account")}
         />
         <Link
           href="https://github.com/SotaroCraft/sotaro-microsoft-tech-portfolio"
@@ -120,7 +164,7 @@ export function AzureTopBar({
           className={mergeClasses(styles.ghostButton)}
           style={{ color: "#fff", fontSize: "13px", padding: "6px 10px" }}
         >
-          GitHub
+          {t("shell.github")}
         </Link>
       </div>
     </header>

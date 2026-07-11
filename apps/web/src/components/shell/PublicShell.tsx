@@ -1,11 +1,9 @@
 import { Body1, makeStyles } from "@fluentui/react-components";
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import {
-  publicNav,
-  publicTitles,
-  type BreadcrumbItem,
-} from "../../config/navigation";
+import { publicNav, type BreadcrumbItem } from "../../config/navigation";
+import { usePageMeta } from "../../hooks/usePageMeta";
 import { azureShellColors } from "../../theme/azureTheme";
 import { AzureBreadcrumb } from "./AzureBreadcrumb";
 import { AzureSidebar } from "./AzureSidebar";
@@ -52,17 +50,18 @@ export function PublicShell({
 }: PublicShellProps) {
   const styles = useStyles();
   const { pathname } = useLocation();
-  const meta = publicTitles[pathname];
+  const { t } = useTranslation();
+  const meta = usePageMeta("public", pathname);
   const crumbs: BreadcrumbItem[] = breadcrumbs ?? [
-    { label: "Home", to: "/" },
+    { label: t("shell.breadcrumbHome"), to: "/" },
     ...(pathname !== "/"
-      ? [{ label: meta?.title ?? "Page" }]
+      ? [{ label: meta?.title ?? t("shell.breadcrumbPage") }]
       : []),
   ];
 
   return (
     <div className={styles.root}>
-      <AzureTopBar contextLabel="Public preview" />
+      <AzureTopBar contextLabel={t("shell.publicPreview")} />
       <AzureBreadcrumb items={crumbs} />
       <div className={styles.body}>
         {!hideSidebar && <AzureSidebar items={publicNav} />}
@@ -72,9 +71,7 @@ export function PublicShell({
         </main>
       </div>
       <footer className={styles.footer}>
-        <Body1>
-          Public landing — personal data stays in the Entra ID–protected workspace.
-        </Body1>
+        <Body1>{t("shell.publicFooter")}</Body1>
       </footer>
     </div>
   );

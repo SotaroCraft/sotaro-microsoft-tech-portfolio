@@ -1,0 +1,148 @@
+{
+  "nav": {
+    "home": "Home",
+    "terminology": "Terminology",
+    "overview": "Overview",
+    "journal": "Journal",
+    "pipeline": "Pipeline",
+    "summary": "Summary",
+    "settings": "Settings"
+  },
+  "shell": {
+    "brand": "MicroBootCan",
+    "publicPreview": "Public preview",
+    "workspaceContext": "Workspace · rg-microbootcan-prod",
+    "workspace": "Workspace",
+    "account": "Account",
+    "github": "GitHub",
+    "breadcrumbHome": "Home",
+    "breadcrumbOverview": "Overview",
+    "breadcrumbPage": "Page",
+    "publicFooter": "Public landing — personal data stays in the Entra ID–protected workspace.",
+    "workspaceFooter": "Authenticated workspace — personal data stays private.",
+    "countdownLoading": "Milestone countdown…",
+    "countdownLabel": "Countdown: {{label}}"
+  },
+  "auth": {
+    "signIn": "Sign in with Microsoft",
+    "signOut": "Sign out",
+    "signedInAs": "{{email}}"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "ja": "日本語"
+  },
+  "pages": {
+    "home": {
+      "title": "MicroBootCan",
+      "subtitle": "Azure-native personal productivity PWA"
+    },
+    "glossary": {
+      "title": "Terminology",
+      "subtitle": "Framework and app vocabulary"
+    },
+    "overview": {
+      "title": "Overview",
+      "subtitle": "Workspace dashboard and service health"
+    },
+    "journal": {
+      "title": "Achievement journal",
+      "subtitle": "Structured notes with optional STAR fields"
+    },
+    "pipeline": {
+      "title": "Pipeline tracker",
+      "subtitle": "Kanban view across pipeline stages"
+    },
+    "summary": {
+      "title": "Metrics & summary",
+      "subtitle": "Bilingual summary and KPI metrics"
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Milestone target and workspace preferences"
+    }
+  },
+  "landing": {
+    "openWorkspace": "Open workspace",
+    "viewTerminology": "View terminology",
+    "architecture": "Architecture",
+    "architectureHint": "Live Azure stack topology (mock fallback when API is offline)",
+    "stack": "Stack",
+    "privacy": "Privacy",
+    "privacyBody": "Public landing shows architecture only. Personal data lives in an Entra ID–protected workspace.",
+    "viewSource": "View source on GitHub"
+  },
+  "glossary": {
+    "intro": "Neutral labels used on the public site and in the private workspace. STAR is a framework; the web app is the first step to persist and reuse structured records.",
+    "layersTitle": "How the product layers fit",
+    "layersDesc": "Framework → Web app → Modules",
+    "starTitle": "STAR fields",
+    "starDesc": "Achievement journal — optional per entry",
+    "starColField": "Field",
+    "starColEn": "English",
+    "starColJa": "Japanese",
+    "starColPrompt": "Prompt",
+    "termsTitle": "App terms",
+    "openInWorkspace": "Open in workspace"
+  },
+  "dashboard": {
+    "intro": "Must-have modules for milestone tracking and structured records. Use the left menu to open each blade.",
+    "apiStatus": "API status",
+    "apiChecking": "Checking /api/health…",
+    "apiOffline": "Offline: {{error}}",
+    "apiOk": "OK — env: {{env}}",
+    "pipelineStages": "Pipeline stages",
+    "stagesConfigured": "{{count}} stages configured",
+    "openPipeline": "Open pipeline",
+    "sampleJournal": "Sample journal entry",
+    "openJournal": "Open journal",
+    "budgetCap": "Azure budget cap",
+    "budgetPerMonth": "¥{{amount}} / month"
+  },
+  "journal": {
+    "titleLabel": "Title",
+    "bodyLabel": "Body",
+    "addEntry": "Add entry",
+    "loading": "Loading entries…"
+  },
+  "pipeline": {
+    "newOrganization": "New organization",
+    "addOrganization": "Add organization",
+    "organization": "Organization",
+    "selectOrganization": "Select organization",
+    "opportunityTitle": "Opportunity title",
+    "addOpportunity": "Add opportunity",
+    "items": "{{count}} items",
+    "moveStage": "Move stage",
+    "unknownOrg": "Unknown"
+  },
+  "summary": {
+    "loading": "Loading…",
+    "summaryJa": "Summary (JA)",
+    "summaryEn": "Summary (EN)",
+    "metrics": "Metrics (label=value per line)",
+    "save": "Save summary",
+    "saved": "Saved metrics & summary."
+  },
+  "settings": {
+    "milestoneIso": "Milestone target ISO",
+    "save": "Save milestone",
+    "saved": "Milestone target updated."
+  },
+  "architecture": {
+    "topology": "Live Azure stack topology",
+    "updated": "{{resourceGroup}} · {{region}} · updated {{time}}",
+    "refresh": "Refresh",
+    "loading": "Loading architecture…",
+    "unavailable": "Architecture unavailable: {{error}}",
+    "loadFailed": "Failed to load architecture"
+  },
+  "countdown": {
+    "reached": "Target reached"
+  },
+  "common": {
+    "loading": "Loading…",
+    "failedToLoad": "Failed to load"
+  }
+}

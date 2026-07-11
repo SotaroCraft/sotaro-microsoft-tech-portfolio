@@ -4,17 +4,13 @@
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "APP_ENV": "local",
-    "COSMOS_ENDPOINT": "https://localhost:8081",
-    "COSMOS_KEY": "REPLACE_WITH_EMULATOR_KEY",
-    "COSMOS_DATABASE": "microbootcan",
     "DEV_AUTH_BYPASS": "true",
     "DEV_USER_ID": "dev-user-local",
-    "AI_PROVIDER": "mock",
-    "GEMINI_API_KEY": "",
-    "AZURE_OPENAI_ENDPOINT": "",
-    "AZURE_OPENAI_API_KEY": "",
-    "AZURE_OPENAI_CHAT_DEPLOYMENT": "gpt-5-mini",
-    "AZURE_OPENAI_EMBEDDING_DEPLOYMENT": "text-embedding-3-small"
+    "ALLOWED_USER_EMAIL": "",
+    "COSMOS_ENDPOINT": "https://localhost:8081",
+    "COSMOS_KEY": "",
+    "COSMOS_DATABASE": "microbootcan",
+    "AI_PROVIDER": "mock"
   },
   "Host": {
     "CORS": "*"

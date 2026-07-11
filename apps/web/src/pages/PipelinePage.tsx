@@ -13,7 +13,9 @@ import {
 import type { Application, Company } from "@microbootcan/shared";
 import { PIPELINE_STAGES } from "@microbootcan/shared";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ContentPanel } from "../components/shell/ContentPanel";
+import { useAppLocale } from "../hooks/useAppLocale";
 import { apiFetch } from "../lib/api";
 import { azureShellColors } from "../theme/azureTheme";
 
@@ -51,12 +53,20 @@ const useStyles = makeStyles({
 
 export function PipelinePage() {
   const styles = useStyles();
+  const { t } = useTranslation();
+  const locale = useAppLocale();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [applications, setApplications] = useState<Application[]>([]);
   const [companyName, setCompanyName] = useState("");
   const [roleTitle, setRoleTitle] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [error, setError] = useState<string | null>(null);
+
+  const stageLabel = (stageId: string) => {
+    const stage = PIPELINE_STAGES.find((row) => row.id === stageId);
+    if (!stage) return stageId;
+    return locale === "ja" ? stage.labelJa : stage.labelEn;
+  };
 
   async function reload() {
     try {
@@ -71,7 +81,7 @@ export function PipelinePage() {
       }
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load pipeline");
+      setError(err instanceof Error ? err.message : t("common.failedToLoad"));
     }
   }
 
@@ -126,18 +136,21 @@ export function PipelinePage() {
 
       <ContentPanel>
         <div className={styles.form}>
-          <Field label="New organization">
+          <Field label={t("pipeline.newOrganization")}>
             <Input
               value={companyName}
               onChange={(_, data) => setCompanyName(data.value)}
             />
           </Field>
-          <Button onClick={() => void addCompany()}>Add organization</Button>
+          <Button onClick={() => void addCompany()}>
+            {t("pipeline.addOrganization")}
+          </Button>
 
-          <Field label="Organization">
+          <Field label={t("pipeline.organization")}>
             <Dropdown
               value={
-                companyById.get(selectedCompanyId)?.name ?? "Select organization"
+                companyById.get(selectedCompanyId)?.name ??
+                t("pipeline.selectOrganization")
               }
               onOptionSelect={(_, data) =>
                 setSelectedCompanyId(String(data.optionValue ?? ""))
@@ -150,14 +163,14 @@ export function PipelinePage() {
               ))}
             </Dropdown>
           </Field>
-          <Field label="Opportunity title">
+          <Field label={t("pipeline.opportunityTitle")}>
             <Input
               value={roleTitle}
               onChange={(_, data) => setRoleTitle(data.value)}
             />
           </Field>
           <Button appearance="primary" onClick={() => void addApplication()}>
-            Add opportunity
+            {t("pipeline.addOpportunity")}
           </Button>
         </div>
       </ContentPanel>
@@ -168,19 +181,20 @@ export function PipelinePage() {
           return (
             <div key={stage.id} className={styles.column}>
               <div className={styles.columnHeader}>
-                <Title3>{stage.labelEn}</Title3>
-                <Body1>{cards.length} items</Body1>
+                <Title3>{stageLabel(stage.id)}</Title3>
+                <Body1>{t("pipeline.items", { count: cards.length })}</Body1>
               </div>
               {cards.map((application) => (
                 <Card key={application.id} className={styles.card}>
                   <CardHeader
                     header={<Title3>{application.roleTitle}</Title3>}
                     description={
-                      companyById.get(application.companyId)?.name ?? "Unknown"
+                      companyById.get(application.companyId)?.name ??
+                      t("pipeline.unknownOrg")
                     }
                   />
                   <Dropdown
-                    placeholder="Move stage"
+                    placeholder={t("pipeline.moveStage")}
                     onOptionSelect={(_, data) =>
                       void moveStage(application.id, String(data.optionValue))
                     }
@@ -189,9 +203,9 @@ export function PipelinePage() {
                       <Option
                         key={option.id}
                         value={option.id}
-                        text={option.labelEn}
+                        text={stageLabel(option.id)}
                       >
-                        {option.labelEn}
+                        {stageLabel(option.id)}
                       </Option>
                     ))}
                   </Dropdown>

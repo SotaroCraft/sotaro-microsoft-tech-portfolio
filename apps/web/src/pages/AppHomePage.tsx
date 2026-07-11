@@ -8,6 +8,7 @@ import {
   tokens,
 } from "@fluentui/react-components";
 import { AI_BUDGET, demoEpisodes, PIPELINE_STAGES } from "@microbootcan/shared";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { ContentPanel } from "../components/shell/ContentPanel";
 import { useHealthCheck } from "../hooks/useHealthCheck";
@@ -35,52 +36,60 @@ const useStyles = makeStyles({
 
 export function AppHomePage() {
   const styles = useStyles();
+  const { t } = useTranslation();
   const health = useHealthCheck();
 
   return (
     <>
       <ContentPanel>
-        <Body1>
-          Must-have modules for milestone tracking and structured records. Use
-          the left menu to open each blade.
-        </Body1>
+        <Body1>{t("dashboard.intro")}</Body1>
       </ContentPanel>
 
       <div className={styles.grid} style={{ marginTop: "16px" }}>
         <Card className={styles.card}>
-          <CardHeader header={<Title2>API status</Title2>} />
+          <CardHeader header={<Title2>{t("dashboard.apiStatus")}</Title2>} />
           <Body1>
-            {health.loading && "Checking /api/health…"}
+            {health.loading && t("dashboard.apiChecking")}
             {health.error && (
-              <span className={styles.statusErr}>Offline: {health.error}</span>
+              <span className={styles.statusErr}>
+                {t("dashboard.apiOffline", { error: health.error })}
+              </span>
             )}
             {health.data && (
               <span className={styles.statusOk}>
-                OK — env: {health.data.env}
+                {t("dashboard.apiOk", { env: health.data.env })}
               </span>
             )}
           </Body1>
         </Card>
 
         <Card className={styles.card}>
-          <CardHeader header={<Title2>Pipeline stages</Title2>} />
-          <Body1>{PIPELINE_STAGES.length} stages configured</Body1>
+          <CardHeader header={<Title2>{t("dashboard.pipelineStages")}</Title2>} />
+          <Body1>
+            {t("dashboard.stagesConfigured", {
+              count: PIPELINE_STAGES.length,
+            })}
+          </Body1>
           <RouterLink to="/app/pipeline">
-            <Button appearance="primary">Open pipeline</Button>
+            <Button appearance="primary">{t("dashboard.openPipeline")}</Button>
           </RouterLink>
         </Card>
 
         <Card className={styles.card}>
-          <CardHeader header={<Title2>Sample journal entry</Title2>} />
+          <CardHeader header={<Title2>{t("dashboard.sampleJournal")}</Title2>} />
           <Body1>{demoEpisodes[0]?.title}</Body1>
           <RouterLink to="/app/journal">
-            <Button appearance="primary">Open journal</Button>
+            <Button appearance="primary">{t("dashboard.openJournal")}</Button>
           </RouterLink>
         </Card>
 
         <Card className={styles.card}>
-          <CardHeader header={<Title2>Azure budget cap</Title2>} />
-          <Body1>¥{AI_BUDGET.monthlyLimitJpy} / month</Body1>
+          <CardHeader header={<Title2>{t("dashboard.budgetCap")}</Title2>} />
+          <Body1>
+            {t("dashboard.budgetPerMonth", {
+              amount: AI_BUDGET.monthlyLimitJpy,
+            })}
+          </Body1>
         </Card>
       </div>
     </>
