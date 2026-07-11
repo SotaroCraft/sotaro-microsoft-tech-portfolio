@@ -30,6 +30,9 @@ param azureOpenAiEndpoint string = ''
 @secure()
 param azureOpenAiApiKey string = ''
 
+@description('Static Web Apps region (not available in japaneast)')
+param staticSiteLocation string = 'eastasia'
+
 // Resource Group
 resource rg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
   name: resourceGroupName
@@ -49,6 +52,7 @@ module resources 'modules/resources.bicep' = {
     geminiApiKey: geminiApiKey
     azureOpenAiEndpoint: azureOpenAiEndpoint
     azureOpenAiApiKey: azureOpenAiApiKey
+    staticSiteLocation: staticSiteLocation
   }
 }
 

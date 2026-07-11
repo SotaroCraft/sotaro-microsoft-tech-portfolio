@@ -10,6 +10,9 @@ param tags object
 @description('AI provider for Functions app settings')
 param aiProvider string = 'mock'
 
+@description('Static Web Apps region (SWA is not available in all regions)')
+param staticSiteLocation string = 'eastasia'
+
 @description('Gemini API key (optional — set after deploy)')
 @secure()
 param geminiApiKey string = ''
@@ -156,7 +159,7 @@ resource settingsContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/c
 module staticWebApp 'static-web-app.bicep' = {
   name: 'microbootcan-swa'
   params: {
-    location: location
+    location: staticSiteLocation
     staticSiteName: staticSiteName
     tags: tags
     cosmosEndpoint: cosmosAccount.properties.documentEndpoint
