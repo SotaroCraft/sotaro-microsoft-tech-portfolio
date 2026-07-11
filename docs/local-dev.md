@@ -110,6 +110,8 @@ pnpm --filter @microstar/web dev      # :5173
 |------|------|
 | `/api/*` が HTTP 500 / proxy error | `pnpm dev` で API も起動しているか。旧 `vite` 単独は不可 |
 | Cosmos Emulator 接続失敗 | Docker Desktop 起動、`docker compose logs cosmos-emulator` |
+| `high demand in this region`（Emulator） | パーティション不足。`docker-compose.yml` の `AZURE_COSMOS_EMULATOR_PARTITION_COUNT` を上げ、`docker compose down -v && docker compose up -d` |
+| `docker` が PATH に無い（Desktop 直後） | ターミナル / Cursor を再起動。または `C:\Program Files\Docker\Docker\resources\bin` を PATH に追加 |
 | Emulator SSL エラー | `local.settings.json` の `NODE_TLS_REJECT_UNAUTHORIZED=0`（local のみ） |
 | Functions ストレージ警告 | Azurite（`docker compose up -d`） |
 | SWA CLI 404 | `staticwebapp.config.json` の routes 確認、`:4280` で開いているか |
