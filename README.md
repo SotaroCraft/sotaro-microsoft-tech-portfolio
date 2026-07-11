@@ -31,9 +31,13 @@ See [docs/azure-setup.md](docs/azure-setup.md).
 
 See [docs/local-dev.md](docs/local-dev.md).
 
-## Monorepo Structure
+## Architecture
 
 See [docs/monorepo-overview.md](docs/monorepo-overview.md).
+
+## GitHub Push (SotaroCraft)
+
+This repo uses a dedicated SSH host alias. See [docs/github-push.md](docs/github-push.md).
 
 ## Project Charter
 

@@ -25,7 +25,17 @@ if (-not (Test-Path $KeyPath)) {
   Write-Host "SSH key already exists: $KeyPath" -ForegroundColor DarkGray
 }
 
-# 2. SSH config entry
+# 2. GitHub host key (append if missing)
+$KnownHosts = Join-Path $SshDir "known_hosts"
+$HostKeyLine = ssh-keyscan -t ed25519 github.com 2>$null
+if ($HostKeyLine -and (Test-Path $KnownHosts)) {
+  $hasKey = Get-Content $KnownHosts | Select-String "github.com"
+  if (-not $hasKey) { Add-Content -Path $KnownHosts -Value $HostKeyLine }
+} elseif ($HostKeyLine) {
+  Set-Content -Path $KnownHosts -Value $HostKeyLine
+}
+
+# 3. SSH config entry
 $Block = @"
 
 Host $HostAlias
@@ -48,7 +58,7 @@ if (Test-Path $ConfigPath) {
   Write-Host "Created $ConfigPath" -ForegroundColor Green
 }
 
-# 3. Local git config (this repo only — not global)
+# 4. Local git config (this repo only — not global)
 Push-Location $RepoRoot
 git config --local user.name "Sotaro Egashira"
 git config --local user.email "sotaro.egashira@outlook.com"
